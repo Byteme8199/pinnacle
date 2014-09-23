@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+	<script>
+		$(document).ready(function () {
+			$( "#video-nav" ).addClass("active")
+		});
+	</script>
+
+
+<div class="row black-on-white">
+
+	{% if request.GET.alert %}
+	<div class="col-md-12">
+		<div class="alert alert-danger" role="alert">
+			{{ request.GET.alert }}
+			<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		</div>
+	</div>
+	{% endif %}
+	
+	
+	{% if request.GET.success %}
+	<div class="col-md-12">
+		<div class="alert alert-success" role="alert">
+			{{ request.GET.success }}
+			<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		</div>
+	</div>
+	{% endif %}
+	
+	<div class="col-md-12">
+				
+				<h3>Videos <span class=" pull-right"><a data-toggle="modal" href="/videos/add/" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span></h3>
+					
+					<div class="col-sm-12">
+						{% for video in object_list %}
+							{% if forloop.first %}
+								<div class="center-block">
+									<video width="100%" height="auto" id="videosource" controls style="margin: auto; max-width: 800px;">
+								  	<source src="{{ video.video }}" id="mp4Source" type="video/mp4">
+										Your browser does not support the video tag.
+									</video>
+								</div>
+							{% endif %}
+						{% endfor %}
+						<hr>
+					</div>
+				</div>
+				
+				<script>
+					function ChangeVid(video) { 					
+						var player = document.getElementById('videosource')
+						var mp4vid = document.getElementById('mp4Source');
+						
+						player.pause();
+						
+						$(mp4vid).attr('src', video);
+      					player.load();
+      					player.play();
+					}	
+				</script>
+				
+				<div class="row">
+					
+						{% for video in object_list %}
+						
+							<div class="col-md-3 col-sm-4 col-xs-6 vid-thumb">
+								<div class="thumbnail">
+									<img src="{{ video.thumbnail }}" alt="{{ video.title }}" title="{{video.title}}" onclick="ChangeVid('{{video.video}}')" >
+									<div class="caption">
+										<h4>{{ video.title }} - {{ video.video_type }}</h4>
+										{% if video.note %}<p>{{video.note}}</p>{% endif %}
+									</div>
+								</div>
+							</div>	
+					
+								{% for reply in video.replies %}
+								<div class="col-md-3 col-sm-4 col-xs-6 vid-thumb">
+									<div class="thumbnail">
+									<img src="{{ reply.thumbnail }}" alt="{{ reply.note }}" title="{{reply.note}}" onclick="ChangeVid('{{reply.video}}')" >
+									<div class="caption">
+										<h4>Video Reply</h4>
+										{% if reply.note %}<p>{{reply.note}}</p>{% endif %}
+									</div>
+									</div>
+								</div>
+								{% endfor %}
+							
+						{% endfor %}
+
+					
+				</div>
+				
+			</div>
+		</div>
+
+{% endblock %}

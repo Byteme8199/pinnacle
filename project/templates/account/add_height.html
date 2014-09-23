@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block nav %}{% endblock %}
+
+{% block body %}
+
+<div class="modal-header">
+	<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+	</button>
+	<h4 class="modal-title" id="myModalLabel">Add Height</h4>
+</div>
+
+<form action="/account/add/height/" method="post" role="form">
+	
+	<div class="modal-body">
+		
+{% if form.errors %}
+	<script>
+		var ErrorString = "Input Error(s): "
+
+		{% if form.height_feet.errors %}
+			var ErrorString = ErrorString + " Height (feet): " + "{% for error in form.height_feet.errors %}{{ error|escape }}{% endfor %}"
+		{% endif %}
+
+		{% if form.height_inches.errors %}
+			var ErrorString = ErrorString + " Height (inches): " + "{% for error in form.height_inches.errors %}{{ error|escape }}{% endfor %}"
+		{% endif %}
+
+		{% if form.note.errors %}
+			var ErrorString = ErrorString + " Note: " + "{% for error in form.note.errors %}{{ error|escape }}{% endfor %}"
+		{% endif %}
+		
+		window.location = "/account/?alert=" + ErrorString;
+		 
+	</script>
+{% endif %}
+
+		{% csrf_token %} 
+		
+		<div class="form-group">
+			{{ form.height_feet.errors }}
+			<label for="id_height_feet">Height (feet): </label>
+    		<input class="form-control" id="id_height_feet" type="number" name="height_feet" placeholder="Enter feet">
+		</div>
+		
+		<div class="form-group">
+			{{ form.height_inches.errors }}
+			<label for="id_height_inches">Height (inches): </label>
+    		<input class="form-control" id="id_height_inches" type="number" name="height_inches" placeholder="Enter inches">
+		</div>
+		
+		<div class="form-group">
+			{{ form.note.errors }}
+			<label for="id_note">Note: </label>
+    		<input class="form-control" id="id_note" type="text" name="note" placeholder="Enter note">
+		</div>
+
+	</div>
+
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		<button type="submit" class="btn btn-default">Submit</button>
+	</div>
+	
+</form>
+
+{% endblock %}
+
+
+
+
+{% block footer %}{% endblock %}

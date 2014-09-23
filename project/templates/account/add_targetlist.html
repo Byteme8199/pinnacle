@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block nav %}{% endblock %}
+
+{% block body %}
+
+<div class="modal-header">
+	<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+	</button>
+	<h4 class="modal-title" id="myModalLabel">Add Schools</h4>
+</div>
+
+<form action="/account/add/schools/" method="post" role="form">
+	
+	<div class="modal-body">
+
+{% if form.errors %}
+	<script>
+		var ErrorString = "Input Error(s): "
+
+		{% if form.target_schools.errors %}
+			var ErrorString = ErrorString + " School List: " + "{% for error in form.target_schools.errors %}{{ error|escape }}{% endfor %}"
+		{% endif %}
+
+		{% if form.note.errors %}
+			var ErrorString = ErrorString + " Note: " + "{% for error in form.note.errors %}{{ error|escape }}{% endfor %}"
+		{% endif %}
+		
+		{% if form.chosen_school.errors %}
+					var ErrorString = ErrorString + " Chosen School: " + "{% for error in form.target_schools.errors %}{{ error|escape }}{% endfor %}"
+				{% endif %}
+		
+		window.location = "/account/?alert=" + ErrorString;
+		 
+	</script>
+{% endif %}
+
+		{% csrf_token %} 
+		
+		<div class="form-group">
+			{{ form.target_schools.errors }}
+			<label for="id_target_schools">School: </label>
+			{{ form.target_schools }}		
+			<script>
+				$('#id_target_schools').addClass('form-control')
+			</script>
+		</div>
+		
+		<div class="form-group">
+			{{ form.chosen_school.errors }}
+			<label for="id_chosen_school">Chosen School: </label>
+			{{ form.chosen_school }}		
+			<script>
+				$('#id_chosen_school').addClass('form-control')
+			</script>
+		</div>
+		
+		<div class="form-group">
+			{{ form.note.errors }}
+			<label for="id_note">Note: </label>
+    		<input class="form-control" id="id_note" type="text" name="note" placeholder="Enter note">
+		</div>
+
+	</div>
+
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		<button type="submit" class="btn btn-default">Submit</button>
+	</div>
+	
+</form>
+
+{% endblock %}
+
+
+{% block footer %}{% endblock %}

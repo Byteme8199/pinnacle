@@ -1,0 +1,181 @@
+from django.db import models
+from project.utils import Contact
+from account.models import Account
+from django.utils import timezone
+from video.tasks import get_er_done
+import os.path
+
+from django.db.models.signals import post_save
+
+	
+"""
+def process_save(sender, instance, **kwargs):
+	
+	if not instance.has_compressed:
+		if instance.is_vid():
+			vid_type = "Video"
+		else:
+			vid_type = "VideoReply"
+
+		get_er_done.delay(instance.id, vid_type)
+	else:
+		print "Already Compressed"
+"""		
+		
+class VideoType(models.Model):
+	name = models.CharField(max_length=100, blank=True, null=False)
+	created_date = models.DateTimeField(default=timezone.now(), editable=False)
+
+	def __unicode__(self):
+		return unicode(self.name)
+	
+	
+	
+
+def upload_path_handler(instance, filename):
+	return "./videos/%s/%s" % (instance.account.user.username, filename)
+
+def upload_path_handler_reply(instance, filename):
+	return "./videos/%s/%s" % (instance.parent.account.user.username, filename)
+
+"""
+def file_accessible(filepath, mode):
+	''' Check if a file exists and is accessible. '''
+	try:
+		f = open(filepath, mode)
+		f.close()
+		print "file is done converting"
+	except IOError as e:
+		print "file is being converted"
+		return False
+	return True
+"""
+
+"""
+def check_complete(self, output, vid_type):
+	vid_id = str(self.id)
+	
+	if vid_type == "Reply":
+		user = str(self.parent.account.user.username)
+	else:
+		user = str(self.account.user.username)
+	
+	if vid_type == "Reply":
+		account_id = str(self.parent.account.id)
+	else:
+		account_id = str(self.account.id)
+		
+	directory = "/srv/sites/pindev/project/media/videos/"
+	
+	# Video
+	if output == "Video":
+		if vid_type == "Video":
+			path = directory + user + "/" + account_id + "-" + vid_id + ".mp4"
+			ret_path = "../media/videos/" + user + "/" + account_id + "-" + vid_id + ".mp4"
+
+		if vid_type == "Reply":
+			path = directory + user + "/" + account_id + "-" + vid_id + "-reply.mp4"
+			ret_path = "../media/videos/" + user + "/" + account_id + "-" + vid_id + "-reply.mp4"
+
+	#Thumbnail
+	if output == "Thumbnail":
+		if vid_type == "Video":
+			path = directory + user + "/" + account_id + "-" + vid_id + ".jpg"
+			ret_path = "../media/videos/" + user + "/" + account_id + "-" + vid_id + ".jpg"
+
+		if vid_type == "Reply":
+			path = directory + user + "/" + account_id + "-" + vid_id + "-reply.jpg"
+			ret_path = "../media/videos/" + user + "/" + account_id + "-" + vid_id + "-reply.jpg"
+	
+	if file_accessible(path, 'ab'):		
+		if output == "Video":
+			self.has_compressed = True
+			self.save()
+		return ret_path.replace("/srv/sites/pindev/project/", "")
+	else:
+		if output == "Video":
+			return self.file.path.replace("/srv/sites/pindev/project", "")
+		else:
+			return ret_path
+"""				
+		
+		
+class Video(models.Model):
+	title = models.CharField(max_length=200)
+	account = models.ForeignKey(Account)
+	created_date = models.DateTimeField(default=timezone.now())
+	note = models.TextField(blank=True, null=False)
+	has_compressed = models.BooleanField(default=False,editable=False)
+	video_type = models.ForeignKey(VideoType)
+
+	thumbnail_holder = models.CharField(max_length=200,null=True, blank=True)
+	
+	#file = models.FileField(upload_to='./videos/')
+	file = models.FileField(upload_to=upload_path_handler)
+
+	def thumbnail(self):
+		if self.has_compressed:
+			return "../media/videos/" + self.account.user.username + "/" + str(self.account.id) + "-" + str(self.id) + ".jpg"
+		else:
+			return check_complete(self, 'Thumbnail', 'Video')
+	
+	def video(self):
+		if self.has_compressed:
+			return "../media/videos/" + self.account.user.username + "/" + str(self.account.id) + "-" + str(self.id) + ".mp4"
+		else:
+			return check_complete(self, 'Video', 'Video')
+	
+	def videos(self):
+		return Video.objects.filter(account=self.account)
+
+	def replies(self):
+		return VideoReply.objects.filter(parent=self.id)
+	
+	def is_vid(self):
+		return True
+
+	def __unicode__(self):
+		return unicode('[ %s %s ] %s' % (self.account.user.first_name, self.account.user.last_name, self.title))
+
+	class Meta:
+		ordering = ['-created_date']
+
+
+#post_save.connect(process_save, sender=Video, dispatch_uid="video_compress")		
+		
+class VideoReply(models.Model):
+	parent = models.ForeignKey(Video)
+	created_date = models.DateTimeField(default=timezone.now())
+	note = models.TextField(blank=True, null=False)
+	video_embed = models.CharField(max_length=200, blank=True, null=True)
+	file = models.FileField(upload_to=upload_path_handler_reply)
+	has_compressed = models.BooleanField(default=False,editable=False)
+	
+	def replies(self):
+		return VideoReply.objects.filter(account=self.parent.account)
+	
+	def thumbnail(self):
+		if self.has_compressed:
+			return "../media/videos/" + self.parent.user.username + "/" + str(self.parent.account.id) + "-" + str(self.id) + "-reply.mp4"
+		else:
+			return check_complete(self, 'Thumbnail', 'Reply')
+	
+	def video(self):
+		if self.has_compressed:
+			return "../media/videos/" + self.parent.user.username + "/" + str(self.parent.account.id) + "-" + str(self.id) + "-reply.jpg"
+		else:
+			return check_complete(self, 'Video', 'Reply')
+
+	def __unicode__(self):
+		return unicode('[ Video Reply ] %s' % (self.parent.title))
+
+	def is_vid(self):
+		return False
+	
+	class Meta:
+		verbose_name_plural = "Video Replies"
+	
+	
+		
+#post_save.connect(process_save, sender=VideoReply, dispatch_uid="video_reply_compress")
+	

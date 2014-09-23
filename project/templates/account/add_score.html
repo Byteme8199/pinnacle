@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block nav %}{% endblock %}
+
+{% block body %}
+
+<div class="modal-header">
+	<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+	</button>
+	<h4 class="modal-title" id="myModalLabel">Add Score</h4>
+</div>
+
+<form action="/account/add/score/" method="post" role="form">
+	
+	<div class="modal-body">
+
+{% if form.errors %}
+	<script>
+		var ErrorString = "Input Error(s): "
+
+		{% if form.score_data.errors %}
+			var ErrorString = ErrorString + " Score: " + "{% for error in form.score_data.errors %}{{ error|escape }}{% endfor %}"
+		{% endif %}
+
+		{% if form.note.errors %}
+			var ErrorString = ErrorString + " Note: " + "{% for error in form.note.errors %}{{ error|escape }}{% endfor %}"
+		{% endif %}
+		
+		{% if form.score_type.errors %}
+					var ErrorString = ErrorString + " Score Type: " + "{% for error in form.score_type.errors %}{{ error|escape }}{% endfor %}"
+				{% endif %}
+		
+		window.location = "/account/?alert=" + ErrorString;
+		 
+	</script>
+{% endif %}
+
+		{% csrf_token %} 
+		
+		<div class="form-group">
+			{{ form.score_data.errors }}
+			<label for="id_score_data">Score: </label>
+    		<input class="form-control" id="id_score_data" type="number" name="score_data" placeholder="Enter score (numbers only)">
+		</div>
+		
+		<div class="form-group">
+			{{ form.score_type.errors }}
+			<label for="id_score_type">Type: </label>
+			{{ form.score_type }}		
+			<script>
+				$('#id_score_type').addClass('form-control')
+			</script>
+		</div>
+		
+		<div class="form-group">
+			{{ form.note.errors }}
+			<label for="id_note">Note: </label>
+    		<input class="form-control" id="id_note" type="text" name="note" placeholder="Enter note">
+		</div>
+
+	</div>
+
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		<button type="submit" class="btn btn-default">Submit</button>
+	</div>
+	
+</form>
+
+{% endblock %}
+
+
+{% block footer %}{% endblock %}

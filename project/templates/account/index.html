@@ -1,0 +1,288 @@
+{% extends "base.html" %} {% block content %}
+
+<script>
+	$(document).ready(function () {
+		$("#account-nav").addClass("active")
+	});
+</script>
+
+{% for account in object_list %}
+
+<div class="row">
+
+	{% if request.GET.alert %}
+	<div class="col-md-12">
+		<div class="alert alert-danger" role="alert">
+			{{ request.GET.alert }}
+			<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		</div>
+	</div>
+	{% endif %}
+	
+	
+	<div class="col-md-12 col-md-5 col-lg-5">
+		<div class="black-on-white">
+			<img src="" id="profile-pic">
+			<h3>{{ user.first_name }} {{ user.last_name }}</h3>	
+			<p>{{ account.address }}</p>
+			<hr>
+			<p>{{ account.phone }}</p>
+			<p><a href="mailto:{{user.email}}">{{ user.email }}</a></p>
+		</div>
+	</div>	
+	
+	<div class="col-md-12 col-md-7 col-lg-7">
+		
+		<div class="black-on-white">
+			<p>
+				<strong>High School / College</strong><br />
+				{% if account.high_school %}{{account.high_school}}{% endif %}
+				{% if account.college %}{{account.college}}{% endif %}
+			</p>
+			<p>
+				<strong>Graduation Year</strong><br />
+				{{ account.grad_year }}
+			</p>
+			<p>
+				<strong>High School Coach(s)</strong><span class=" pull-right"><a data-toggle="modal" href="/account/add/coach/" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span><br />
+				{% for coach in account.coaches %} 
+					{{ coach.fname }} {{ coach.lname }} - {{ coach.phone}} <A href="mailto:{{ coach.email }}">{{ coach.email }}</A>
+					<br>{% endfor %}
+			</p>
+			<p>
+				<strong>Parent Contact</strong><span class=" pull-right"><a data-toggle="modal" href="/account/add/parent/" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span><br />
+				{% for parent in account.parents %} {{ parent.fname }} {{ parent.lname }} {{ parent.phone}} {{ parent.email }} - {{ parent.created_date }}
+				<br>{% endfor %}
+			</p>
+		</div>
+		
+		<div class="white-on-black">
+			<p>
+				<strong>Height</strong><span class=" pull-right"><a data-toggle="modal" href="/account/add/height/" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span><br />
+				<canvas id="height-chart"></canvas>
+				
+				<script>
+					var HeightChartData = {
+						labels : [{% for height in account.heights|slice:":10" %}'{{ height.created_date|date:"N j" }}'{% if forloop.last %}{% else %},{% endif %}{% endfor %}],
+						datasets : [
+							{
+								label: "inches",
+								fillColor : "rgba(220,220,220,0.2)",
+								strokeColor : "rgba(220,220,220,1)",
+								pointColor : "rgba(220,220,220,1)",
+								pointStrokeColor : "#fff",
+								pointHighlightFill : "#fff",
+								pointHighlightStroke : "rgba(220,220,220,1)",
+								data : [{% for height in account.heights|slice:":10" %}"{{ height.tot_inches }}",{% endfor %}]
+							}
+						]
+					}
+				</script>
+			</p>
+			
+			<p>
+				<strong>Weight</strong> <span class=" pull-right"><a data-toggle="modal" href="/account/add/weight/" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span><br />
+				<canvas id="weight-chart"></canvas>
+				
+				<script>
+					var WeightChartData = {
+						labels : [{% for weight in account.weights|slice:":10" %}'{{ weight.created_date|date:"N j" }}'{% if forloop.last %}{% else %},{% endif %}{% endfor %}],
+						datasets : [
+							{
+								label: "Weight Chart",
+								fillColor : "rgba(220,220,220,0.2)",
+								strokeColor : "rgba(220,220,220,1)",
+								pointColor : "rgba(220,220,220,1)",
+								pointStrokeColor : "#fff",
+								pointHighlightFill : "#fff",
+								pointHighlightStroke : "rgba(220,220,220,1)",
+								data : [{% for weight in account.weights|slice:":10" %}{{ weight.weight }},{% endfor %}]
+							}
+						]
+
+					}
+				</script>
+			</p>
+			
+			<p>
+				<strong>Positions</strong><span class=" pull-right"><a data-toggle="modal" href="/account/add/position/" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span><br />
+				{% for position in account.positions %} {{position.position_type}} {{ position.position }} - {{ position.created_date }}
+				<br>{% endfor %}
+			</p>
+			<p>
+				<strong>Scores</strong><span class=" pull-right"><a data-toggle="modal" href="/account/add/score/" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span><br />
+				{% for score in account.scores %} {{ score.score_type }} {{score.score_data}} - {{ score.created_date }}
+				<br>{% endfor %}
+			</p>
+		</div>
+		
+	</div>
+	
+	{% comment %}
+	
+	<div class="col-md-12 col-md-4 col-lg-6">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<span class="glyphicon glyphicon-user"></span> Profile <span class=" pull-right"><span class="glyphicon glyphicon-edit"></span></span>
+			</div>
+			<div class="panel-body">
+				<h3>{{ user.first_name }} {{ user.last_name }}</h3>	
+				<strong>Grad Year:</strong> {{ account.grad_year }}
+				<br>
+				<strong>High School:</strong> {{account.high_school}}
+				<br>
+				<strong>College:</strong> {{account.college}}
+				<br>
+			</div>
+		</div>
+	</div>
+
+	
+	<div class="col-sm-6 col-md-4 col-lg-6">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<span class="glyphicon glyphicon-map-marker"></span> Weight <span class=" pull-right"><a data-toggle="modal" href="/account/add/weight/" data-target="#modal"><span class="glyphicon glyphicon-plus"></span>
+				</a>
+				</span>
+			</div>
+			<div class="panel-body">
+				<canvas id="weight-chart"></canvas>
+				
+				<script>
+					var WeightChartData = {
+						labels : [{% for weight in account.weights|slice:":10" %}'{{ weight.created_date|date:"N j" }}'{% if forloop.last %}{% else %},{% endif %}{% endfor %}],
+						datasets : [
+							{
+								label: "Weight Chart",
+								fillColor : "rgba(220,220,220,0.2)",
+								strokeColor : "rgba(220,220,220,1)",
+								pointColor : "rgba(220,220,220,1)",
+								pointStrokeColor : "#fff",
+								pointHighlightFill : "#fff",
+								pointHighlightStroke : "rgba(220,220,220,1)",
+								data : [{% for weight in account.weights|slice:":10" %}{{ weight.weight }},{% endfor %}]
+							}
+						]
+
+					}
+				</script>
+
+			</div>
+		</div>
+	</div>
+
+		<div class="col-sm-6 col-md-4 col-lg-6">
+		<div class="panel panel-default">
+			<div class="panel-heading"><span class="glyphicon glyphicon-map-marker"></span> Height <span class=" pull-right"><a data-toggle="modal" href="/account/add/height/" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span>
+				</span>
+			</div>
+			<div class="panel-body">
+				<canvas id="height-chart"></canvas>
+				
+				<script>
+					var HeightChartData = {
+						labels : [{% for height in account.heights|slice:":10" %}'{{ height.created_date|date:"N j" }}'{% if forloop.last %}{% else %},{% endif %}{% endfor %}],
+						datasets : [
+							{
+								label: "inches",
+								fillColor : "rgba(220,220,220,0.2)",
+								strokeColor : "rgba(220,220,220,1)",
+								pointColor : "rgba(220,220,220,1)",
+								pointStrokeColor : "#fff",
+								pointHighlightFill : "#fff",
+								pointHighlightStroke : "rgba(220,220,220,1)",
+								data : [{% for height in account.heights|slice:":10" %}"{{ height.tot_inches }}",{% endfor %}]
+							}
+						]
+					}
+				</script>
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+
+	<div class="col-sm-6 col-md-4 col-lg-6">
+		<div class="panel panel-default">
+			<div class="panel-heading"><span class="glyphicon glyphicon-pencil"></span> Scores <span class=" pull-right"><a data-toggle="modal" href="/account/add/score/" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span>
+			</div>
+			<div class="panel-body">
+				{% for score in account.scores %} {{ score.score_type }} {{score.score_data}} - {{ score.created_date }}
+				<br>{% endfor %}
+			</div>
+		</div>
+	</div>
+	
+
+	<div class="col-sm-6 col-md-4 col-lg-6">
+		<div class="panel panel-default">
+			<div class="panel-heading"><span class="glyphicon glyphicon-screenshot"></span> Positions <span class=" pull-right"><a data-toggle="modal" href="/account/add/position/" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span>
+			</div>
+			<div class="panel-body">
+				{% for position in account.positions %} {{position.position_type}} {{ position.position }} - {{ position.created_date }}
+				<br>{% endfor %}
+			</div>
+		</div>
+	</div>
+
+
+
+	<div class="col-sm-6 col-md-4 col-lg-6">
+		<div class="panel panel-default">
+			<div class="panel-heading"><span class="glyphicon glyphicon-bullhorn"></span> Coach Contact <span class=" pull-right"><a data-toggle="modal" href="/account/add/coach/" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span>
+			</div>
+			<div class="panel-body">
+				{% for coach in account.coaches %} {{ coach.fname }} {{ coach.lname }} {{ coach.phone}} {{ coach.email }} - {{ coach.created_date }}
+				<br>{% endfor %}
+			</div>
+		</div>
+	</div>
+
+	<div class="col-sm-6 col-md-4 col-lg-6">
+		<div class="panel panel-default">
+			<div class="panel-heading"><span class="glyphicon glyphicon-user"></span> Parent Contact <span class=" pull-right"><a data-toggle="modal" href="/account/add/parent/" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span>
+			</div>
+			<div class="panel-body">
+				{% for parent in account.parents %} {{ parent.fname }} {{ parent.lname }} {{ parent.phone}} {{ parent.email }} - {{ parent.created_date }}
+				<br>{% endfor %}
+			</div>
+		</div>
+	</div>
+
+
+	<div class="col-sm-6 col-md-4 col-lg-6">
+		<div class="panel panel-default">
+			<div class="panel-heading"><span class="glyphicon glyphicon-user"></span> Target Schools <span class=" pull-right"><a data-toggle="modal" href="/account/add/schools/" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span>
+			</div>
+			<div class="panel-body">
+				{% for school in account.target_lists %} 
+					Chosen School: {{ school.chosen_school }}<br>
+					{{ school.target_schools }}
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+
+{% endcomment %}
+
+</div>
+
+<script>
+	window.onload = function(){
+		var ctx = document.getElementById("weight-chart").getContext("2d");
+		window.myLine = new Chart(ctx).Line(WeightChartData, {
+			responsive: true
+		});
+		var ctx2 = document.getElementById("height-chart").getContext("2d");
+		window.myLine = new Chart(ctx2).Line(HeightChartData, {
+			responsive: true
+		});
+	}
+</script>					
+
+{% empty %}
+<h2>Please login to view your data</h2>
+{% endfor %} {% endblock %}

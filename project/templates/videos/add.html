@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block nav %}{% endblock %}
+
+{% block body %}
+
+<div class="modal-header">
+	<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+	</button>
+	<h4 class="modal-title" id="myModalLabel">Add Video</h4>
+</div>
+
+
+<form action="/videos/add/" method="post" enctype="multipart/form-data"  role="form">
+	
+	<div class="modal-body">
+
+		{% if form.errors %}
+			<script>
+				var ErrorString = "Input Error(s): "
+
+				{% if form.title.errors %}
+					var ErrorString = ErrorString + " Title: " + "{% for error in form.title.errors %}{{ error|escape }}{% endfor %}"
+				{% endif %}
+
+				{% if form.note.errors %}
+					var ErrorString = ErrorString + " Note: " + "{% for error in form.note.errors %}{{ error|escape }}{% endfor %}"
+				{% endif %}
+				
+				
+				{% if form.video_type.errors %}
+					var ErrorString = ErrorString + " Video Type: " + "{% for error in form.video_type.errors %}{{ error|escape }}{% endfor %}"
+				{% endif %}
+				
+				{% if form.file.errors %}
+					var ErrorString = ErrorString + " Video Upload: " + "{% for error in form.file.errors %}{{ error|escape }}{% endfor %}"
+				{% endif %}
+
+				window.location = "/videos/?alert=" + ErrorString;
+
+			</script>
+		{% endif %}
+		
+
+		{% csrf_token %} 
+
+		<div class="form-group">
+			{{ form.title.errors }}
+			<label for="id_title">Title: </label>
+    		<input class="form-control" id="id_title" name="title" placeholder="Enter title">
+		</div>
+		
+		<div class="form-group">
+			{{ form.note.errors }}
+			<label for="id_note">Note: </label>
+    		<input class="form-control" id="id_note" name="note" placeholder="Enter note">
+		</div>
+		
+		<div class="form-group">
+			{{ form.video_type.errors }}
+			<label for="id_video_type">Type: </label>
+			{{ form.video_type }}		
+			<script>
+				$('#id_video_type').addClass('form-control')
+			</script>
+		</div>
+		
+		<div class="form-group">
+			{{ form.file.errors }}
+			<label for="id_file">Upload Video: </label>
+			{{ form.file }}		
+		</div>
+		
+
+	</div>
+
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		<button type="submit" class="btn btn-default">Submit</button>
+	</div>
+	
+</form>
+
+{% endblock %}
+
+{% block footer %}{% endblock %}
