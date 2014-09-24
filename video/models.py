@@ -26,17 +26,17 @@ def make_thumbnail_and_compress(self, type):
 
 	if not self.has_compressed:
 		split = vid.file.path.split('/')	
-		newsplit = split[7].split('.')
+		newsplit = split[6].split('.')
 		filename = newsplit[0]
 
 		if type == 'reply':
-			new_thumb = vid.file.path.replace(split[7], str(self.parent.id) + "-" + str(self.id) + "-reply.jpg")
+			new_thumb = vid.file.path.replace(split[8], str(self.parent.id) + "-" + str(self.id) + "-reply.jpg")
 		else:
-			new_thumb = vid.file.path.replace(split[7], str(self.id) + ".jpg")
+			new_thumb = vid.file.path.replace(split[8], str(self.id) + ".jpg")
 
-		# thumbnail = new_thumb.replace("/vagrant/pinn16/project/media", "")
-		thumbnail = new_thumb.replace("/vagrant/src/project", "")
-
+		# internal server/external server 
+		thumbnail = new_thumb.replace("/srv/sites/pindev/project", "")
+			
 	
 		#Make Thumbnail
 		check_output(["ffmpeg", "-itsoffset", "-4", "-i", str(vid.file.path), "-y", "-vcodec", "mjpeg", "-vframes", "1", "-an", "-f", "rawvideo", "-s", "320x240", str(new_thumb)])
@@ -47,11 +47,11 @@ def make_thumbnail_and_compress(self, type):
 	else:
 		sp = self.file.path.split('/')
 		if type =='reply':
-			this = self.file.path.replace(sp[7], str(self.parent.id) + "-" + str(self.id) + '-reply.jpg')
+			this = self.file.path.replace(sp[8], str(self.parent.id) + "-" + str(self.id) + '-reply.jpg')
 		else:
-			this = self.file.path.replace(sp[7], str(str(self.id) + '.jpg'))
+			this = self.file.path.replace(sp[8], str(str(self.id) + '.jpg'))
 			
-		thumbnail = this.replace("/vagrant/src/project", "")
+		thumbnail = this.replace("/srv/sites/pindev/project", "")
 		
 	return thumbnail
 		
@@ -70,7 +70,7 @@ class Video(models.Model):
 
 	def video(self):
 		path = Video.objects.filter(pk=self.id)
-		return path[0].file.path.replace("/vagrant/src/project", "")
+		return path[0].file.path.replace("/srv/sites/pindev/project", "")
 	
 	def thumbnail(self):
 		return make_thumbnail_and_compress(self, 'user')		
@@ -111,7 +111,7 @@ class VideoReply(models.Model):
 	
 	def video(self):
 		path = VideoReply.objects.filter(pk=self.id)
-		return path[0].file.path.replace("/vagrant/src/project", "")
+		return path[0].file.path.replace("/srv/sites/pindev/project", "")
 	
 	def replies(self):
 		return VideoReply.objects.filter(account=self.parent.account)
