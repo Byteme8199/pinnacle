@@ -23,11 +23,18 @@
 	<div class="col-md-12 col-md-5 col-lg-5">
 		<div class="black-on-white">
 			<img src="" id="profile-pic">
-			<h3>{{ user.first_name }} {{ user.last_name }}</h3>	
-			<p>{{ account.address }}</p>
-			<hr>
-			<p>{{ account.phone }}</p>
-			<p><a href="mailto:{{user.email}}">{{ user.email }}</a></p>
+			<h3>{{ user.first_name }} {{ user.last_name }}<span class=" pull-right"><a data-toggle="modal" href="/account/add/personal/" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span></h3>	
+				{% for personal in account.personals %} 
+				<div class="row">
+					<div class="col-md-12">{{ personal.street }}<br>{{ personal.city }}, {{personal.state}} {{ personal.zipcode }}</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12"><span class="glyphicon glyphicon-phone"></span> {{ personal.phone}}</div>
+					<div class="col-md-12"><A href="mailto:{{ personal.email }}"><span class="glyphicon glyphicon-envelope"></span> {{ personal.email }}</A></div>
+				</div>
+				 
+				<hr>
+				{% endfor %}
 		</div>
 	</div>	
 	
@@ -37,7 +44,7 @@
 			<p>
 				<strong>High School / College</strong><br />
 				{% if account.high_school %}{{account.high_school}}{% endif %}
-				{% if account.college %}{{account.college}}{% endif %}
+				{% if account.college %}/ {{account.college}}{% endif %}
 			</p>
 			<p>
 				<strong>Graduation Year</strong><br />
@@ -46,13 +53,32 @@
 			<p>
 				<strong>High School Coach(s)</strong><span class=" pull-right"><a data-toggle="modal" href="/account/add/coach/" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span><br />
 				{% for coach in account.coaches %} 
-					{{ coach.fname }} {{ coach.lname }} - {{ coach.phone}} <A href="mailto:{{ coach.email }}">{{ coach.email }}</A>
-					<br>{% endfor %}
+				<div class="row">
+					<div class="col-md-12">{{ coach.fname }} {{ coach.lname }}</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4"><span class="glyphicon glyphicon-phone"></span> {{ coach.phone}}</div>
+					<div class="col-md-8"><A href="mailto:{{ coach.email }}"><span class="glyphicon glyphicon-envelope"></span> {{ coach.email }}</A></div>
+				</div>
+				 
+				<hr>
+				{% endfor %}
 			</p>
 			<p>
 				<strong>Parent Contact</strong><span class=" pull-right"><a data-toggle="modal" href="/account/add/parent/" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span><br />
-				{% for parent in account.parents %} {{ parent.fname }} {{ parent.lname }} {{ parent.phone}} {{ parent.email }} - {{ parent.created_date }}
-				<br>{% endfor %}
+				
+				{% for parent in account.parents %} 
+				<div class="row">
+					<div class="col-md-12">{{ parent.fname }} {{ parent.lname }}</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4"><span class="glyphicon glyphicon-phone"></span> {{ parent.phone}}</div>
+					<div class="col-md-8"><A href="mailto:{{ parent.email }}"><span class="glyphicon glyphicon-envelope"></span> {{ parent.email }}</A></div>
+				</div>
+				 
+				<hr>
+				{% endfor %}
+				
 			</p>
 		</div>
 		

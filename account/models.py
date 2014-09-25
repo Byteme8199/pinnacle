@@ -27,6 +27,9 @@ class Account(models.Model):
 	def positions(self):
 		return Position.objects.filter(account=self.user)
 
+	def personals(self):
+		return Personal.objects.filter(account=self.user)
+	
 	def coaches(self):
 		return Coach.objects.filter(account=self.user)
 
@@ -72,6 +75,10 @@ class Position(models.Model):
 	class Meta:
 		ordering = ['-created_date']
 
+class Personal(Contact):
+	account = models.ForeignKey(Account)
+	pass
+		
 class Coach(Contact):
 	account = models.ForeignKey(Account)
 	pass

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from account.models import Height, Weight, Score, Account, Position, Coach, Parent, TargetSchoolsList
+from account.models import Height, Weight, Score, Account, Position, Coach, Parent, TargetSchoolsList, Personal
 from project.utils import Contact
 from django.db import models
 
@@ -38,6 +38,12 @@ class ParentInline(admin.StackedInline):
 	fields = (('fname', 'lname'), 'phone', 'email', 'created_date','note')
 	readonly_fields = ['created_date']
 	extra = 0
+	
+class PersonalInline(admin.StackedInline):
+	model = Personal
+	fields = (('fname', 'lname'), 'phone', 'email', 'created_date','note')
+	readonly_fields = ['created_date']
+	extra = 0
 
 class TargetSchoolsListInline(admin.StackedInline):
 	model = TargetSchoolsList
@@ -46,6 +52,6 @@ class TargetSchoolsListInline(admin.StackedInline):
 	extra = 0
 
 class AccountAdmin(admin.ModelAdmin):
-	inlines = [WeightInline, HeightInline, ScoreInline, PositionInline, CoachInline, ParentInline, TargetSchoolsListInline]
+	inlines = [WeightInline, HeightInline, ScoreInline, PositionInline, CoachInline, ParentInline, TargetSchoolsListInline, PersonalInline]
 	
 admin.site.register(Account, AccountAdmin)

@@ -1,7 +1,7 @@
 #from django.conf.urls import patterns, include, url
 from django.conf.urls import *
 from django.contrib import admin
-from account.views import AccountView, AccountPDF, AddWeightView, AddHeightView, AddPositionView, AddScoreView, AddParentView, AddCoachView, AddTargetListView
+from account.views import AccountView, AccountPDF, AddWeightView, AddHeightView, AddPositionView, AddScoreView, AddParentView, AddPersonalView, AddCoachView, AddTargetListView
 from scout.views import ScoutView
 from video.views import VideoView, AddVideoView
 
@@ -31,6 +31,7 @@ urlpatterns = patterns('',
 		url(r'^account/add/score/$', AddScoreView.as_view(), name='score'),
 		url(r'^account/add/parent/$', AddParentView.as_view(), name='parent'),
 		url(r'^account/add/coach/$', AddCoachView.as_view(), name='coach'),
+		url(r'^account/add/personal/$', AddPersonalView.as_view(), name='personal'),
 		url(r'^account/add/schools/$', AddTargetListView.as_view(), name='schools'),
 		url(r'^scout/$', ScoutView.as_view(), name='scout'),
         )

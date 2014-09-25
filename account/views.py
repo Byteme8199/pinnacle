@@ -3,8 +3,8 @@ from django.views.generic.list import ListView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
-from account.models import Account, Weight, Height, Position, Score, Parent, Coach, TargetSchoolsList
-from account.forms import HeightForm, WeightForm, PositionForm, ScoreForm, ParentForm, CoachForm, TargetSchoolsListForm
+from account.models import Account, Weight, Height, Position, Score, Parent, Coach, TargetSchoolsList, Personal
+from account.forms import HeightForm, WeightForm, PositionForm, ScoreForm, ParentForm, CoachForm, PersonalForm, TargetSchoolsListForm
 
 from django.views.generic.edit import FormView
 from django.utils import timezone
@@ -88,6 +88,24 @@ class AddPositionView(LoggedInMixin, FormView):
 		form.save()
 		return super(AddPositionView, self).form_valid(form)
 
+	
+	
+class AddPersonalView(LoggedInMixin, FormView):
+
+	model = Personal
+	template_name = 'account/add_personal.html'
+	form_class = PersonalForm
+	success_url = '/account/'
+
+	def form_valid(self, form):
+        # This method is called when valid form data has been POSTed.
+        # It should return an HttpResponse.
+		account_id = Account.objects.get(pk=self.request.session['account'])
+		form = Personal(account=account_id, created_date=timezone.now(), fname=form.cleaned_data['fname'], lname=form.cleaned_data['lname'], street=form.cleaned_data['street'], city=form.cleaned_data['city'], state=form.cleaned_data['state'], zipcode=form.cleaned_data['zipcode'], phone=form.cleaned_data['phone'], email=form.cleaned_data['email'], note=form.cleaned_data['note'])
+		form.save()
+		return super(AddPersonalView, self).form_valid(form)
+	
+	
 		
 class AddParentView(LoggedInMixin, FormView):
 
@@ -103,6 +121,7 @@ class AddParentView(LoggedInMixin, FormView):
 		form = Parent(account=account_id, created_date=timezone.now(), fname=form.cleaned_data['fname'], lname=form.cleaned_data['lname'], street=form.cleaned_data['street'], city=form.cleaned_data['city'], state=form.cleaned_data['state'], zipcode=form.cleaned_data['zipcode'], phone=form.cleaned_data['phone'], email=form.cleaned_data['email'], note=form.cleaned_data['note'])
 		form.save()
 		return super(AddParentView, self).form_valid(form)
+	
 	
 class AddCoachView(LoggedInMixin, FormView):
 

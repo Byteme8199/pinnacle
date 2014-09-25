@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from account.models import Weight, Height, Position, Score, Parent, Coach, TargetSchoolsList
+from account.models import Weight, Height, Position, Score, Parent, Coach, Personal, TargetSchoolsList
 from django import forms
 
 
@@ -31,6 +31,12 @@ class CoachForm(ModelForm):
 
 	class Meta:
 		model = Coach
+		exclude = ('account', 'created_date')
+
+class PersonalForm(ModelForm):
+
+	class Meta:
+		model = Personal
 		exclude = ('account', 'created_date')
 		
 class ParentForm(ModelForm):
