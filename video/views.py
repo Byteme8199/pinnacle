@@ -26,10 +26,10 @@ class VideoView(LoggedInMixin, ListView):
 	template_name = 'videos/index.html'
 	
 	def get_queryset(self):
-		qs = Video.objects.filter(account=self.request.session['account'])
-		for vid in qs:
+		#qs = Video.objects.filter(account=self.request.session['account'])
+		#for vid in qs:
 			#print vid.thumbnail_holder
-			vid.thumbnail()
+			#vid.thumbnail()
  		return Video.objects.filter(account=self.request.session['account'])
 	
 class AddVideoView(LoggedInMixin, FormView):

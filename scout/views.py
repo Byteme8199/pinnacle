@@ -14,7 +14,7 @@ class LoggedInMixin(object):
     def dispatch(self, *args, **kwargs):
 		####  Request the Account ID of the User Account
 		self.request.session['account'] = Account.objects.filter(user=self.request.user)[0].id
-		print self.request.session['account']
+		#print self.request.session['account']
 		return super(LoggedInMixin, self).dispatch(*args, **kwargs)
 
 class ScoutView(LoggedInMixin, ListView):

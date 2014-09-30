@@ -10,6 +10,7 @@
 
 {% block body %}
 
+{% if request.GET.modal %}
 
 <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
@@ -58,6 +59,16 @@
 	</div>
 
 </form>
+{% else %}
+
+	<div class="col-md-12">
+		<div class="alert alert-success" role="alert">
+			Please login.
+			<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		</div>
+	</div>
+
+{% endif %}
 
 {% endblock %}
 

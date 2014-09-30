@@ -15,9 +15,10 @@ class LoggedInMixin(object):
     @method_decorator(login_required)
 
     def dispatch(self, *args, **kwargs):
-		####  Request the Account ID of the User Account
-		self.request.session['account'] = Account.objects.filter(user=self.request.user)[0].id
-		print self.request.session['account']
+		####  Request the Account ID of the User Account thats logged in
+		userid = self.request.user.id
+		self.request.session['account'] = Account.objects.get(user=self.request.user.id).id
+		
 		return super(LoggedInMixin, self).dispatch(*args, **kwargs)
 
 class AccountView(LoggedInMixin, ListView):
@@ -26,7 +27,7 @@ class AccountView(LoggedInMixin, ListView):
     template_name = 'account/index.html'
 
     def get_queryset(self):
-        return Account.objects.filter(pk=self.request.session['account'])
+		return Account.objects.filter(user=self.request.session['account'])
 
 class AddWeightView(LoggedInMixin, FormView):
 
@@ -39,6 +40,7 @@ class AddWeightView(LoggedInMixin, FormView):
         # This method is called when valid form data has been POSTed.
         # It should return an HttpResponse.
 		account_id = Account.objects.get(pk=self.request.session['account'])
+		print account_id
 		form = Weight(account=account_id, created_date=timezone.now(), weight=form.cleaned_data['weight'], note=form.cleaned_data['note'])
 		form.save()
 		return super(AddWeightView, self).form_valid(form)
@@ -161,6 +163,6 @@ class AccountPDF(PDFTemplateView):
 	template_name = 'account/pdf.html'
 
 	def get_context_data(self, **kwargs):
-		account = Account.objects.get(pk=self.request.session['account'])
+		#account = Account.objects.get(user=account_id)
 		kwargs = account.__dict__
 		return super(AccountPDF, self).get_context_data(**kwargs)

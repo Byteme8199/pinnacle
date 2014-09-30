@@ -8,22 +8,46 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding field 'ExerciseSet.workout'
-        db.add_column(u'workout_exerciseset', 'workout',
-                      self.gf('django.db.models.fields.related.ForeignKey')(default='', to=orm['workout.Workout']),
+        # Deleting field 'Workout.workout_start'
+        db.delete_column(u'workout_workout', 'workout_start')
+
+        # Deleting field 'Workout.workout_end'
+        db.delete_column(u'workout_workout', 'workout_end')
+
+        # Adding field 'Workout.start'
+        db.add_column(u'workout_workout', 'start',
+                      self.gf('django.db.models.fields.DateField')(default=datetime.datetime(2014, 9, 30, 0, 0)),
+                      keep_default=False)
+
+        # Adding field 'Workout.end'
+        db.add_column(u'workout_workout', 'end',
+                      self.gf('django.db.models.fields.DateField')(default=datetime.datetime(2014, 9, 30, 0, 0)),
                       keep_default=False)
 
 
     def backwards(self, orm):
-        # Deleting field 'ExerciseSet.workout'
-        db.delete_column(u'workout_exerciseset', 'workout_id')
+        # Adding field 'Workout.workout_start'
+        db.add_column(u'workout_workout', 'workout_start',
+                      self.gf('django.db.models.fields.DateField')(default=datetime.datetime(2014, 9, 27, 0, 0)),
+                      keep_default=False)
+
+        # Adding field 'Workout.workout_end'
+        db.add_column(u'workout_workout', 'workout_end',
+                      self.gf('django.db.models.fields.DateField')(default=datetime.datetime(2014, 9, 27, 0, 0)),
+                      keep_default=False)
+
+        # Deleting field 'Workout.start'
+        db.delete_column(u'workout_workout', 'start')
+
+        # Deleting field 'Workout.end'
+        db.delete_column(u'workout_workout', 'end')
 
 
     models = {
         u'account.account': {
             'Meta': {'ordering': "['-created_date']", 'object_name': 'Account'},
             'college': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'created_date': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2014, 9, 25, 0, 0)'}),
+            'created_date': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2014, 9, 30, 0, 0)'}),
             'grad_year': ('django.db.models.fields.PositiveIntegerField', [], {'max_length': '4', 'null': 'True', 'blank': 'True'}),
             'high_school': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
@@ -65,16 +89,9 @@ class Migration(SchemaMigration):
             'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
-        u'workout.exercise': {
-            'Meta': {'object_name': 'Exercise'},
-            'date': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2014, 9, 25, 0, 0)'}),
-            'description': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'movement_name': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['workout.ExerciseType']"})
-        },
         u'workout.exerciseset': {
             'Meta': {'object_name': 'ExerciseSet'},
-            'exercise': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['workout.Exercise']"}),
+            'exercise': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['workout.ExerciseType']"}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'minutes': ('django.db.models.fields.PositiveSmallIntegerField', [], {'max_length': '3', 'null': 'True', 'blank': 'True'}),
             'note': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
@@ -97,9 +114,11 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'Workout'},
             'account': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['account.Account']"}),
             'description': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
+            'end': ('django.db.models.fields.DateField', [], {'default': 'datetime.datetime(2014, 9, 30, 0, 0)'}),
             'exercise_sets': ('django.db.models.fields.related.ManyToManyField', [], {'related_name': "'ExerciseSet'", 'symmetrical': 'False', 'to': u"orm['workout.ExerciseSet']"}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'note': ('django.db.models.fields.TextField', [], {'blank': 'True'})
+            'note': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
+            'start': ('django.db.models.fields.DateField', [], {'default': 'datetime.datetime(2014, 9, 30, 0, 0)'})
         }
     }
 
