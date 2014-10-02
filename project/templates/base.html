@@ -188,18 +188,19 @@
        {% if user.is_anonymous %}
 		{% else %}
 		  <ul class="nav navbar-nav tablet-nav">
-			<li ><a href="/account/">Account</a></li>
-			<li ><a href="/videos/">Videos</a></li>
-			<li ><a href="/scout/">MyPinnacleScout</a></li>
+			<li><a href="/account/">PROFILE</a></li>
+			<li><a href="/videos/">PERFORMANCE VIDEOS</a></li>
+			<li><a href="/workouts/">PERFORMANCE WORKOUT</a></li>
+			<li><a href="/scout/">SCOUT</a></li>
 		  </ul>
 		{% endif %}
       <ul class="nav navbar-nav navbar-right">
         {% if user.is_anonymous %}
 			<li>
-				<a data-toggle="modal" href="{% url 'django.contrib.auth.views.login' %}?modal=True" data-target="#modal">login</a>
+				<a data-toggle="modal" href="{% url 'django.contrib.auth.views.login' %}?modal=True" data-target="#modal">LOGIN</a>
 		  </li>
 		{% else %}
-			<li><a href="{% url 'django.contrib.auth.views.logout' %}">logout</a></li>
+			<li><a href="{% url 'django.contrib.auth.views.logout' %}">LOGOUT</a></li>
 		{% endif %}
       </ul>
     </div>
@@ -228,14 +229,12 @@
 									<bot>PERFORMANCE VIDEOS</bot>
 								</a>
 							</li>
-							<!--
 							<li id="workout-nav">
-								<a href="/workout/">
+								<a href="/workouts/">
 									<top><span>MY PINNACLE</span></top>
 									<bot>PERFORMANCE WORKOUT</bot>
 								</a>
 							</li>
-							-->
 							<li id="scout-nav">
 								<a href="/scout/">
 									<top><span>MY PINNACLE</span></top>

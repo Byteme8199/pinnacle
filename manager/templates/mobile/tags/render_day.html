@@ -1,0 +1,193 @@
+{% load i18n %}
+{% load staticfiles wger_extras thumbnail %}
+
+
+<div class="modal fade" id="editoptions-day-{{ day.obj.id }}">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">{{day.obj.description}}</h4>
+            </div>
+            <div class="modal-body">
+                <a href="{% url 'day-log' day.obj.id %}"
+                   title="{% trans 'Add weight log to this day' %}"
+                   {% auto_link_css flavour %}>
+                        <img src="{% static 'images/icons/statistics.svg' %}"
+                             width="22"
+                             height="22"
+                             alt="{% trans 'Add weight log to this day' %}">
+                            {% trans 'Add weight log to this day' %}
+                </a>
+                {% if day.set_list|length > 0 %}
+                <a href="{% url 'workout-timer' day.obj.id %}"
+                   title="{% trans 'Start gym mode' %}"
+                   {% auto_link_css flavour %}>
+                        <img src="{% static 'images/icons/play.svg' %}"
+                             width="22"
+                             height="22"
+                             alt="{% trans 'Start gym mode' %}">
+                            {% trans "Start gym mode" %}
+                </a>
+                {% endif %}
+                <a href="{% url 'day-edit' day.obj.id %}"
+                    title="{% trans 'Edit' %}"
+                    {% auto_link_css flavour "wger-modal-dialog" %}>
+                        <img src="{% static 'images/icons/edit.svg' %}"
+                             width="22"
+                             height="22"
+                             alt="{% trans 'Edit' %}">
+                            {% trans 'Edit' %}
+                </a>
+                <a href="{% url 'day-delete' day.obj.id %}"
+                   title="{% trans 'Delete' %}"
+                   {% auto_link_css flavour %}>
+                        <img src="{% static 'images/icons/trash.svg' %}"
+                             width="22"
+                             height="22"
+                             alt="{% trans 'Delete' %}">
+                             {% trans "Delete" %}
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+{% for set in day.set_list %}
+<div class="modal fade" id="editoptions-set-{{ set.obj.id }}">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">
+                    {% trans "Options" %} –
+                    {% blocktrans with set_nr=forloop.counter %}Set Nr. {{set_nr}}{% endblocktrans %}
+                </h4>
+            </div>
+            <div class="modal-body">
+                <a href="{% url 'wger.manager.views.set.edit' set.obj.id %}"
+                   title="{% trans 'Edit' %}"
+                   {% auto_link_css flavour "wger-modal-dialog" %}>
+                        <img src="{% static 'images/icons/edit.svg' %}"
+                             width="16"
+                             height="16"
+                             alt="{% trans 'Edit' %}">
+                        {% trans "Edit" %}
+                </a>
+                <a href="{% url 'wger.manager.views.set.delete' set.obj.id %}"
+                   title="{% trans 'Delete' %}"
+                   {% auto_link_css flavour %}>
+                        <img src="{% static 'images/icons/trash.svg' %}"
+                             width="16"
+                             height="16"
+                             alt="{% trans 'Delete' %}">
+                        {% trans "Delete" %}
+                </a>
+
+                <h5>{% trans "Exercises" %}</h5>
+                {% for exercise in set.exercise_list %}
+                    <a href="{{ exercise.obj.get_absolute_url }}"
+                       title="{{ exercise.obj.name }}"
+                       {% auto_link_css flavour %}>
+                        {{ exercise.obj.name }}
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+
+<div class="list-group"
+    id="table-day-{{ day.obj.id }}"
+    style="margin-top: 3em;">
+
+        {#     #}
+        {# Day #}
+        {#     #}
+        <a href="#editoptions-day-{{ day.obj.id }}" class="list-group-item active" data-toggle="modal">
+            <span class="glyphicon glyphicon-cog pull-right"></span>
+
+            <h4>{{ day.obj.description }}</h4>
+            {{ day.days_of_week.text }}
+        </a>
+
+
+    {#      #}
+    {# Sets #}
+    {#      #}
+    {% for set in day.set_list %}
+        {% if set.has_settings %}
+            <a href="#editoptions-set-{{ set.obj.id }}"
+               class="list-group-item wger-list-group-item"
+               data-toggle="modal"
+               id="set-{{ set.obj.id }}">
+        {% else %}
+            <a href="{% url 'set-edit' set.obj.id %}"
+               id="set-{{ set.obj.id }}"
+               class="list-group-item wger-list-group-item">
+        {% endif %}
+
+                <span class="glyphicon glyphicon-cog pull-right"></span>
+
+
+        {% for exercise in set.exercise_list %}
+            <div id="exercise-{{ exercise.obj.id }}" class="ajax-set-edit-target">
+                <div class="media">
+                    <span class="pull-left" style="width:64px;height:64px;">
+                        {% if exercise.obj.main_image %}
+                        <img class="media-object"
+                             src="{{ exercise.obj.main_image.image|thumbnail_url:'small' }}"
+                             alt="{{exercise.obj}}"
+                             style="max-width:100%; max-height:100%;">
+                        {% else %}
+                        <img class="media-object"
+                             src="{% static 'images/icons/image-placeholder.svg' %}"
+                             alt=""
+                             style="opacity: 0.3; max-width:100%; max-height:100%;">
+                        {% endif %}
+                    </span>
+                    <div class="media-body">
+                        <h4 class="media-heading">
+                            {{ exercise.obj.name }}
+                        </h4>
+                        <p><strong>{{exercise.setting_text}}</strong></p>
+
+                        {% if not exercise.setting_list %}
+                        <p>
+                            {% trans "This exercise has no repetitions." %}<br>
+                            {% trans "Edit them now."%}
+                        </p>
+                        {% endif %}
+
+                        <p class="text-muted">
+                            {% for comment in exercise.comment_list %}
+                                {{comment}}<br>
+                            {% endfor %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %} <!--for exercise in set-->
+    </a>
+    {% empty %}
+    <a href="{% url 'set-add' day.obj.id %}"
+       class="list-group-item list-group-item-success wger-modal-dialog">
+           {% trans "No exercises selected for this day." %}<br>
+           {% trans "Add one now." %}
+    </a>
+    {% endfor %} <!--for set in day-->
+
+    {% if day.set_list %}
+        <a href="{% url 'set-add' day.obj.id %}" class="list-group-item list-group-item-success wger-modal-dialog">
+            <span class="glyphicon glyphicon-plus"></span>
+            {% trans "Add exercises to this workout day" %}
+        </a>
+    {% endif %}
+
+</div>
+

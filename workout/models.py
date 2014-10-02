@@ -35,6 +35,7 @@ class Workout(models.Model):
 	exercise_sets = models.ManyToManyField(ExerciseSet, related_name="ExerciseSet", editable=False)
 	description = models.CharField(max_length=255)
 	note = models.TextField(blank=True, null=False)
+	
 	def __unicode__(self):
 		return u"%s Workout" % str(self.account)
 

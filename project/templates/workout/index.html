@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+	<script>
+		$(document).ready(function () {
+			$( "#workout-nav" ).addClass("active")
+		});
+	</script>
+
+
+<div class="row black-on-white">
+	<h3>PERFORMANCE WORKOUT</h3>
+	
+	{% for workout in object_list %}
+	{{ workout.start }} - {{ workout.end }}
+	<p>{{ workout.description }}</p>
+	<div class="workout-container">
+		{% for set in workout.exercise_sets.all %}
+		{{ set }}
+			<div>
+				
+				
+				
+<!--
+	set_number = models.PositiveSmallIntegerField(max_length=4)
+	reps = models.PositiveSmallIntegerField(max_length=4, blank=True, null=True)
+	rep_info = models.CharField(max_length=80, blank=True, null=False)
+	minutes = models.PositiveSmallIntegerField(max_length=3, blank=True, null=True)
+	seconds = models.PositiveSmallIntegerField(max_length=2, blank=True, null=True)
+	rest_minutes = models.PositiveSmallIntegerField(max_length=3, blank=True, null=True)
+	rest_seconds = models.PositiveSmallIntegerField(max_length=2, blank=True, null=True)
+
+	tempo = models.CharField(max_length=255, blank=True, null=False)
+	result = models.CharField(max_length=255, blank=True, null=False)
+	note = models.TextField(blank=True, null=False)
+	# may need to implement note functionality here
+	exercise = models.ForeignKey(ExerciseType)
+	workout = models.ForeignKey("Workout")
+-->
+				<strong>{{ set.exercise.name }}</strong>
+					{{ set.set_number }} | {{ set.reps }} | {{ set.rep_info }}
+			</div>
+		{% endfor %}
+	</div>
+	{% endfor %}
+	
+</div>
+
+{% endblock %}
