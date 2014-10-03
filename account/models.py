@@ -10,7 +10,7 @@ def send_email(subject, message, from_email, to_email):
 	
 	
 class Account(models.Model):
-	user = models.ForeignKey(User)
+	user = models.OneToOneField(User, related_name='account')
 	created_date = models.DateTimeField(default=timezone.now())
 	high_school = models.CharField(max_length=255, null=True, blank=True)
 	college = models.CharField(max_length=255, null=True, blank=True)

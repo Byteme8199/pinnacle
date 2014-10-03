@@ -158,7 +158,7 @@
 	  
 	  
 	  <div class="bignav">
-		  <div id="logo"><a href="/"><img src="/static/css/images/PinnacleLogo.png"></a></div>
+		  <div id="logo"><a href="{% url 'account' %}"><img src="/static/css/images/PinnacleLogo.png"></a></div>
 		  <span id="tagline">MY PINNACLE <strong>LOCKER</strong></span>
 		  {% if user.is_anonymous %}
 			
@@ -188,10 +188,10 @@
        {% if user.is_anonymous %}
 		{% else %}
 		  <ul class="nav navbar-nav tablet-nav">
-			<li><a href="/account/">PROFILE</a></li>
-			<li><a href="/videos/">PERFORMANCE VIDEOS</a></li>
-			<li><a href="/workouts/">PERFORMANCE WORKOUT</a></li>
-			<li><a href="/scout/">SCOUT</a></li>
+			<li><a href="{% url 'account' %}">PROFILE</a></li>
+			<li><a href="{% url 'video' %}">PERFORMANCE VIDEOS</a></li>
+			<li><a href="{% url 'workout' %}">PERFORMANCE WORKOUT</a></li>
+			<li><a href="{% url 'scout' %}">SCOUT</a></li>
 		  </ul>
 		{% endif %}
       <ul class="nav navbar-nav navbar-right">
@@ -218,25 +218,25 @@
 					<div class="col-md-3 visible-md visible-lg visible-xl">
 						<ul class="side-nav" align="center">
 							<li id="account-nav">
-								<a href="/account/">
+								<a href="{% url 'account' %}">
 									<top><span>MY PINNACLE</span></top>
 									<bot>PROFILE</bot>
 								</a>
 							</li>
 							<li id="video-nav">
-								<a href="/videos/">
+								<a href="{% url 'video' %}">
 									<top><span>MY PINNACLE</span></top>
 									<bot>PERFORMANCE VIDEOS</bot>
 								</a>
 							</li>
 							<li id="workout-nav">
-								<a href="/workouts/">
+								<a href="{% url 'workout' %}">
 									<top><span>MY PINNACLE</span></top>
 									<bot>PERFORMANCE WORKOUT</bot>
 								</a>
 							</li>
 							<li id="scout-nav">
-								<a href="/scout/">
+								<a href="{% url 'scout' %}">
 									<top><span>MY PINNACLE</span></top>
 									<bot>SCOUT</bot>
 								</a>

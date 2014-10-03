@@ -164,7 +164,7 @@ INSTALLED_APPS = (
     'video',
 	'workout',
 	#'manager',
-	'exercises',
+	#'exercises',
 	'recruiter',
 	'draftability',
 	'scout',

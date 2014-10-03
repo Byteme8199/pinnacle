@@ -23,7 +23,7 @@
 	<div class="col-md-12 col-md-5 col-lg-5">
 		<div class="black-on-white">
 			<img src="" id="profile-pic">
-			<h3>{{ user.first_name }} {{ user.last_name }}<span class=" pull-right"><a data-toggle="modal" href="/account/add/personal/" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span></h3>	
+			<h3>{{ user.first_name }} {{ user.last_name }}<span class=" pull-right"><a data-toggle="modal" href="{% url 'account_personal_add' %}" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span></h3>	
 				{% for personal in account.personals %} 
 				<div class="row">
 					<div class="col-md-12">{{ personal.street }}<br>{{ personal.city }}, {{personal.state}} {{ personal.zipcode }}</div>
@@ -35,6 +35,19 @@
 				 
 				<hr>
 				{% endfor %}
+			
+			
+			<h3>Target Schools<span class=" pull-right"><a data-toggle="modal" href="{% url 'account_schools_add' %}" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span></h3>	
+				<div class="row">
+					<div class="col-md-12">
+							{% for school in account.target_lists %} 
+								Chosen School: {{ school.chosen_school }}<br>
+								{{ school.target_schools }}
+							{% endfor %}
+					</div>
+				</div>
+
+			
 		</div>
 	</div>	
 	
@@ -51,7 +64,7 @@
 				{{ account.grad_year }}
 			</p>
 			<p>
-				<strong>High School Coach(s)</strong><span class=" pull-right"><a data-toggle="modal" href="/account/add/coach/" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span><br />
+				<strong>High School Coach(s)</strong><span class=" pull-right"><a data-toggle="modal" href="{% url 'account_coach_add' %}" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span><br />
 				{% for coach in account.coaches %} 
 				<div class="row">
 					<div class="col-md-12">{{ coach.fname }} {{ coach.lname }}</div>
@@ -65,7 +78,7 @@
 				{% endfor %}
 			</p>
 			<p>
-				<strong>Parent Contact</strong><span class=" pull-right"><a data-toggle="modal" href="/account/add/parent/" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span><br />
+				<strong>Parent Contact</strong><span class=" pull-right"><a data-toggle="modal" href="{% url 'account_parent_add' %}" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span><br />
 				
 				{% for parent in account.parents %} 
 				<div class="row">
@@ -84,7 +97,7 @@
 		
 		<div class="white-on-black">
 			<p>
-				<strong>Height</strong><span class=" pull-right"><a data-toggle="modal" href="/account/add/height/" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span><br />
+				<strong>Height</strong><span class=" pull-right"><a data-toggle="modal" href="{% url 'account_height_add' %}" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span><br />
 				<canvas id="height-chart"></canvas>
 				
 				<script>
@@ -107,7 +120,7 @@
 			</p>
 			
 			<p>
-				<strong>Weight</strong> <span class=" pull-right"><a data-toggle="modal" href="/account/add/weight/" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span><br />
+				<strong>Weight</strong> <span class=" pull-right"><a data-toggle="modal" href="{% url 'account_weight_add' %}" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span><br />
 				<canvas id="weight-chart"></canvas>
 				
 				<script>
@@ -131,12 +144,12 @@
 			</p>
 			
 			<p>
-				<strong>Positions</strong><span class=" pull-right"><a data-toggle="modal" href="/account/add/position/" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span><br />
+				<strong>Positions</strong><span class=" pull-right"><a data-toggle="modal" href="{% url 'account_position_add' %}" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span><br />
 				{% for position in account.positions %} {{position.position_type}} {{ position.position }} - {{ position.created_date }}
 				<br>{% endfor %}
 			</p>
 			<p>
-				<strong>Scores</strong><span class=" pull-right"><a data-toggle="modal" href="/account/add/score/" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span><br />
+				<strong>Scores</strong><span class=" pull-right"><a data-toggle="modal" href="{% url 'account_score_add' %}" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span><br />
 				{% for score in account.scores %} {{ score.score_type }} {{score.score_data}} - {{ score.created_date }}
 				<br>{% endfor %}
 			</p>
@@ -144,155 +157,8 @@
 		
 	</div>
 	
-	{% comment %}
-	
-	<div class="col-md-12 col-md-4 col-lg-6">
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<span class="glyphicon glyphicon-user"></span> Profile <span class=" pull-right"><span class="glyphicon glyphicon-edit"></span></span>
-			</div>
-			<div class="panel-body">
-				<h3>{{ user.first_name }} {{ user.last_name }}</h3>	
-				<strong>Grad Year:</strong> {{ account.grad_year }}
-				<br>
-				<strong>High School:</strong> {{account.high_school}}
-				<br>
-				<strong>College:</strong> {{account.college}}
-				<br>
-			</div>
-		</div>
-	</div>
-
-	
-	<div class="col-sm-6 col-md-4 col-lg-6">
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<span class="glyphicon glyphicon-map-marker"></span> Weight <span class=" pull-right"><a data-toggle="modal" href="/account/add/weight/" data-target="#modal"><span class="glyphicon glyphicon-plus"></span>
-				</a>
-				</span>
-			</div>
-			<div class="panel-body">
-				<canvas id="weight-chart"></canvas>
-				
-				<script>
-					var WeightChartData = {
-						labels : [{% for weight in account.weights|slice:":10" %}'{{ weight.created_date|date:"N j" }}'{% if forloop.last %}{% else %},{% endif %}{% endfor %}],
-						datasets : [
-							{
-								label: "Weight Chart",
-								fillColor : "rgba(220,220,220,0.2)",
-								strokeColor : "rgba(220,220,220,1)",
-								pointColor : "rgba(220,220,220,1)",
-								pointStrokeColor : "#fff",
-								pointHighlightFill : "#fff",
-								pointHighlightStroke : "rgba(220,220,220,1)",
-								data : [{% for weight in account.weights|slice:":10" %}{{ weight.weight }},{% endfor %}]
-							}
-						]
-
-					}
-				</script>
-
-			</div>
-		</div>
-	</div>
-
-		<div class="col-sm-6 col-md-4 col-lg-6">
-		<div class="panel panel-default">
-			<div class="panel-heading"><span class="glyphicon glyphicon-map-marker"></span> Height <span class=" pull-right"><a data-toggle="modal" href="/account/add/height/" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span>
-				</span>
-			</div>
-			<div class="panel-body">
-				<canvas id="height-chart"></canvas>
-				
-				<script>
-					var HeightChartData = {
-						labels : [{% for height in account.heights|slice:":10" %}'{{ height.created_date|date:"N j" }}'{% if forloop.last %}{% else %},{% endif %}{% endfor %}],
-						datasets : [
-							{
-								label: "inches",
-								fillColor : "rgba(220,220,220,0.2)",
-								strokeColor : "rgba(220,220,220,1)",
-								pointColor : "rgba(220,220,220,1)",
-								pointStrokeColor : "#fff",
-								pointHighlightFill : "#fff",
-								pointHighlightStroke : "rgba(220,220,220,1)",
-								data : [{% for height in account.heights|slice:":10" %}"{{ height.tot_inches }}",{% endfor %}]
-							}
-						]
-					}
-				</script>
-			</div>
-		</div>
-	</div>
 
 
-
-
-
-
-	<div class="col-sm-6 col-md-4 col-lg-6">
-		<div class="panel panel-default">
-			<div class="panel-heading"><span class="glyphicon glyphicon-pencil"></span> Scores <span class=" pull-right"><a data-toggle="modal" href="/account/add/score/" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span>
-			</div>
-			<div class="panel-body">
-				{% for score in account.scores %} {{ score.score_type }} {{score.score_data}} - {{ score.created_date }}
-				<br>{% endfor %}
-			</div>
-		</div>
-	</div>
-	
-
-	<div class="col-sm-6 col-md-4 col-lg-6">
-		<div class="panel panel-default">
-			<div class="panel-heading"><span class="glyphicon glyphicon-screenshot"></span> Positions <span class=" pull-right"><a data-toggle="modal" href="/account/add/position/" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span>
-			</div>
-			<div class="panel-body">
-				{% for position in account.positions %} {{position.position_type}} {{ position.position }} - {{ position.created_date }}
-				<br>{% endfor %}
-			</div>
-		</div>
-	</div>
-
-
-
-	<div class="col-sm-6 col-md-4 col-lg-6">
-		<div class="panel panel-default">
-			<div class="panel-heading"><span class="glyphicon glyphicon-bullhorn"></span> Coach Contact <span class=" pull-right"><a data-toggle="modal" href="/account/add/coach/" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span>
-			</div>
-			<div class="panel-body">
-				{% for coach in account.coaches %} {{ coach.fname }} {{ coach.lname }} {{ coach.phone}} {{ coach.email }} - {{ coach.created_date }}
-				<br>{% endfor %}
-			</div>
-		</div>
-	</div>
-
-	<div class="col-sm-6 col-md-4 col-lg-6">
-		<div class="panel panel-default">
-			<div class="panel-heading"><span class="glyphicon glyphicon-user"></span> Parent Contact <span class=" pull-right"><a data-toggle="modal" href="/account/add/parent/" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span>
-			</div>
-			<div class="panel-body">
-				{% for parent in account.parents %} {{ parent.fname }} {{ parent.lname }} {{ parent.phone}} {{ parent.email }} - {{ parent.created_date }}
-				<br>{% endfor %}
-			</div>
-		</div>
-	</div>
-
-
-	<div class="col-sm-6 col-md-4 col-lg-6">
-		<div class="panel panel-default">
-			<div class="panel-heading"><span class="glyphicon glyphicon-user"></span> Target Schools <span class=" pull-right"><a data-toggle="modal" href="/account/add/schools/" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span>
-			</div>
-			<div class="panel-body">
-				{% for school in account.target_lists %} 
-					Chosen School: {{ school.chosen_school }}<br>
-					{{ school.target_schools }}
-				{% endfor %}
-			</div>
-		</div>
-	</div>
-
-{% endcomment %}
 
 </div>
 

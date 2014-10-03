@@ -10,14 +10,16 @@ from django.views.generic.edit import FormView
 from django.utils import timezone
 from easy_pdf.views import PDFTemplateView
 
+from django.core.urlresolvers import reverse
+
+
 class LoggedInMixin(object):
 
     @method_decorator(login_required)
 
     def dispatch(self, *args, **kwargs):
 		####  Request the Account ID of the User Account thats logged in
-		userid = self.request.user.id
-		self.request.session['account'] = Account.objects.get(user=self.request.user.id).id
+		#self.request.user.account.id = self.request.user.account.id
 		
 		return super(LoggedInMixin, self).dispatch(*args, **kwargs)
 
@@ -27,7 +29,7 @@ class AccountView(LoggedInMixin, ListView):
     template_name = 'account/index.html'
 
     def get_queryset(self):
-		return Account.objects.filter(user=self.request.session['account'])
+		return Account.objects.filter(user=self.request.user.account.id)
 
 class AddWeightView(LoggedInMixin, FormView):
 
@@ -39,8 +41,7 @@ class AddWeightView(LoggedInMixin, FormView):
 	def form_valid(self, form):
         # This method is called when valid form data has been POSTed.
         # It should return an HttpResponse.
-		account_id = Account.objects.get(pk=self.request.session['account'])
-		print account_id
+		account_id = Account.objects.get(pk=self.request.user.account.id)
 		form = Weight(account=account_id, created_date=timezone.now(), weight=form.cleaned_data['weight'], note=form.cleaned_data['note'])
 		form.save()
 		return super(AddWeightView, self).form_valid(form)
@@ -55,7 +56,7 @@ class AddHeightView(LoggedInMixin, FormView):
 	def form_valid(self, form):
         # This method is called when valid form data has been POSTed.
         # It should return an HttpResponse.
-		account_id = Account.objects.get(pk=self.request.session['account'])
+		account_id = Account.objects.get(pk=self.request.user.account.id)
 		form = Height(account=account_id, created_date=timezone.now(), height_feet=form.cleaned_data['height_feet'], height_inches=form.cleaned_data['height_inches'], note=form.cleaned_data['note'])
 		form.save()
 		return super(AddHeightView, self).form_valid(form)
@@ -70,7 +71,7 @@ class AddScoreView(LoggedInMixin, FormView):
 	def form_valid(self, form):
         # This method is called when valid form data has been POSTed.
         # It should return an HttpResponse.
-		account_id = Account.objects.get(pk=self.request.session['account'])
+		account_id = Account.objects.get(pk=self.request.user.account.id)
 		form = Score(account=account_id, created_date=timezone.now(), score_data=form.cleaned_data['score_data'], score_type=form.cleaned_data['score_type'], note=form.cleaned_data['note'])
 		form.save()
 		return super(AddScoreView, self).form_valid(form)	
@@ -85,7 +86,7 @@ class AddPositionView(LoggedInMixin, FormView):
 	def form_valid(self, form):
         # This method is called when valid form data has been POSTed.
         # It should return an HttpResponse.
-		account_id = Account.objects.get(pk=self.request.session['account'])
+		account_id = Account.objects.get(pk=self.request.user.account.id)
 		form = Position(account=account_id, created_date=timezone.now(), position=form.cleaned_data['position'], position_type=form.cleaned_data['position_type'], note=form.cleaned_data['note'])
 		form.save()
 		return super(AddPositionView, self).form_valid(form)
@@ -102,7 +103,7 @@ class AddPersonalView(LoggedInMixin, FormView):
 	def form_valid(self, form):
         # This method is called when valid form data has been POSTed.
         # It should return an HttpResponse.
-		account_id = Account.objects.get(pk=self.request.session['account'])
+		account_id = Account.objects.get(pk=self.request.user.account.id)
 		form = Personal(account=account_id, created_date=timezone.now(), fname=form.cleaned_data['fname'], lname=form.cleaned_data['lname'], street=form.cleaned_data['street'], city=form.cleaned_data['city'], state=form.cleaned_data['state'], zipcode=form.cleaned_data['zipcode'], phone=form.cleaned_data['phone'], email=form.cleaned_data['email'], note=form.cleaned_data['note'])
 		form.save()
 		return super(AddPersonalView, self).form_valid(form)
@@ -119,7 +120,7 @@ class AddParentView(LoggedInMixin, FormView):
 	def form_valid(self, form):
         # This method is called when valid form data has been POSTed.
         # It should return an HttpResponse.
-		account_id = Account.objects.get(pk=self.request.session['account'])
+		account_id = Account.objects.get(pk=self.request.user.account.id)
 		form = Parent(account=account_id, created_date=timezone.now(), fname=form.cleaned_data['fname'], lname=form.cleaned_data['lname'], street=form.cleaned_data['street'], city=form.cleaned_data['city'], state=form.cleaned_data['state'], zipcode=form.cleaned_data['zipcode'], phone=form.cleaned_data['phone'], email=form.cleaned_data['email'], note=form.cleaned_data['note'])
 		form.save()
 		return super(AddParentView, self).form_valid(form)
@@ -135,7 +136,7 @@ class AddCoachView(LoggedInMixin, FormView):
 	def form_valid(self, form):
         # This method is called when valid form data has been POSTed.
         # It should return an HttpResponse.
-		account_id = Account.objects.get(pk=self.request.session['account'])
+		account_id = Account.objects.get(pk=self.request.user.account.id)
 		form = Coach(account=account_id, created_date=timezone.now(), fname=form.cleaned_data['fname'], lname=form.cleaned_data['lname'], street=form.cleaned_data['street'], city=form.cleaned_data['city'], state=form.cleaned_data['state'],  zipcode=form.cleaned_data['zipcode'], phone=form.cleaned_data['phone'], email=form.cleaned_data['email'], note=form.cleaned_data['note'])
 		form.save()
 		return super(AddCoachView, self).form_valid(form)	
@@ -151,7 +152,7 @@ class AddTargetListView(LoggedInMixin, FormView):
 	def form_valid(self, form):
         # This method is called when valid form data has been POSTed.
         # It should return an HttpResponse.
-		account_id = Account.objects.get(pk=self.request.session['account'])
+		account_id = Account.objects.get(pk=self.request.user.account.id)
 		form = TargetSchoolsList(account=account_id, created_date=timezone.now(),  target_schools=form.cleaned_data.get('target_schools'), chosen_school=form.cleaned_data['chosen_school'], note=form.cleaned_data['note'])
 		form.save()
 		return super(AddTargetListView, self).form_valid(form)	
