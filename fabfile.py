@@ -76,6 +76,12 @@ def git_tag_now(prefix):
         run('git tag %s-%s' % (prefix,
             datetime.datetime.now().strftime('-%Y-%m-%d-%H-%M-%S')))
 
+
+def reset_nginx():
+    """Hopefully setup nginx reset function."""
+    assert hasattr(env, 'project_path')
+
+
 # High-level commands
 
 

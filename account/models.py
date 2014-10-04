@@ -17,7 +17,7 @@ class Account(models.Model):
 	grad_year = models.PositiveIntegerField(max_length=4, null=True, blank=True)
 
 	#target_school = models.ManyToManyField(TargetSchool, null=True, blank=True)
-	
+
 	def weights(self):
 		return Weight.objects.filter(account=self.user)
 
@@ -43,7 +43,7 @@ class Account(models.Model):
 		return TargetSchoolsList.objects.filter(account=self.user)
 
 	def __unicode__(self):
-		return unicode('[' + self.user.username + '] ' + self.user.first_name + ' ' + self.user.last_name)
+		return unicode(self.user.first_name + ' ' + self.user.last_name)
 
 	class Meta:
 		ordering = ['-created_date']

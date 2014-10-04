@@ -31,25 +31,70 @@
 
 		<h3>Workouts <span class=" pull-right"></h3>	
 
-		<div class="row">
-
 			{% for routine in object_list %} 
-			
-				<p>{{ routine.note }}</p>
-			
-				{% for day in routine.get_days.all %} 
-					<strong>{{ day.due_date }}</strong><br>
-					{% for exercise_set in day.exercise_group.get_exercise_sets.all %}
-						<strong>{{ exercise_set.exercise.name }}</strong> - {{ exercise_set.reps }} blah blah more exercise set variables<br>
-					{% endfor %}
-				{% endfor %} 
-			
-			
+			{% ifnotequal routine.has_completed 1 %}
+			<div class="row workout">
+				<div class="col-md-12">
+					<h4>{{ routine }}<span class=" pull-right"><a data-toggle="modal" href="{% url 'workout_routine_edit' pk=routine.id %}" data-target="#modal"><span class="glyphicon glyphicon-paperclip"></span></a></span></h4>
+
+					<p>{{routine.description}}</p>
+					<p>{{routine.note}}</p>
+
+					{% for day in routine.get_days.all %} 
+						<div class="table-responsive">
+							<table class="table table-bordered">
+							 	<thead>
+									<tr class="{% if day.has_completed %}success{% else %}active{% endif %}">
+										<th colspan="5">{{ day.due_date }} <span class=" pull-right"><a data-toggle="modal" href="{% url 'workout_day_edit' pk=day.id %}" data-target="#modal"><span class="glyphicon glyphicon-paperclip"></span></a></span></th>
+									</tr>
+									<tr class="info {% if day.has_completed %}hidden{% endif %}">
+										<th>Exercise</th>
+										<th>Sets</th>
+										<th>Reps</th>
+										<th>Rest</th>
+										<th>Tempo</th>
+									</tr>
+								</thead>
+								<tbody class="{% if day.has_completed %}hidden{% endif %}">
+								{% for exercise_set in day.exercise_group.get_exercise_sets.all %}
+									<tr>
+										<td>{{ exercise_set.exercise.name }} 
+											{% if exercise_set.exercise.description != '' %}
+											<a tabindex="0" class="popover-btn pull-right" data-toggle="popover" data-trigger="focus" title="{{ exercise_set.exercise.name }}" data-content="{{ exercise_set.exercise.description }}"><span class="glyphicon glyphicon-info-sign"></span></a>{% endif %}
+											{% if exercise_set.instructions %}
+											<a tabindex="0" class="popover-btn pull-right give-me-some-space" data-toggle="popover" data-trigger="focus" title="{{ exercise_set}}" data-content="{{ exercise_set.instructions }}"><span class="glyphicon glyphicon-bullhorn"></span></a>{% endif %}
+										</td>
+										<td>{{ exercise_set.set_number }}</td>
+										<td>{{ exercise_set.reps }}{% if exercise_set.rep_info %} / {{ exercise_set.rep_info }}{% endif %}</td>
+										<td>{% if exercise_set.rest_minutes %}{{ exercise_set.rest_minutes }}{% endif%}{% if exercise_set.rest_seconds %}:{{ exercise_set.rest_seconds }}{% endif %}</td>
+										<td>{% if exercise_set.tempo %}{{ exercise_set.tempo }} - {% endif %}{% if exercise_set.minutes %}{{ exercise_set.minutes }}{% endif%}{% if exercise_set.seconds %}:{{ exercise_set.seconds }}{% endif %}</td>
+									</tr>
+								{% endfor %}
+								</tbody>
+							</table>
+						</div>
+						
+					{% endfor %} 
+
+				</div>
+			</div>
+			{% endifnotequal %}
 			{% endfor %}
 
-		</div>
-
+			<hr>
+			
+			{% for routine in object_list %} 
+				{% ifequal routine.has_completed 1 %}
+					COMPLETED: {{ routine }}
+				{% endifequal %}
+			{% endfor %}
 	</div>
 </div>
+	
+<script>
+	$(document).ready(function() {
+		$('.popover-btn').popover()
+	});
+</script>
 
 {% endblock %}

@@ -2,8 +2,9 @@
 
 <script>
 	$(document).ready(function () {
-		$("#account-nav").addClass("active")
+		$("#account-nav").addClass("active");
 	});
+
 </script>
 
 {% for account in object_list %}
@@ -20,7 +21,7 @@
 	{% endif %}
 	
 	
-	<div class="col-md-12 col-md-5 col-lg-5">
+	<div class="col-md-12">
 		<div class="black-on-white">
 			<img src="" id="profile-pic">
 			<h3>{{ user.first_name }} {{ user.last_name }}<span class=" pull-right"><a data-toggle="modal" href="{% url 'account_personal_add' %}" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span></h3>	
@@ -49,9 +50,7 @@
 
 			
 		</div>
-	</div>	
-	
-	<div class="col-md-12 col-md-7 col-lg-7">
+
 		
 		<div class="black-on-white">
 			<p>
@@ -93,9 +92,7 @@
 				{% endfor %}
 				
 			</p>
-		</div>
-		
-		<div class="white-on-black">
+
 			<p>
 				<strong>Height</strong><span class=" pull-right"><a data-toggle="modal" href="{% url 'account_height_add' %}" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span><br />
 				<canvas id="height-chart"></canvas>
