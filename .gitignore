@@ -1,2 +1,8 @@
-#Dont upload Project Media Folders
+# Don't track Project Media Folders
 project/media/*
+
+# Don't track *.pyc files
+*.pyc
+
+# Don't track local settings / passwords
+project/settings/local.py

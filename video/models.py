@@ -97,7 +97,7 @@ class Video(models.Model):
 		message = account + " has uploaded a new video. <a href='http://pinnacleprospects.net/admin/video/video/" + str(self.id) + "'>Click Here to view the changes</a><br />The update occured at " + str(now)
 		from_email = 'ryan@hdvideoandwebdesign.com'
 		to_email = 'rgordon@golfweek.com'
-		#send_mail(title, message, from_email, [to_email], fail_silently=False)
+		send_mail(title, message, from_email, [to_email], fail_silently=False)
 		
 		super(Video,self).save(*args, **kwargs)
 

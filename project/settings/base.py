@@ -137,6 +137,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
+
+
 ROOT_URLCONF = PROJECT_NAME + '.urls'
 
 TEMPLATE_DIRS = (

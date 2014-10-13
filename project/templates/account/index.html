@@ -37,8 +37,8 @@
 				<hr>
 				{% endfor %}
 			
-			
-			<h3>Target Schools<span class=" pull-right"><a data-toggle="modal" href="{% url 'account_schools_add' %}" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span></h3>	
+			{% comment %}
+			<h3>Target Schools<span class=" pull-right"><a data-toggle="modal" href="{% url 'account_schools_choose' %}" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span></h3>	
 				<div class="row">
 					<div class="col-md-12">
 							{% for school in account.target_lists %} 
@@ -47,12 +47,8 @@
 							{% endfor %}
 					</div>
 				</div>
+			{% endcomment %}
 
-			
-		</div>
-
-		
-		<div class="black-on-white">
 			<p>
 				<strong>High School / College</strong><br />
 				{% if account.high_school %}{{account.high_school}}{% endif %}
@@ -92,7 +88,9 @@
 				{% endfor %}
 				
 			</p>
-
+	
+		<div class="row">
+			<div class="col-xs-12 col-md-6">
 			<p>
 				<strong>Height</strong><span class=" pull-right"><a data-toggle="modal" href="{% url 'account_height_add' %}" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span><br />
 				<canvas id="height-chart"></canvas>
@@ -115,7 +113,10 @@
 					}
 				</script>
 			</p>
-			
+				
+			</div>
+	
+			<div class="col-xs-12 col-md-6">
 			<p>
 				<strong>Weight</strong> <span class=" pull-right"><a data-toggle="modal" href="{% url 'account_weight_add' %}" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span><br />
 				<canvas id="weight-chart"></canvas>
@@ -139,7 +140,9 @@
 					}
 				</script>
 			</p>
-			
+			</div>
+	</div>
+	
 			<p>
 				<strong>Positions</strong><span class=" pull-right"><a data-toggle="modal" href="{% url 'account_position_add' %}" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span><br />
 				{% for position in account.positions %} {{position.position_type}} {{ position.position }} - {{ position.created_date }}
