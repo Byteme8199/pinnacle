@@ -1,0 +1,35 @@
+<div class="modal-header">
+	<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+	</button>
+	<h4 class="modal-title" id="myModalLabel">Add Photo</h4>
+</div>
+
+<form action="/account/add/photo/{{ account.id }}/"  enctype="multipart/form-data" method="post" role="form">
+	
+	<div class="modal-body">
+		
+{% if form.errors %}
+	<script>
+		var ErrorString = "Input Error(s): "
+
+		{% if form.profile_image.errors %}
+			var ErrorString = ErrorString + " Profile Image: " + "{% for error in form.profile_image.errors %}{{ error|escape }}{% endfor %}"
+		{% endif %}
+
+		window.location = "/account/?alert=" + ErrorString;
+		 
+	</script>
+{% endif %}
+
+		{% csrf_token %} 
+		
+		{{ form }}
+
+	</div>
+
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		<button type="submit" class="btn btn-default">Submit</button>
+	</div>
+	
+</form>

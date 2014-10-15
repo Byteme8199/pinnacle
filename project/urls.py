@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.conf.urls import *
 from django.contrib import admin
-from account.views import AccountView, AccountPDF, AddWeightView, AddHeightView, AddPositionView, AddScoreView, AddParentView, AddPersonalView, AddCoachView, AddTargetListView
+from account.views import AccountView, AccountPDF, AddWeightView, AddHeightView, AddPositionView, AddScoreView, AddParentView, AddPersonalView, AddCoachView, AddTargetListView, AddPhotoView, AddSchoolView
 from scout.views import ScoutView
 from video.views import VideoView, AddVideoView
 from workout.views import WorkoutView, EditRoutineView, EditDayView
@@ -18,6 +18,7 @@ urlpatterns = patterns('',
 
         url(r'^grappelli/', include('grappelli.urls')), # grappelli URLS
 
+        # url(r'^admin/workout/$', WorkoutView.as_view()),
         url(r'^admin/', include(admin.site.urls)),
         url(r'^login/$', 'django.contrib.auth.views.login'),
         url(r'^logout/$', 'django.contrib.auth.views.logout'),
@@ -26,6 +27,8 @@ urlpatterns = patterns('',
 	url(r'^videos/add/$', AddVideoView.as_view(), name='video_add'),
 	url(r'^account/$', AccountView.as_view(), name='account'),
 	url(r'^account/pdf/$', AccountPDF.as_view(), name='account_pdf'),
+	url(r'^account/add/photo/(?P<pk>\d+)/$', AddPhotoView.as_view(), name='account_photo_add'),
+	url(r'^account/add/school/(?P<pk>\d+)/$', AddSchoolView.as_view(), name='account_school_add'),
 	url(r'^account/add/weight/$', AddWeightView.as_view(), name='account_weight_add'),
 	url(r'^account/add/height/$', AddHeightView.as_view(), name='account_height_add'),
 	url(r'^account/add/position/$', AddPositionView.as_view(), name='account_position_add'),

@@ -7,17 +7,24 @@ from recruiter.models import TargetSchool
 
 def send_email(subject, message, from_email, to_email):
     send_mail(subject, message, from_email, to_email)
+
 	
-	
+def upload_path_handler(instance, filename):
+	return "./profiles/%s/%s" % (instance.user.username, filename)
+
 class Account(models.Model):
 	user = models.OneToOneField(User, related_name='account')
 	created_date = models.DateTimeField(default=timezone.now())
 	high_school = models.CharField(max_length=255, null=True, blank=True)
 	college = models.CharField(max_length=255, null=True, blank=True)
 	grad_year = models.PositiveIntegerField(max_length=4, null=True, blank=True)
-
+	profile_image = models.FileField(upload_to=upload_path_handler)
 	#target_school = models.ManyToManyField(TargetSchool, null=True, blank=True)
 
+	def photo(self):
+		photo = self.profile_image.path
+		return photo.replace('/srv/sites/pindev/project/', '/')
+	
 	def weights(self):
 		return Weight.objects.filter(account=self.user)
 

@@ -4,9 +4,9 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
 from account.models import Account, Weight, Height, Position, Score, Parent, Coach, TargetSchoolsList, Personal
-from account.forms import HeightForm, WeightForm, PositionForm, ScoreForm, ParentForm, CoachForm, PersonalForm, TargetSchoolsListForm
+from account.forms import HeightForm, WeightForm, PositionForm, ScoreForm, ParentForm, CoachForm, PersonalForm, TargetSchoolsListForm, PhotoForm, SchoolForm
 
-from django.views.generic.edit import FormView
+from django.views.generic.edit import FormView, UpdateView
 from django.utils import timezone
 from easy_pdf.views import PDFTemplateView
 
@@ -30,6 +30,26 @@ class AccountView(LoggedInMixin, ListView):
 
     def get_queryset(self):
 		return Account.objects.filter(user=self.request.user.account.id)
+	
+class AddPhotoView(LoggedInMixin, UpdateView):
+	model = Account
+	form_class = PhotoForm
+	template_name = 'account/add_pic.html'
+	success_url = '/account/'
+
+	def form_valid(self, form):
+		form.save()
+		return super(AddPhotoView, self).form_valid(form)
+	
+class AddSchoolView(LoggedInMixin, UpdateView):
+	model = Account
+	form_class = SchoolForm
+	template_name = 'account/add_school.html'
+	success_url = '/account/'
+
+	def form_valid(self, form):
+		form.save()
+		return super(AddSchoolView, self).form_valid(form)
 
 class AddWeightView(LoggedInMixin, FormView):
 

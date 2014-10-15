@@ -164,7 +164,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     'account',
     'video',
-	'workout',
+    'workout',
 	#'manager',
 	#'exercises',
 	'recruiter',

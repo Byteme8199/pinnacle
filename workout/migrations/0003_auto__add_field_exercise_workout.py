@@ -8,50 +8,37 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Deleting field 'Workout.workout_start'
-        db.delete_column(u'workout_workout', 'workout_start')
-
-        # Deleting field 'Workout.workout_end'
-        db.delete_column(u'workout_workout', 'workout_end')
-
-        # Adding field 'Workout.start'
-        db.add_column(u'workout_workout', 'start',
-                      self.gf('django.db.models.fields.DateField')(default=datetime.datetime(2014, 9, 30, 0, 0)),
+        # Adding field 'Exercise.workout'
+        db.add_column(u'workout_exercise', 'workout',
+                      self.gf('django.db.models.fields.related.ForeignKey')(default='', to=orm['workout.Workout']),
                       keep_default=False)
 
-        # Adding field 'Workout.end'
-        db.add_column(u'workout_workout', 'end',
-                      self.gf('django.db.models.fields.DateField')(default=datetime.datetime(2014, 9, 30, 0, 0)),
-                      keep_default=False)
+        # Removing M2M table for field workout on 'Exercise'
+        db.delete_table('workout_exercise_workout')
 
 
     def backwards(self, orm):
-        # Adding field 'Workout.workout_start'
-        db.add_column(u'workout_workout', 'workout_start',
-                      self.gf('django.db.models.fields.DateField')(default=datetime.datetime(2014, 9, 27, 0, 0)),
-                      keep_default=False)
+        # Deleting field 'Exercise.workout'
+        db.delete_column(u'workout_exercise', 'workout_id')
 
-        # Adding field 'Workout.workout_end'
-        db.add_column(u'workout_workout', 'workout_end',
-                      self.gf('django.db.models.fields.DateField')(default=datetime.datetime(2014, 9, 27, 0, 0)),
-                      keep_default=False)
-
-        # Deleting field 'Workout.start'
-        db.delete_column(u'workout_workout', 'start')
-
-        # Deleting field 'Workout.end'
-        db.delete_column(u'workout_workout', 'end')
+        # Adding M2M table for field workout on 'Exercise'
+        db.create_table(u'workout_exercise_workout', (
+            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
+            ('exercise', models.ForeignKey(orm[u'workout.exercise'], null=False)),
+            ('workout', models.ForeignKey(orm[u'workout.workout'], null=False))
+        ))
+        db.create_unique(u'workout_exercise_workout', ['exercise_id', 'workout_id'])
 
 
     models = {
         u'account.account': {
             'Meta': {'ordering': "['-created_date']", 'object_name': 'Account'},
             'college': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'created_date': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2014, 9, 30, 0, 0)'}),
+            'created_date': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2014, 10, 14, 0, 0)'}),
             'grad_year': ('django.db.models.fields.PositiveIntegerField', [], {'max_length': '4', 'null': 'True', 'blank': 'True'}),
             'high_school': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']"})
+            'user': ('django.db.models.fields.related.OneToOneField', [], {'related_name': "'account'", 'unique': 'True', 'to': u"orm['auth.User']"})
         },
         u'auth.group': {
             'Meta': {'object_name': 'Group'},
@@ -89,36 +76,39 @@ class Migration(SchemaMigration):
             'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
-        u'workout.exerciseset': {
-            'Meta': {'object_name': 'ExerciseSet'},
-            'exercise': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['workout.ExerciseType']"}),
+        u'workout.exercise': {
+            'Meta': {'object_name': 'Exercise'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'minutes': ('django.db.models.fields.PositiveSmallIntegerField', [], {'max_length': '3', 'null': 'True', 'blank': 'True'}),
-            'note': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
-            'rep_info': ('django.db.models.fields.CharField', [], {'max_length': '80'}),
-            'reps': ('django.db.models.fields.PositiveSmallIntegerField', [], {'max_length': '4', 'null': 'True', 'blank': 'True'}),
-            'rest_minutes': ('django.db.models.fields.PositiveSmallIntegerField', [], {'max_length': '3', 'null': 'True', 'blank': 'True'}),
-            'rest_seconds': ('django.db.models.fields.PositiveSmallIntegerField', [], {'max_length': '2', 'null': 'True', 'blank': 'True'}),
-            'result': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
-            'seconds': ('django.db.models.fields.PositiveSmallIntegerField', [], {'max_length': '2', 'null': 'True', 'blank': 'True'}),
-            'set_number': ('django.db.models.fields.PositiveSmallIntegerField', [], {'max_length': '4'}),
-            'tempo': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
+            'name': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['workout.ExerciseName']"}),
             'workout': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['workout.Workout']"})
         },
-        u'workout.exercisetype': {
-            'Meta': {'object_name': 'ExerciseType'},
+        u'workout.exercisename': {
+            'Meta': {'object_name': 'ExerciseName'},
+            'description': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'exercise_category': ('django.db.models.fields.CharField', [], {'default': "'GEN'", 'max_length': '4'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '255'})
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
+            'video': ('django.db.models.fields.files.FileField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'})
         },
         u'workout.workout': {
             'Meta': {'object_name': 'Workout'},
             'account': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['account.Account']"}),
-            'description': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
-            'end': ('django.db.models.fields.DateField', [], {'default': 'datetime.datetime(2014, 9, 30, 0, 0)'}),
-            'exercise_sets': ('django.db.models.fields.related.ManyToManyField', [], {'related_name': "'ExerciseSet'", 'symmetrical': 'False', 'to': u"orm['workout.ExerciseSet']"}),
+            'description': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'note': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
-            'start': ('django.db.models.fields.DateField', [], {'default': 'datetime.datetime(2014, 9, 30, 0, 0)'})
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '255'})
+        },
+        u'workout.workoutset': {
+            'Meta': {'object_name': 'WorkoutSet'},
+            'exercise': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['workout.Exercise']"}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'percent_of_max': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'reps': ('django.db.models.fields.PositiveSmallIntegerField', [], {'max_length': '4', 'null': 'True', 'blank': 'True'}),
+            'rest_time': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'result': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'set_number': ('django.db.models.fields.PositiveSmallIntegerField', [], {'max_length': '3', 'null': 'True', 'blank': 'True'}),
+            'tempo': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'weight': ('django.db.models.fields.PositiveSmallIntegerField', [], {'max_length': '4', 'null': 'True', 'blank': 'True'}),
+            'workout_week': ('django.db.models.fields.CharField', [], {'default': "'1'", 'max_length': '5'})
         }
     }
 

@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from account.models import Weight, Height, Position, Score, Parent, Coach, Personal, TargetSchoolsList
+from account.models import Weight, Height, Position, Score, Parent, Coach, Personal, TargetSchoolsList, Account
 from django import forms
 
 
@@ -33,6 +33,18 @@ class CoachForm(ModelForm):
 		model = Coach
 		exclude = ('account', 'created_date')
 
+class PhotoForm(ModelForm):
+
+	class Meta:
+		model = Account
+		exclude = ('account', 'user', 'high_school', 'college', 'grad_year',  'created_date')
+		
+class SchoolForm(ModelForm):
+
+	class Meta:
+		model = Account
+		exclude = ('account', 'user', 'profile_image', 'created_date')
+		
 class PersonalForm(ModelForm):
 
 	class Meta:

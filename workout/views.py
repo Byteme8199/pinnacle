@@ -5,8 +5,8 @@ from django.views.generic.edit import FormView, UpdateView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
-from workout.models import Routine, Day
-from workout.forms import RoutineForm, DayForm
+from workout.models import Workout, Exercise, WorkoutSet, ExerciseName
+#from workout.forms import RoutineForm, DayForm
 
 from django.utils import timezone
 
@@ -18,19 +18,20 @@ class LoggedInMixin(object):
     def dispatch(self, *args, **kwargs):
 		return super(LoggedInMixin, self).dispatch(*args, **kwargs)
 
+
+
 class WorkoutView(LoggedInMixin, ListView):
+	model = Workout 
 
-	model = Routine
-	template_name = 'workout/index.html'
 
-	def get_queryset(self):
-		return Routine.objects.filter(account=self.request.user.account.id)
+#	def get_queryset(self):
+#		return Routine.objects.filter(account=self.request.user.account.id)
 	
 class EditRoutineView(LoggedInMixin, UpdateView):
 
-	model = Routine
+#	model = Routine
 	template_name = 'workout/edit_routine.html'
-	form_class = RoutineForm
+#	form_class = RoutineForm
 	success_url = '/workout/'
 
 	def form_valid(self, form):
@@ -43,9 +44,9 @@ class EditRoutineView(LoggedInMixin, UpdateView):
 
 class EditDayView(LoggedInMixin, UpdateView):
 
-	model = Day
+#	model = Day
 	template_name = 'workout/edit_day.html'
-	form_class = RoutineForm
+#	form_class = RoutineForm
 	success_url = '/workout/'
 
 	def form_valid(self, form):
