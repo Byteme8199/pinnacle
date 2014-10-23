@@ -1,20 +1,451 @@
 {% extends "admin/base_site.html" %}
-{% load i18n admin_urls admin_static admin_modify %}
- 
-{% block breadcrumbs %}
-<div class="breadcrumbs">
-<a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
-&rsaquo; <a href="{% url 'admin:app_list' app_label=opts.app_label %}">{{ app_label|capfirst|escape }}</a>
-&rsaquo; {% if has_change_permission %}<a href="{% url opts|admin_urlname:'changelist' %}">{{ opts.verbose_name_plural|capfirst }}</a>{% else %}{{ opts.verbose_name_plural|capfirst }}{% endif %}
-&rsaquo; {% trans 'Manage' %} {{ original|truncatewords:"18" }}
-</div>
+
+<!-- LOADING -->
+{% load admin_static i18n admin_modify admin_urls grp_tags %}
+
+<!-- STYLESHEETS -->
+{% block stylesheets %}
+    {{ block.super }}
+    <link href="/static/css/bootstrap.css" rel="stylesheet" type="text/css">
 {% endblock %}
- 
+
+<!-- JAVASCRIPTS -->
+{% block javascripts %}
+    {{ block.super }}
+    {% url 'admin:jsi18n' as jsi18nurl %}
+    <script type="text/javascript" src="{{ jsi18nurl|default:'../../../jsi18n/' }}"></script>
+    <script type="text/javascript" charset="utf-8">
+        (function($) {
+            $(document).ready(function() {
+                grappelli.initDateAndTimePicker();
+                $("#grp-content-container .grp-group").grp_collapsible_group();
+                $("#grp-content-container .grp-collapse").grp_collapsible({
+                    on_init: function(elem, options) {
+                        // open collapse (and all collapse parents) in case of errors
+                        if (elem.find("ul.errorlist").length > 0) {
+                            elem.removeClass("grp-closed")
+                                .addClass("grp-open");
+                            elem.parents(".grp-collapse")
+                                .removeClass("grp-closed")
+                                .addClass("grp-open");
+                        }
+                    }
+                });
+                var related_lookup_fields_fk = {% get_related_lookup_fields_fk adminform.model_admin %};
+                var related_lookup_fields_m2m = {% get_related_lookup_fields_m2m adminform.model_admin %};
+                var related_lookup_fields_generic = {% get_related_lookup_fields_generic adminform.model_admin %};
+                var autocomplete_fields_fk = {% get_autocomplete_lookup_fields_fk adminform.model_admin %};
+                var autocomplete_fields_m2m = {% get_autocomplete_lookup_fields_m2m adminform.model_admin %};
+                var autocomplete_fields_generic = {% get_autocomplete_lookup_fields_generic adminform.model_admin %};
+                $.each(related_lookup_fields_fk, function() {
+                    $("#id_" + this).grp_related_fk({lookup_url:"{% url 'grp_related_lookup' %}"});
+                });
+                $.each(related_lookup_fields_m2m, function() {
+                    $("#id_" + this).grp_related_m2m({lookup_url:"{% url 'grp_m2m_lookup' %}"});
+                });
+                $.each(related_lookup_fields_generic, function() {
+                    var content_type = "#id_" + this[0],
+                        object_id = "#id_" + this[1];
+                    $(object_id).grp_related_generic({content_type:content_type, object_id:object_id, lookup_url:"{% url 'grp_related_lookup' %}"});
+                });
+                $.each(autocomplete_fields_fk, function() {
+                    $("#id_" + this).grp_autocomplete_fk({
+                        lookup_url:"{% url 'grp_related_lookup' %}",
+                        autocomplete_lookup_url:"{% url 'grp_autocomplete_lookup' %}"
+                    });
+                });
+                $.each(autocomplete_fields_m2m, function() {
+                    $("#id_" + this).grp_autocomplete_m2m({
+                        lookup_url:"{% url 'grp_m2m_lookup' %}",
+                        autocomplete_lookup_url:"{% url 'grp_autocomplete_lookup' %}"
+                    });
+                });
+                $.each(autocomplete_fields_generic, function() {
+                    var content_type = "#id_" + this[0],
+                        object_id = "#id_" + this[1];
+                    $(object_id).grp_autocomplete_generic({
+                        content_type:content_type,
+                        object_id:object_id,
+                        lookup_url:"{% url 'grp_related_lookup' %}",
+                        autocomplete_lookup_url:"{% url 'grp_autocomplete_lookup' %}"
+                    });
+                });
+                $("a#grp-open-all").bind("click", function(){
+                    $("#grp-content .grp-collapse-handler").each(function() {
+                        $(this).parent(".grp-collapse").removeClass("grp-closed").addClass("grp-open");
+                    });   
+                });
+                $("a#grp-close-all").bind("click", function(){
+                    $("#grp-content .grp-collapse-handler").each(function() {
+                        $(this).parent(".grp-collapse").removeClass("grp-open").addClass("grp-closed");
+                    });
+                });
+                // HACK: get rid of currently/change with URL–fields. F**K!!!
+                $('p.url').each(function() {
+                    $(this).find("a").remove();
+                    var text = $(this).html();
+                    text = text.replace(/^\w*: /, "");
+                    text = text.replace(/<br>.*: /, "");
+                    $(this).html(text);
+                });
+                // HACK: rearrange inlines
+                $('div.grp-group').each(function() {
+                    var placeholder = $("fieldset.placeholder."+$(this).attr("id"));
+                    if (placeholder.length) {
+                        $(placeholder).replaceWith($(this));
+                    }
+                });
+            });
+        })(grp.jQuery);
+    </script>
+    {{ media }}
+{% endblock %}
+
+{% block extrahead %}
+    {{ block.super }}
+    {% if adminform and add %}
+    <script type="text/javascript">
+        (function($){
+            $(document).ready(function() {
+                $('form#{{ opts.model_name }}_form :input:visible:enabled:first').focus()
+            });
+        }(grp.jQuery));
+    </script>
+    {% endif %}
+{% endblock %}
+
+<!-- COLTYPE/BODYCLASS -->
+{% block bodyclass %}{{ opts.app_label }}-{{ opts.object_name.lower }} grp-change-form{% endblock %}
+{% block content-class %}{% endblock %}
+
+<!-- PAGE-TOOLS -->
+{% block page-tools %}
+    {% if not is_popup %}
+        <ul>
+            <li><a href="javascript://" class="grp-tool" id="grp-open-all" title="{% trans 'Open All Items' %}">&nbsp;</a></li>
+            <li><a href="javascript://" class="grp-tool" id="grp-close-all" title="{% trans 'Close All Items' %}">&nbsp;</a></li>
+        </ul>
+    {% endif %}
+{% endblock %}
+
+<!-- BREADCRUMBS -->
+{% block breadcrumbs %}
+    {% if not is_popup %}
+        <ul>
+            <li><a href="{% url 'admin:index' %}">{% trans "Home" %}</a></li>
+            <li><a href="{% url 'admin:app_list' app_label=opts.app_label %}">{{ opts.app_config.verbose_name }}</a></li>
+            <li>{% if has_change_permission %}<a href="{% url opts|admin_urlname:'changelist' %}">{{ opts.verbose_name_plural|capfirst }}</a>{% else %}{{ opts.verbose_name_plural|capfirst }}{% endif %}</li>
+            <li>{% if add %}{% trans "Add" %} {{ opts.verbose_name }}{% else %}{{ original|truncatewords:"18" }}{% endif %}</li>
+        </ul>
+    {% endif %}
+{% endblock %}
+
+<!-- OBJECT TOOLS -->
+{% block object-tools %}
+    {% if change %}
+        {% if not is_popup %}
+            <ul class="grp-object-tools">
+                {% block object-tools-items %}
+                    {% url opts|admin_urlname:'history' original.pk|admin_urlquote as history_url %}
+                    <li><a href="{% add_preserved_filters history_url %}">{% trans "History" %}</a></li>
+                    {% if has_absolute_url %}<li><a href="{% url 'admin:view_on_site' content_type_id original.pk %}" class="grp-state-focus" target="_blank">{% trans "View on site" %}</a></li>{% endif%}
+                {% endblock %}
+            </ul>
+        {% endif %}
+    {% endif %}
+{% endblock %}
+
+
+
+
+
+<!-- CONTENT -->
 {% block content %}
 <div>
   <form action="{{ form_url }}" method="post">
     {% csrf_token %}
-     do cool form things
+
+	<div class='form-group'>
+	<label for='exercise'> Choose an exercise</h3>
+	<select name="exercise">
+	  <option value="value1">Exercise 1</option> 
+	  <option value="value2">Exercise 2</option>
+	  <option value="value3">Exercise 3</option>
+	</select>
+	</div>
+	<input type="text" name='workout'/>
   </form>
 </div>
+
+
+<!--
+<div class="container">
+	<div class="row clearfix">
+		<div class="col-md-12 column">
+			<table class="table table-bordered table-hover table-condensed">
+				<thead>
+					<tr>
+						<th>
+							Date	
+						</th>
+						<th>
+							Week
+						</th>
+						<th>
+							Sets
+						</th>
+						<th>
+							Reps
+						</th>
+						<th>
+							Rest
+						</th>
+						<th>
+							Tempo
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="col-sm-1">
+						       <input class="col-sm-12" type="text" name='workout'/>
+						</td>
+						<td>
+							TB - Monthly
+						</td>
+						<td>
+							01/04/2012
+						</td>
+						<td>
+							Default
+						</td>
+					</tr>
+					<tr class="">
+						<td>
+							1
+						</td>
+						<td>
+							TB - Monthly
+						</td>
+						<td>
+							01/04/2012
+						</td>
+						<td>
+							Approved
+						</td>
+					</tr>
+					<tr class="">
+						<td>
+							2
+						</td>
+						<td>
+							TB - Monthly
+						</td>
+						<td>
+							02/04/2012
+						</td>
+						<td>
+							Declined
+						</td>
+					</tr>
+					<tr class="">
+						<td>
+							3
+						</td>
+						<td>
+							TB - Monthly
+						</td>
+						<td>
+							03/04/2012
+						</td>
+						<td>
+							Pending
+						</td>
+					</tr>
+					<tr class="">
+						<td>
+							4
+						</td>
+						<td>
+							TB - Monthly
+						</td>
+						<td>
+							04/04/2012
+						</td>
+						<td>
+							Call in to confirm
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+-->
+
+
+
+  	<div class="container">
+
+     <!-- FIRST TABLE -->
+  		<div class="row clearfix">
+  			<div class="col-sm-12 column" id='watchThisTable'>
+  				<table class="table table-bordered table-hover table-condensed">
+  					<thead>
+  						<tr>
+  							<th class="col-xs-2 col-md-2">
+  								Date
+  							</th>
+  							<th class="col-xs-2 col-md-2">
+  								Week
+  							</th>
+  							<th class="col-xs-2 col-md-2">
+  								Sets
+  							</th>
+  							<th class="col-xs-2 col-md-2">
+  								Reps
+  							</th>
+  							<th class="col-xs-2 col-md-2">
+  								Rest
+  							</th>
+  							<th class="col-xs-2 col-md-2">
+  								Tempo
+  							</th>
+  						</tr>
+  					</thead>
+  					<tbody>
+  					<!-- Week 1 -->
+  						<tr>
+  							<!-- Date -->
+  							<td class="col-xs-2 col-md-2">
+  								
+  								<!-- <input type="text" class="col-xs-12 col-md-12" style="width: 100%"> -->
+  							</td>
+  							<!-- Week -->
+  							<td class="col-xs-2 col-md-2">
+  								1
+  							</td>
+  							<!-- Sets -->						
+  							<td class="col-xs-2 col-md-2">
+  								5
+  							</td>
+  							<!-- Reps -->
+  							<td class="col-xs-2 col-md-2">
+  								10
+  							</td>
+  							<!-- Rest -->
+  							<td class="col-xs-2 col-md-2">
+  								30 seconds
+  							</td>
+  							<!-- Tempo -->
+  							<td class="col-xs-2 col-md-2">
+  								Hard
+  							</td>
+  						</tr>
+  					<!-- Week 2 -->
+  						<tr>
+  							<!-- Date -->
+  							<td class="col-xs-2 col-md-2">
+
+  							</td>
+  							<!-- Week -->
+  							<td class="col-xs-2 col-md-2">
+  								1
+  							</td>
+  							<!-- Sets -->						
+  							<td class="col-xs-2 col-md-2">
+  								5
+  							</td>
+  							<!-- Reps -->
+  							<td class="col-xs-2 col-md-2">
+  								10
+  							</td>
+  							<!-- Rest -->
+  							<td class="col-xs-2 col-md-2">
+  								30 seconds
+  							</td>
+  							<!-- Tempo -->
+  							<td class="col-xs-2 col-md-2">
+  								Hard
+  							</td>
+  						</tr>
+  					<!-- Week 3 -->
+  						<tr>
+  							<!-- Date -->
+  							<td class="col-xs-2 col-md-2">
+
+  							</td>
+  							<!-- Week -->
+  							<td class="col-xs-2 col-md-2">
+  								1
+  							</td>
+  							<!-- Sets -->						
+  							<td class="col-xs-2 col-md-2">
+  								5
+  							</td>
+  							<!-- Reps -->
+  							<td class="col-xs-2 col-md-2">
+  								10
+  							</td>
+  							<!-- Rest -->
+  							<td class="col-xs-2 col-md-2">
+  								30 seconds
+  							</td>
+  							<!-- Tempo -->
+  							<td class="col-xs-2 col-md-2">
+  								Hard
+  							</td>
+  						</tr>
+  					<!-- Week 4 -->
+  						<tr>
+  							<!-- Date -->
+  							<td class="col-xs-2 col-md-2">
+
+  							</td>
+  							<!-- Week -->
+  							<td class="col-xs-2 col-md-2">
+  								1
+  							</td>
+  							<!-- Sets -->						
+  							<td class="col-xs-2 col-md-2">
+  								5
+  							</td>
+  							<!-- Reps -->
+  							<td class="col-xs-2 col-md-2">
+  								10
+  							</td>
+  							<!-- Rest -->
+  							<td class="col-xs-2 col-md-2">
+  								30 seconds
+  							</td>
+  							<!-- Tempo -->
+  							<td class="col-xs-2 col-md-2">
+  								Hard
+  							</td>
+  						</tr>
+
+  					</tbody>
+  				</table>
+  			</div>
+  		</div>
+     <!-- /FIRST TABLE -->
+
+
+  	</div>
+    <!-- /CONTAINER -->
+
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/table.js"></script>
+    <script>
+	$(document).ready(watchTable('watchThisTable'));
+    </script>
+
+
+
 {% endblock %}

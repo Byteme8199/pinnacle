@@ -4,7 +4,7 @@ from .dev import *
 
 
 DATABASES = {'default': dj_database_url.config(
-    default='sqlite:////' + ROOT_DIR + '/newworkout.db')}
+    default='sqlite:////' + ROOT_DIR + '/newworkout2.db')}
 
 CELERY_IMPORTS = ('project',)
 CELERY_RESULT_BACKEND = "amqp"

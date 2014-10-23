@@ -1,11 +1,17 @@
 from django.contrib import admin
-from video.models import Video, VideoType, VideoReply
+from video.models import Video, VideoType, VideoReply, PhotoReply
 from django.db import models
 from django import forms
 
 class VideoReplyInline(admin.TabularInline):
 	model = VideoReply
-	fields = ('file', 'video_embed', 'note')
+	fields = ('file', 'note')
+	readonly_fields = ['created_date']
+	extra = 1
+	
+class PhotoReplyInline(admin.TabularInline):
+	model = PhotoReply
+	fields = ('file', 'note')
 	readonly_fields = ['created_date']
 	extra = 1
 	
@@ -20,7 +26,7 @@ class VideoAdmin(admin.ModelAdmin):
 	#date_hierarchy = 'created_date'
 	search_fields = ['title','video_type','created_date','account']
 	raw_id_fields = ('account',)
-	inlines = [VideoReplyInline]
+	inlines = [VideoReplyInline, PhotoReplyInline]
 
 admin.site.register(VideoType, VideoTypeAdmin)	
 admin.site.register(Video, VideoAdmin)

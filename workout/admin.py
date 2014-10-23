@@ -6,13 +6,13 @@ from django.core.exceptions import PermissionDenied
 from django.shortcuts import render
 
 
-from workout.models import ExerciseName, WorkoutSet, Exercise, Workout
-from workout.forms import ManageWorkoutForm
+from workout.models import WorkoutWeek, Exercise, Workout
+# from workout.forms import ManageWorkoutForm
 from django.db import models
 
 
 
-class WorkoutAdmin(ModelAdmin):
+class WeirdWorkoutAdmin(ModelAdmin):
 	change_form_template = 'admin/workout/change_form.html'
 	manage_view_template = 'admin/workout/manage_view.html'
 
@@ -47,6 +47,7 @@ class WorkoutAdmin(ModelAdmin):
 
 		# Management stuff here
 
+			
 
 		#######################
 
@@ -67,57 +68,24 @@ class WorkoutAdmin(ModelAdmin):
 
 		return render(request, self.manage_view_template, context)
 
+
+
+
+
+
+
+
+
+class WeekAdmin(admin.ModelAdmin):
+	model = WorkoutWeek
+
+class ExerciseInline(admin.TabularInline):
+	model = Exercise
+
+class WorkoutAdmin(admin.ModelAdmin):
+	model = Workout
+	inlines = [ExerciseInline]
+
 admin.site.register(Workout, WorkoutAdmin)
-
-#
-#class ExerciseName(models.Model):
-#	name = models.CharField(max_length=255)
-#	description = models.CharField(max_length=255, blank=True, null=True)
-#	video = models.ForeignKey(Video)
-#
-#	EXERCISE_CATEGORY_CHOICES = (
-#		('GEN', 'General Workouts'),
-#		('WARM', 'Warmup Exercises'),
-#		('PLYO', 'Plyometrics'),
-#		('CORE', 'Core Excercises'),
-#	)
-#
-#	exercise_category = models.CharField(max_length=4, choices=EXERCISE_CATEGORY_CHOICES, default='GEN')
-#
-#	def __unicode__(self):
-#		return u"%s" % self.name
-#
-#
-#class WorkoutSet(models.Model):
-#	set_number = models.PositiveSmallIntegerField(max_length=3, blank=True, null=True)
-#
-#	result = models.CharField(max_length=255, blank=True, null=True)
-#	percent_of_max = models.CharField(max_length=255, blank=True, null=True)
-#	tempo = models.CharField(max_length=255, blank=True, null=True)
-#	rest_time = models.CharField(max_length=255, blank=True, null=True)
-#	reps = models.PositiveSmallIntegerField(max_length=4, blank=True, null=True)
-#	weight = models.PositiveSmallIntegerField(max_length=4, blank=True, null=True)
-#
-#	WORKOUT_WEEK_NUMBER = (
-#		('1', 'One'),
-#		('2', 'Two'),
-#		('3', 'Three'),
-#		('4', 'Four'),
-#	)
-#	
-#	workout_week = models.CharField(max_length=5, choices=WORKOUT_WEEK_NUMBER, default='1')
-#	exercise = models.ForeignKey('Exercise')
-#
-#class Exercise(models.Model):
-#	name = models.ForeignKey(ExerciseName)
-#	workout = models.ManyToManyField('Workout')
-#
-#class Workout(models.Model):
-#	name = models.CharField(max_length=255)
-#	description = models.CharField(max_length=255, blank=True, null=True)
-
 #admin.site.register(ExerciseName)
-#admin.site.register(WorkoutSet)
-#admin.site.register(Workout)
-#admin.site.register(Exercise)
 

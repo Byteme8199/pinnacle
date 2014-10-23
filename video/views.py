@@ -3,7 +3,7 @@ from django.views.generic.list import ListView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
-from video.models import Video, VideoReply
+from video.models import Video, VideoReply, PhotoReply
 from video.forms import VideoForm
 from account.models import Account
 from django.views.generic.edit import FormView
@@ -16,6 +16,19 @@ class LoggedInMixin(object):
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
 		return super(LoggedInMixin, self).dispatch(*args, **kwargs)
+
+
+class PhotoView(LoggedInMixin, ListView):
+	
+	model = PhotoReply
+	template_name = 'videos/photo.html'
+	
+	def get_queryset(self):
+		#qs = Video.objects.filter(account=self.request.user.account.id)
+		#for vid in qs:
+			#print vid.thumbnail_holder
+			#vid.thumbnail()
+ 		return PhotoReply.objects.filter(pk=self.request.id)
 
 class VideoView(LoggedInMixin, ListView):
 

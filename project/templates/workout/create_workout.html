@@ -1,0 +1,11 @@
+<form action="" method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <hr/>
+    {% for form in exercise_form %}
+	{{ form.id }}
+	<div class="inline">
+	    {{ form.name }}
+	</div>
+    {% endfor %}
+    <input type="submit" value="Create" />
+</form>

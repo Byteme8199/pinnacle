@@ -49,7 +49,7 @@ class PersonalForm(ModelForm):
 
 	class Meta:
 		model = Personal
-		exclude = ('account', 'created_date')
+		exclude = ('account', 'created_date', 'fname', 'lname', 'company', 'note')
 		
 class ParentForm(ModelForm):
 

@@ -18,7 +18,7 @@ class Account(models.Model):
 	high_school = models.CharField(max_length=255, null=True, blank=True)
 	college = models.CharField(max_length=255, null=True, blank=True)
 	grad_year = models.PositiveIntegerField(max_length=4, null=True, blank=True)
-	profile_image = models.FileField(upload_to=upload_path_handler)
+	profile_image = models.FileField(upload_to=upload_path_handler, null=True, blank=True)
 	#target_school = models.ManyToManyField(TargetSchool, null=True, blank=True)
 
 	def photo(self):

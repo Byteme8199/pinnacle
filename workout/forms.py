@@ -1,24 +1,20 @@
 from django.forms import ModelForm
-from workout.models import Workout, WorkoutSet, Exercise, ExerciseName 
-from django import forms
+from django.forms.models import inlineformset_factory
+from workout.models import Workout, WorkoutWeek, Exercise
 
 
-class ManageWorkoutForm(ModelForm):
-	
+class WorkoutForm(ModelForm):
 	class Meta:
 		model = Workout
-		exclued = ('account')
 
 
 
-#class RoutineForm(ModelForm):
 
-#	class Meta:
-#		model = Routine
-#		exclude = ('account', 'created_date', 'days', 'description')
-		
-#class DayForm(ModelForm):
+WorkoutWeekFormSet = inlineformset_factory(Workout, WorkoutWeek)
+ExerciseFormSet = inlineformset_factory(Workout, Exercise)
 
-#	class Meta:
-#		model = Day
-#		exclude = ('due_date', 'exercise_group', 'routine')
+
+class ExerciseForm(ModelForm):
+	class Meta:
+		model = Exercise
+		exclude = [ 'workout' ]

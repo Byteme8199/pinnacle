@@ -96,6 +96,27 @@
 		  .black-on-white { color: #000; background-color: #FFF; padding: 5% 2% }
 		  .black-on-white  a { color: #000 }
 		  
+		 /* Modal form.as_p sexifying  */
+		  .modal-body p label { width: 100% }
+		  .modal-body p input {
+				display: block;
+				width: 100%;
+				height: 34px;
+				padding: 6px 12px;
+				font-size: 14px;
+				line-height: 1.42857143;
+				color: #555;
+				background-color: #fff;
+				background-image: none;
+				border: 1px solid #ccc;
+				border-radius: 4px;
+				-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+				box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+				-webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+				-o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+				transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+			}
+		  
 		 /* Video Tab */
 		.vid-thumb { max-width: 200px; }
 
@@ -140,8 +161,8 @@
 		  @media (min-width: 768px) {
 			  .tablet-nav { margin-left: 170px; }
 		  }
-		  
-	  </style>
+
+</style>
 	 
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -264,8 +285,8 @@
 	  	</footer>	
 	  {% endblock %}
 	  
-	  {% block modal_holder %}
-	  <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-hidden="true">
+{% block modal_holder %}
+	<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-hidden="true">
 	  <div class="modal-dialog">
 		<div class="modal-content">
 		  <div class="modal-header">

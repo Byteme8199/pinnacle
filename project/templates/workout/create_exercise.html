@@ -1,0 +1,8 @@
+<form action="" method="post">{% csrf_token %}
+    <h3>{{ workout.name }}</h3>
+    <input type="hidden" name="id_workout" value="{{ workout.id }}">
+	{% for e in exercises %}
+		{{ e }}
+	{% endfor %}
+    <input type="submit" value="Next" />
+</form>

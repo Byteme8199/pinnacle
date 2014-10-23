@@ -1,10 +1,10 @@
 <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
 	</button>
-	<h4 class="modal-title" id="myModalLabel">Add Personal Info</h4>
+	<h4 class="modal-title" id="myModalLabel">Edit Personal Info</h4>
 </div>
 
-<form action="/account/add/personal/" method="post" role="form">
+<form action="/account/edit/personal/{{ personal.id }}/" method="post" role="form">
 	
 	<div class="modal-body">
 		

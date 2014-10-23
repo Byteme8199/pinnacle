@@ -80,6 +80,9 @@ class Video(models.Model):
 
 	def replies(self):
 		return VideoReply.objects.filter(parent=self.id)
+	
+	def photos(self):
+		return PhotoReply.objects.filter(parent=self.id)
 
 	def __unicode__(self):
 		return unicode('[ %s %s ] %s' % (self.account.user.first_name, self.account.user.last_name, self.title))
@@ -124,3 +127,23 @@ class VideoReply(models.Model):
 
 	class Meta:
 		verbose_name_plural = "Video Replies"
+		
+class PhotoReply(models.Model):
+	parent = models.ForeignKey(Video)
+	created_date = models.DateTimeField(default=timezone.now())
+	note = models.TextField(blank=True, null=False)
+	file = models.FileField(upload_to=upload_path_handler_reply)
+	
+	def photo(self):
+		photo = self.file.path
+		return photo.replace('/srv/sites/pindev/project/', '/')
+	
+	def replies(self):
+		return PhotoReply.objects.filter(account=self.parent.account)
+	
+	def __unicode__(self):
+		return unicode('[ Photo Reply ] %s' % (self.parent.title))
+
+	class Meta:
+		verbose_name_plural = "Photo Replies"
+

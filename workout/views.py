@@ -1,12 +1,13 @@
-# Create your views here.
 from django.views.generic.list import ListView
-from django.views.generic.edit import FormView, UpdateView
+from django.views.generic.edit import FormView, UpdateView, CreateView
+from django.http import HttpResponseRedirect
 
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
-from workout.models import Workout, Exercise, WorkoutSet, ExerciseName
-#from workout.forms import RoutineForm, DayForm
+from workout.models import Workout, Exercise, WorkoutWeek
+from workout.forms import WorkoutForm, WorkoutWeekFormSet, ExerciseFormSet, ExerciseForm
+from exercise.models import ExerciseName
 
 from django.utils import timezone
 
@@ -19,13 +20,67 @@ class LoggedInMixin(object):
 		return super(LoggedInMixin, self).dispatch(*args, **kwargs)
 
 
+class CreateWorkout(LoggedInMixin, CreateView):
+	model = Workout 
+	template_name = 'workout/create_workout.html'
+	success_url = '/workout/exercise/create/'
+	
+	def form_valid(self, form):
+		workout = Workout(account=form.cleaned_data['account'], name=form.cleaned_data['name'], description=form.cleaned_data['description'] )
+		workout.save()		
+		self.success_url = self.success_url + str(workout.id)
+		return super(CreateWorkout, self).form_valid(form)
+	
+
+class AddExercisesToWorkout(LoggedInMixin, CreateView):
+	model = Exercise 
+	form_class = ExerciseForm
+	template_name = 'workout/create_exercise.html'
+	success_url = '/workout/set/create/'
+	
+	def get(self, request, *args, **kwargs):
+		self.object = None
+		workout = Workout.objects.get(pk=kwargs['workout_id'])
+		exercises = ExerciseName.objects.all()
+		form_class = self.get_form_class()
+		form = self.get_form(form_class)
+		return self.render_to_response(self.get_context_data(form=form, workout=workout, exercises=exercises))
+	
+	def form_valid(self, form):
+		print form
+		# make object from form arrays
+		# parse this over and over per item in array
+		#for thing in things:
+			#exercise = Exercise(account=form.cleaned_data['account'], name=form.cleaned_data['name'], description=form.cleaned_data['description'] )
+			#exercise.save()		
+		#self.success_url = self.success_url + str(workout.id)
+		return super(AddExercisesToWorkout, self).form_valid(form)
+		
+
+class AddExerciseSetsToExercise(LoggedInMixin, CreateView):
+	model = WorkoutWeek
+	template_name = 'workout/create_set.html'
+	success_url = '/workout/set/create/'
+	
+#	def get(self, request, *args, **kwargs):
+#		exerciselist = Exercise.objects.filter(workout=kwargs['workout_id'])
+#		print exerciselist
+#		for item in exerciselist:
+#			exercise = Exercise(account=form.cleaned_data['account'], name=form.cleaned_data['name'], description=form.cleaned_data['description'] )
+#			exercise.save()		
+#		self.success_url = self.success_url + str(workout.id)
+#		return super(CreateWorkout, self).form_valid(form)
+	
+class CreateSet(LoggedInMixin, CreateView):
+	model = WorkoutWeek
+	
 
 class WorkoutView(LoggedInMixin, ListView):
 	model = Workout 
+	template_name = 'workout/index.html'
 
-
-#	def get_queryset(self):
-#		return Routine.objects.filter(account=self.request.user.account.id)
+	def get_queryset(self):
+		return Workout.objects.filter(account=self.request.user.account.id)
 	
 class EditRoutineView(LoggedInMixin, UpdateView):
 

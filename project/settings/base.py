@@ -170,6 +170,7 @@ INSTALLED_APPS = (
 	'recruiter',
 	'draftability',
 	'scout',
+	'exercise',
     'south',
 )
 

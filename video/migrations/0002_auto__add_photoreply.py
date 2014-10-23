@@ -8,25 +8,31 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding field 'Workout.account'
-        db.add_column(u'workout_workout', 'account',
-                      self.gf('django.db.models.fields.related.ForeignKey')(default='', to=orm['account.Account']),
-                      keep_default=False)
+        # Adding model 'PhotoReply'
+        db.create_table(u'video_photoreply', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('parent', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['video.Video'])),
+            ('created_date', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2014, 10, 21, 0, 0))),
+            ('note', self.gf('django.db.models.fields.TextField')(blank=True)),
+            ('file', self.gf('django.db.models.fields.files.FileField')(max_length=100)),
+        ))
+        db.send_create_signal(u'video', ['PhotoReply'])
 
 
     def backwards(self, orm):
-        # Deleting field 'Workout.account'
-        db.delete_column(u'workout_workout', 'account_id')
+        # Deleting model 'PhotoReply'
+        db.delete_table(u'video_photoreply')
 
 
     models = {
         u'account.account': {
             'Meta': {'ordering': "['-created_date']", 'object_name': 'Account'},
             'college': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'created_date': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2014, 10, 14, 0, 0)'}),
+            'created_date': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2014, 10, 21, 0, 0)'}),
             'grad_year': ('django.db.models.fields.PositiveIntegerField', [], {'max_length': '4', 'null': 'True', 'blank': 'True'}),
             'high_school': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'profile_image': ('django.db.models.fields.files.FileField', [], {'max_length': '100'}),
             'user': ('django.db.models.fields.related.OneToOneField', [], {'related_name': "'account'", 'unique': 'True', 'to': u"orm['auth.User']"})
         },
         u'auth.group': {
@@ -65,40 +71,42 @@ class Migration(SchemaMigration):
             'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
-        u'workout.exercise': {
-            'Meta': {'object_name': 'Exercise'},
+        u'video.photoreply': {
+            'Meta': {'object_name': 'PhotoReply'},
+            'created_date': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2014, 10, 21, 0, 0)'}),
+            'file': ('django.db.models.fields.files.FileField', [], {'max_length': '100'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['workout.ExerciseName']"}),
-            'workout': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['workout.Workout']", 'symmetrical': 'False'})
+            'note': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
+            'parent': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['video.Video']"})
         },
-        u'workout.exercisename': {
-            'Meta': {'object_name': 'ExerciseName'},
-            'description': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'exercise_category': ('django.db.models.fields.CharField', [], {'default': "'GEN'", 'max_length': '4'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
-            'video': ('django.db.models.fields.files.FileField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'})
-        },
-        u'workout.workout': {
-            'Meta': {'object_name': 'Workout'},
+        u'video.video': {
+            'Meta': {'ordering': "['-created_date']", 'object_name': 'Video'},
             'account': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['account.Account']"}),
-            'description': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'created_date': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2014, 10, 21, 0, 0)'}),
+            'file': ('django.db.models.fields.files.FileField', [], {'max_length': '100'}),
+            'has_compressed': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '255'})
+            'note': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
+            'thumbnail_holder': ('django.db.models.fields.CharField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
+            'title': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
+            'video_type': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['video.VideoType']"})
         },
-        u'workout.workoutset': {
-            'Meta': {'object_name': 'WorkoutSet'},
-            'exercise': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['workout.Exercise']"}),
+        u'video.videoreply': {
+            'Meta': {'object_name': 'VideoReply'},
+            'created_date': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2014, 10, 21, 0, 0)'}),
+            'file': ('django.db.models.fields.files.FileField', [], {'max_length': '100'}),
+            'has_compressed': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'percent_of_max': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'reps': ('django.db.models.fields.PositiveSmallIntegerField', [], {'max_length': '4', 'null': 'True', 'blank': 'True'}),
-            'rest_time': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'result': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'set_number': ('django.db.models.fields.PositiveSmallIntegerField', [], {'max_length': '3', 'null': 'True', 'blank': 'True'}),
-            'tempo': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'weight': ('django.db.models.fields.PositiveSmallIntegerField', [], {'max_length': '4', 'null': 'True', 'blank': 'True'}),
-            'workout_week': ('django.db.models.fields.CharField', [], {'default': "'1'", 'max_length': '5'})
+            'note': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
+            'parent': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['video.Video']"}),
+            'video_embed': ('django.db.models.fields.CharField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'})
+        },
+        u'video.videotype': {
+            'Meta': {'object_name': 'VideoType'},
+            'created_date': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2014, 10, 21, 0, 0)'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '100', 'blank': 'True'})
         }
     }
 
-    complete_apps = ['workout']
+    complete_apps = ['video']

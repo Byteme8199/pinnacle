@@ -29,7 +29,7 @@ class AccountView(LoggedInMixin, ListView):
     template_name = 'account/index.html'
 
     def get_queryset(self):
-		return Account.objects.filter(user=self.request.user.account.id)
+		return Account.objects.filter(pk=self.request.user.account.id)
 	
 class AddPhotoView(LoggedInMixin, UpdateView):
 	model = Account
@@ -124,12 +124,21 @@ class AddPersonalView(LoggedInMixin, FormView):
         # This method is called when valid form data has been POSTed.
         # It should return an HttpResponse.
 		account_id = Account.objects.get(pk=self.request.user.account.id)
-		form = Personal(account=account_id, created_date=timezone.now(), fname=form.cleaned_data['fname'], lname=form.cleaned_data['lname'], street=form.cleaned_data['street'], city=form.cleaned_data['city'], state=form.cleaned_data['state'], zipcode=form.cleaned_data['zipcode'], phone=form.cleaned_data['phone'], email=form.cleaned_data['email'], note=form.cleaned_data['note'])
+		form = Personal(account=account_id, created_date=timezone.now(), fname=self.request.user.first_name, lname=self.request.user.last_name, street=form.cleaned_data['street'], city=form.cleaned_data['city'], state=form.cleaned_data['state'], zipcode=form.cleaned_data['zipcode'], phone=form.cleaned_data['phone'], email=form.cleaned_data['email'], note="")
 		form.save()
 		return super(AddPersonalView, self).form_valid(form)
+
+
+class EditPersonalView(LoggedInMixin, UpdateView):
+	model = Personal
+	form_class = PersonalForm
+	template_name = 'account/edit_personal.html'
+	success_url = '/account/'
+
+	def form_valid(self, form):
+		form.save()
+		return super(EditPersonalView, self).form_valid(form)
 	
-	
-		
 class AddParentView(LoggedInMixin, FormView):
 
 	model = Parent

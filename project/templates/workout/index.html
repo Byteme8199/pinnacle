@@ -28,9 +28,298 @@
 	{% endif %}
 
 	<div class="col-md-12">
+		
+		
+		<div class="row">
+			
+			<div class="col-sm-12 col-md-6">
+				<div class="panel-group" id="accordion">
 
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<span data-toggle="collapse" data-parent="#accordion" href="#collapse-warmup">
+									Warmup Routines
+								</span>
+							</h4>
+						</div>
+						<div id="collapse-warmup" class="panel-collapse collapse">
+							<div class="panel-body">
+								<div class="row">
+									<div class="col-md-12">
+										Warmup Routines Here
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<span data-toggle="collapse" data-parent="#accordion" href="#collapse-core">
+									Core Exercises
+								</span>
+							</h4>
+						</div>
+						<div id="collapse-core" class="panel-collapse collapse">
+							<div class="panel-body">
+								<div class="row">
+									<div class="col-md-12">
+										Core Exercises Here
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<span data-toggle="collapse" data-parent="#accordion" href="#collapse-plyo">
+									Plyometric
+								</span>
+							</h4>
+						</div>
+						<div id="collapse-plyo" class="panel-collapse collapse">
+							<div class="panel-body">
+								<div class="row">
+									<div class="col-md-12">
+									{% for workout in object_list %}
+										{% ifequal workout.exercise_category 'PLYO' %}
+											{{ workout.name }}
+										{% endifequal %}
+									{% endfor %}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+
+			<div class="col-sm-12 col-md-6">
+				<div class="panel-group" id="accordion2">
+
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<span data-toggle="collapse" data-parent="#accordion2" href="#collapse-videos">
+									Video Library
+								</span>
+							</h4>
+						</div>
+						<div id="collapse-videos" class="panel-collapse collapse">
+							<div class="panel-body">
+								<div class="row">
+									<div class="col-md-12">
+										Video Library
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<span data-toggle="collapse" data-parent="#accordion2" href="#collapse-workouts">
+									My Workouts
+								</span>
+							</h4>
+						</div>
+						<div id="collapse-workouts" class="panel-collapse collapse">
+							<div class="panel-body">
+								<div class="row">
+									<div class="col-md-12">
+									{% for workout in object_list %}
+										{% ifequal workout.exercise_category 'GEN' %}
+											<a href="{% url 'account_personal_edit' pk=workout.id %}">{{ workout.name }}</a>
+										{% endifequal %}
+									{% endfor %}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<span data-toggle="collapse" data-parent="#accordion2" href="#collapse-therapy">
+									Physical Therapy Reports
+								</span>
+							</h4>
+						</div>
+						<div id="collapse-therapy" class="panel-collapse collapse">
+							<div class="panel-body">
+								<div class="row">
+									<div class="col-md-12">
+									Therapy Here
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		{% comment %}
+		
+		
 		<h3>Workouts <span class=" pull-right"></h3>	
 
+
+     <!-- FIRST TABLE -->
+  		<div class="row">
+  			<div class="col-sm-12 column" id='cats'>
+  				<table class="table table-bordered table-hover table-condensed">
+  					<thead>
+  						<tr>
+  							<th class="col-xs-2 col-md-2">
+  								Date
+  							</th>
+  							<th class="col-xs-2 col-md-2">
+  								Week
+  							</th>
+  							<th class="col-xs-2 col-md-2">
+  								Sets
+  							</th>
+  							<th class="col-xs-2 col-md-2">
+  								Reps
+  							</th>
+  							<th class="col-xs-2 col-md-2">
+  								Rest
+  							</th>
+  							<th class="col-xs-2 col-md-2">
+  								Tempo
+  							</th>
+  						</tr>
+  					</thead>
+  					<tbody>
+  					<!-- Week 1 -->
+  						<tr>
+  							<!-- Date -->
+  							<td class="col-xs-2 col-md-2">
+  								
+  								<!-- <input type="text" class="col-xs-12 col-md-12" style="width: 100%"> -->
+  							</td>
+  							<!-- Week -->
+  							<td class="col-xs-2 col-md-2">
+  								1
+  							</td>
+  							<!-- Sets -->						
+  							<td class="col-xs-2 col-md-2">
+  								5
+  							</td>
+  							<!-- Reps -->
+  							<td class="col-xs-2 col-md-2">
+  								10
+  							</td>
+  							<!-- Rest -->
+  							<td class="col-xs-2 col-md-2">
+  								30 seconds
+  							</td>
+  							<!-- Tempo -->
+  							<td class="col-xs-2 col-md-2">
+  								Hard
+  							</td>
+  						</tr>
+  					<!-- Week 2 -->
+  						<tr>
+  							<!-- Date -->
+  							<td class="col-xs-2 col-md-2">
+
+  							</td>
+  							<!-- Week -->
+  							<td class="col-xs-2 col-md-2">
+  								1
+  							</td>
+  							<!-- Sets -->						
+  							<td class="col-xs-2 col-md-2">
+  								5
+  							</td>
+  							<!-- Reps -->
+  							<td class="col-xs-2 col-md-2">
+  								10
+  							</td>
+  							<!-- Rest -->
+  							<td class="col-xs-2 col-md-2">
+  								30 seconds
+  							</td>
+  							<!-- Tempo -->
+  							<td class="col-xs-2 col-md-2">
+  								Hard
+  							</td>
+  						</tr>
+  					<!-- Week 3 -->
+  						<tr>
+  							<!-- Date -->
+  							<td class="col-xs-2 col-md-2">
+
+  							</td>
+  							<!-- Week -->
+  							<td class="col-xs-2 col-md-2">
+  								1
+  							</td>
+  							<!-- Sets -->						
+  							<td class="col-xs-2 col-md-2">
+  								5
+  							</td>
+  							<!-- Reps -->
+  							<td class="col-xs-2 col-md-2">
+  								10
+  							</td>
+  							<!-- Rest -->
+  							<td class="col-xs-2 col-md-2">
+  								30 seconds
+  							</td>
+  							<!-- Tempo -->
+  							<td class="col-xs-2 col-md-2">
+  								Hard
+  							</td>
+  						</tr>
+  					<!-- Week 4 -->
+  						<tr>
+  							<!-- Date -->
+  							<td class="col-xs-2 col-md-2">
+
+  							</td>
+  							<!-- Week -->
+  							<td class="col-xs-2 col-md-2">
+  								1
+  							</td>
+  							<!-- Sets -->						
+  							<td class="col-xs-2 col-md-2">
+  								5
+  							</td>
+  							<!-- Reps -->
+  							<td class="col-xs-2 col-md-2">
+  								10
+  							</td>
+  							<!-- Rest -->
+  							<td class="col-xs-2 col-md-2">
+  								30 seconds
+  							</td>
+  							<!-- Tempo -->
+  							<td class="col-xs-2 col-md-2">
+  								Hard
+  							</td>
+  						</tr>
+
+  					</tbody>
+  				</table>
+  			</div>
+		
+
+	
+    <input type="submit" value="Create" />
+			{% endcomment %}
+<!--
 			{% for routine in object_list %} 
 			{% ifnotequal routine.has_completed 1 %}
 			<div class="row workout">
@@ -88,6 +377,7 @@
 					COMPLETED: {{ routine }}
 				{% endifequal %}
 			{% endfor %}
+-->
 	</div>
 </div>
 	

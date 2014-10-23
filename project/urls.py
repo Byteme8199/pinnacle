@@ -1,10 +1,10 @@
 from django.conf.urls import patterns, include, url
 from django.conf.urls import *
 from django.contrib import admin
-from account.views import AccountView, AccountPDF, AddWeightView, AddHeightView, AddPositionView, AddScoreView, AddParentView, AddPersonalView, AddCoachView, AddTargetListView, AddPhotoView, AddSchoolView
+from account.views import AccountView, AccountPDF, AddWeightView, AddHeightView, AddPositionView, AddScoreView, AddParentView, AddPersonalView, EditPersonalView, AddCoachView, AddTargetListView, AddPhotoView, AddSchoolView
 from scout.views import ScoutView
-from video.views import VideoView, AddVideoView
-from workout.views import WorkoutView, EditRoutineView, EditDayView
+from video.views import VideoView, AddVideoView, PhotoView
+from workout.views import CreateWorkout, WorkoutView, EditRoutineView, EditDayView, AddExercisesToWorkout, AddExerciseSetsToExercise
 
 admin.autodiscover()
 
@@ -25,6 +25,7 @@ urlpatterns = patterns('',
 	url(r'^$', AccountView.as_view(), name='base'),			   
 	url(r'^videos/$', VideoView.as_view(), name='video'),
 	url(r'^videos/add/$', AddVideoView.as_view(), name='video_add'),
+	url(r'^photo/$', PhotoView.as_view(), name='video_photo_reply_view'),				   
 	url(r'^account/$', AccountView.as_view(), name='account'),
 	url(r'^account/pdf/$', AccountPDF.as_view(), name='account_pdf'),
 	url(r'^account/add/photo/(?P<pk>\d+)/$', AddPhotoView.as_view(), name='account_photo_add'),
@@ -35,10 +36,14 @@ urlpatterns = patterns('',
 	url(r'^account/add/score/$', AddScoreView.as_view(), name='account_score_add'),
 	url(r'^account/add/parent/$', AddParentView.as_view(), name='account_parent_add'),
 	url(r'^account/add/coach/$', AddCoachView.as_view(), name='account_coach_add'),
+	url(r'^account/edit/personal/(?P<pk>\d+)/$', EditPersonalView.as_view(), name='account_personal_edit'),
 	url(r'^account/add/personal/$', AddPersonalView.as_view(), name='account_personal_add'),
 	url(r'^account/add/schools/$', AddTargetListView.as_view(), name='account_schools_add'),
 	url(r'^scout/$', ScoutView.as_view(), name='scout'),
 	url(r'^workout/$', WorkoutView.as_view(), name='workout'),
+	url(r'^workout/create/$', CreateWorkout.as_view(), name='create_workout'),
+	url(r'^workout/exercise/create/(?P<workout_id>\d+)/$', AddExercisesToWorkout.as_view(), name='exercises_plus_workout'),
+	url(r'^workout/set/create/(?P<workout_id>\d+)/$', AddExerciseSetsToExercise.as_view(), name='exercise_set_plus_workout'),
 	url(r'^workout/edit/routine/(?P<pk>\d+)/$', EditRoutineView.as_view(), name='workout_routine_edit'),
 	url(r'^workout/edit/day/(?P<pk>\d+)/$', EditDayView.as_view(), name='workout_day_edit'),
 	#url(r'^workout/edit/exerciseset/$', EditExerciseSetView.as_view(), name='workout_exerciseset_edit'),
