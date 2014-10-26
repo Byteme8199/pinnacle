@@ -158,7 +158,7 @@ INSTALLED_APPS = (
     'grappelli',
     'django.contrib.admin',
     'easy_pdf',
-	'djcelery',
+	# 'djcelery',
 	'project',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',

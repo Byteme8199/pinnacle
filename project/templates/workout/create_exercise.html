@@ -1,8 +1,25 @@
+{% load get_range %}
+
 <form action="" method="post">{% csrf_token %}
     <h3>{{ workout.name }}</h3>
     <input type="hidden" name="id_workout" value="{{ workout.id }}">
-	{% for e in exercises %}
-		{{ e }}
+    {% for i in 4|get_range %}
+    	<div>
+	    	<select name="id_exercise_{{ i }}">
+				<option value="">----</option>	  
+				{% for e in exercises %}
+					<option value="{{ e }}">{{ e }}</option>
+				{% endfor %}
+			</select>
+
+			<input type="text" name="id_description_{{ i }}">
+		</div>
 	{% endfor %}
+
+	<!-- 
+		need js to add another exercise if necessary
+		**add 1 to the value at end of names
+	 -->
+
     <input type="submit" value="Next" />
 </form>

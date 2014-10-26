@@ -47,29 +47,31 @@ class AddExercisesToWorkout(LoggedInMixin, CreateView):
 		return self.render_to_response(self.get_context_data(form=form, workout=workout, exercises=exercises))
 	
 	def form_valid(self, form):
-		print form
+
+		ex1 = Exercise(workout=form.cleaned_data['id_workout'], name=form.cleaned_data['id_exercise_0'], description=form.cleaned_data['id_description_0'])
+		ex1.save()
 		# make object from form arrays
 		# parse this over and over per item in array
 		#for thing in things:
 			#exercise = Exercise(account=form.cleaned_data['account'], name=form.cleaned_data['name'], description=form.cleaned_data['description'] )
 			#exercise.save()		
-		#self.success_url = self.success_url + str(workout.id)
+		self.success_url = self.success_url + str(form.cleaned_data['id_workout'])
 		return super(AddExercisesToWorkout, self).form_valid(form)
 		
 
 class AddExerciseSetsToExercise(LoggedInMixin, CreateView):
 	model = WorkoutWeek
 	template_name = 'workout/create_set.html'
-	success_url = '/workout/set/create/'
+	success_url = '/workout/'
 	
-#	def get(self, request, *args, **kwargs):
-#		exerciselist = Exercise.objects.filter(workout=kwargs['workout_id'])
-#		print exerciselist
-#		for item in exerciselist:
-#			exercise = Exercise(account=form.cleaned_data['account'], name=form.cleaned_data['name'], description=form.cleaned_data['description'] )
-#			exercise.save()		
-#		self.success_url = self.success_url + str(workout.id)
-#		return super(CreateWorkout, self).form_valid(form)
+	def get(self, request, *args, **kwargs):
+		self.object = None
+		form_class = self.get_form_class()
+		form = self.get_form(form_class)
+		exerciselist = Exercise.objects.filter(workout=kwargs['workout_id'])
+		return self.render_to_response(self.get_context_data(form=form, workout=kwargs['workout_id'], exercises=exerciselist))
+
+		# return super(AddExerciseSetsToExercise, self).form_valid(form)
 	
 class CreateSet(LoggedInMixin, CreateView):
 	model = WorkoutWeek
