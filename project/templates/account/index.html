@@ -32,6 +32,8 @@
 						<span class=" pull-right"><a data-toggle="modal" href="{% url 'account_photo_add' pk=account.id %}" data-target="#modal"><span class="glyphicon glyphicon-picture"></span></a></span>
 						{% if account.profile_image %}
 							<img src="{{ account.photo }}" class="img-responsive img-thumbnail">
+						{% else %}
+							<img src="/static/css/images/default.jpg" class="img-responsive img-thumbnail">
 						{% endif %}
 					</div>
 					
