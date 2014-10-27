@@ -9,19 +9,19 @@ from workout.views import CreateWorkout, WorkoutView, EditRoutineView, EditDayVi
 admin.autodiscover()
 
 urlpatterns = patterns('',
-        # Examples:
-        # url(r'^$', 'myapp.views.home', name='home'),
-        # url(r'^myapp/', include('myapp.urls')),
+    # Examples:
+    # url(r'^$', 'myapp.views.home', name='home'),
+    # url(r'^myapp/', include('myapp.urls')),
 
-        # Uncomment the admin/doc line below to enable admin documentation:
-        # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+    # Uncomment the admin/doc line below to enable admin documentation:
+    # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
-        url(r'^grappelli/', include('grappelli.urls')), # grappelli URLS
+    url(r'^grappelli/', include('grappelli.urls')), # grappelli URLS
 
-        # url(r'^admin/workout/$', WorkoutView.as_view()),
-        url(r'^admin/', include(admin.site.urls)),
-        url(r'^login/$', 'django.contrib.auth.views.login'),
-        url(r'^logout/$', 'django.contrib.auth.views.logout'),
+    # url(r'^admin/workout/$', WorkoutView.as_view()),
+    url(r'^admin/', include(admin.site.urls)),
+    url(r'^login/$', 'django.contrib.auth.views.login'),
+    url(r'^logout/$', 'django.contrib.auth.views.logout'),
 	url(r'^$', AccountView.as_view(), name='base'),			   
 	url(r'^videos/$', VideoView.as_view(), name='video'),
 	url(r'^videos/add/$', AddVideoView.as_view(), name='video_add'),

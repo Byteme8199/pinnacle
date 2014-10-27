@@ -1,3 +1,5 @@
+{% load get_range %}
+
 <!-- get bootstrap css and the js here -->
 
 
@@ -5,150 +7,71 @@
 <form action="" method="post">{% csrf_token %}
 	
     <div class="container">
+    {% for exercise in exercises %}
 
-     <!-- FIRST TABLE -->
-  		<div class="row clearfix">
-  			<div class="col-sm-12 column" id='cats'>
-  				<table class="table table-bordered table-hover table-condensed">
-  					<thead>
-  						<tr>
-  							<th class="col-xs-2 col-md-2">
-  								Date
-  							</th>
-  							<th class="col-xs-2 col-md-2">
-  								Week
-  							</th>
-  							<th class="col-xs-2 col-md-2">
-  								Sets
-  							</th>
-  							<th class="col-xs-2 col-md-2">
-  								Reps
-  							</th>
-  							<th class="col-xs-2 col-md-2">
-  								Rest
-  							</th>
-  							<th class="col-xs-2 col-md-2">
-  								Tempo
-  							</th>
-  						</tr>
-  					</thead>
-  					<tbody>
-  					<!-- Week 1 -->
-  						<tr>
-  							<!-- Date -->
-  							<td class="col-xs-2 col-md-2">
-  								
-  								<!-- <input type="text" class="col-xs-12 col-md-12" style="width: 100%"> -->
-  							</td>
-  							<!-- Week -->
-  							<td class="col-xs-2 col-md-2">
-  								1
-  							</td>
-  							<!-- Sets -->						
-  							<td class="col-xs-2 col-md-2">
-  								5
-  							</td>
-  							<!-- Reps -->
-  							<td class="col-xs-2 col-md-2">
-  								10
-  							</td>
-  							<!-- Rest -->
-  							<td class="col-xs-2 col-md-2">
-  								30 seconds
-  							</td>
-  							<!-- Tempo -->
-  							<td class="col-xs-2 col-md-2">
-  								Hard
-  							</td>
-  						</tr>
-  					<!-- Week 2 -->
-  						<tr>
-  							<!-- Date -->
-  							<td class="col-xs-2 col-md-2">
-
-  							</td>
-  							<!-- Week -->
-  							<td class="col-xs-2 col-md-2">
-  								1
-  							</td>
-  							<!-- Sets -->						
-  							<td class="col-xs-2 col-md-2">
-  								5
-  							</td>
-  							<!-- Reps -->
-  							<td class="col-xs-2 col-md-2">
-  								10
-  							</td>
-  							<!-- Rest -->
-  							<td class="col-xs-2 col-md-2">
-  								30 seconds
-  							</td>
-  							<!-- Tempo -->
-  							<td class="col-xs-2 col-md-2">
-  								Hard
-  							</td>
-  						</tr>
-  					<!-- Week 3 -->
-  						<tr>
-  							<!-- Date -->
-  							<td class="col-xs-2 col-md-2">
-
-  							</td>
-  							<!-- Week -->
-  							<td class="col-xs-2 col-md-2">
-  								1
-  							</td>
-  							<!-- Sets -->						
-  							<td class="col-xs-2 col-md-2">
-  								5
-  							</td>
-  							<!-- Reps -->
-  							<td class="col-xs-2 col-md-2">
-  								10
-  							</td>
-  							<!-- Rest -->
-  							<td class="col-xs-2 col-md-2">
-  								30 seconds
-  							</td>
-  							<!-- Tempo -->
-  							<td class="col-xs-2 col-md-2">
-  								Hard
-  							</td>
-  						</tr>
-  					<!-- Week 4 -->
-  						<tr>
-  							<!-- Date -->
-  							<td class="col-xs-2 col-md-2">
-
-  							</td>
-  							<!-- Week -->
-  							<td class="col-xs-2 col-md-2">
-  								1
-  							</td>
-  							<!-- Sets -->						
-  							<td class="col-xs-2 col-md-2">
-  								5
-  							</td>
-  							<!-- Reps -->
-  							<td class="col-xs-2 col-md-2">
-  								10
-  							</td>
-  							<!-- Rest -->
-  							<td class="col-xs-2 col-md-2">
-  								30 seconds
-  							</td>
-  							<!-- Tempo -->
-  							<td class="col-xs-2 col-md-2">
-  								Hard
-  							</td>
-  						</tr>
-
-  					</tbody>
-  				</table>
-  			</div>
-  		</div>
-     <!-- /FIRST TABLE -->
-
+      <h3>{{ exercise.name }}</h3>
+       <!-- FIRST TABLE -->
+    		<div class="row clearfix">
+    			<div class="col-sm-12 column" id='cats'>
+    				<table class="table table-bordered table-hover table-condensed">
+    					<thead>
+    						<tr>
+    							<th class="col-xs-2 col-md-2">
+    								Date
+    							</th>
+    							<th class="col-xs-2 col-md-2">
+    								Week
+    							</th>
+    							<th class="col-xs-2 col-md-2">
+    								Sets
+    							</th>
+    							<th class="col-xs-2 col-md-2">
+    								Reps
+    							</th>
+    							<th class="col-xs-2 col-md-2">
+    								Rest
+    							</th>
+    							<th class="col-xs-2 col-md-2">
+    								Tempo
+    							</th>
+    						</tr>
+    					</thead>
+    					<tbody>
+              {% for i in 4|get_range %}
+    					<!-- Week {{ i }} -->
+    						<tr>
+    							<!-- Date -->
+    							<td class="col-xs-2 col-md-2">				
+    								<input type="text" class="col-xs-12 col-md-12" style="width: 100%" name="date_{{ i }}" value=""> 
+    							</td>
+    							<!-- Week # -->
+    							<td class="col-xs-2 col-md-2">
+                    <input type="text" class="col-xs-12 col-md-12" style="width: 100%" name="week_{{ i }}" value="{{ i }}"> 
+    							</td>
+    							<!-- Sets -->						
+    							<td class="col-xs-2 col-md-2">
+                    <input type="text" class="col-xs-12 col-md-12" style="width: 100%" name="sets_{{ i }}" value="5"> 
+    							</td>
+    							<!-- Reps -->
+    							<td class="col-xs-2 col-md-2">
+                    <input type="text" class="col-xs-12 col-md-12" style="width: 100%" name="reps_{{ i }}" value="10"> 
+    							</td>
+    							<!-- Rest -->
+    							<td class="col-xs-2 col-md-2">
+                    <input type="text" class="col-xs-12 col-md-12" style="width: 100%" name="rest_{{ i }}" value="30 seconds"> 
+    							</td>
+    							<!-- Tempo -->
+    							<td class="col-xs-2 col-md-2">
+                    <input type="text" class="col-xs-12 col-md-12" style="width: 100%" name="tempo_{{ i }}" value="something"> 
+    							</td>
+    						</tr>
+    					{% endfor %}
+    					</tbody>
+    				</table>
+    			</div>
+    		</div>
+       <!-- /FIRST TABLE -->
+       {% endfor %}
 
   	</div>
     <!-- /CONTAINER -->
