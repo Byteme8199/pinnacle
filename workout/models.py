@@ -72,6 +72,9 @@ class Workout(models.Model):
 	description = models.CharField(max_length=255, blank=True, null=True)
 	created_date = models.DateTimeField(default=timezone.now(), editable=False)
 	
+	def exercises(self):
+		return Exercise.objects.filter(workout=self.pk)
+	
 	EXERCISE_CATEGORY_CHOICES = (
 		('GEN', 'General Workouts'),
 		('WARM', 'Warmup Exercises'),

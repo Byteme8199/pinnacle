@@ -1,0 +1,109 @@
+{% extends "base.html" %} {% block content %}
+
+<script>
+	$(document).ready(function () {
+		$("#workout-nav").addClass("active")
+	});
+</script>
+
+
+<div class="row black-on-white">
+
+	{% if request.GET.alert %}
+	<div class="col-md-12">
+		<div class="alert alert-danger" role="alert">
+			{{ request.GET.alert }}
+			<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+			</button>
+		</div>
+	</div>
+	{% endif %} {% if request.GET.success %}
+	<div class="col-md-12">
+		<div class="alert alert-success" role="alert">
+			{{ request.GET.success }}
+			<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+			</button>
+		</div>
+	</div>
+	{% endif %}
+
+	<div class="col-md-12">
+		
+		
+
+		
+		
+	<h3>{{  object.name }} <span class=" pull-right"></h3>	
+
+	<!-- FIRST TABLE -->
+  		<div class="row">
+  			<div class="col-sm-12 column" id='cats'>
+				
+  				
+						{% for week in object.weeks %}
+						
+						{% ifequal week.workout_week "1" %}
+						<table class="table table-bordered table-hover table-condensed">
+						<thead>
+							<tr>
+								<th class="col-xs-2 col-md-2">
+									Name
+								</th>
+								<th class="col-xs-2 col-md-2">
+									Week
+								</th>
+								<th class="col-xs-2 col-md-2">
+									Sets
+								</th>
+								<th class="col-xs-2 col-md-2">
+									Reps
+								</th>
+								<th class="col-xs-2 col-md-2">
+									Rest
+								</th>
+								<th class="col-xs-2 col-md-2">
+									Tempo
+								</th>
+							</tr>
+						</thead>
+						{% endifequal %}
+			
+  						<tr>
+  							<td class="col-xs-2 col-md-2">
+								{{ week.name }}
+  							</td>
+  							<td class="col-xs-2 col-md-2">
+  								{{ week.workout_week }}
+  							</td>				
+  							<td class="col-xs-2 col-md-2">
+  								{{ week.set_number }}
+  							</td>
+  							<td class="col-xs-2 col-md-2">
+  								{{ week.reps }}
+  							</td>
+  							<td class="col-xs-2 col-md-2">
+  								{{ week.rest_time }}
+  							</td>
+  							<td class="col-xs-2 col-md-2">
+  								{{ week.tempo }}
+  							</td>
+  						</tr>
+						{% ifequal week.workout_week "4" %}
+							</table>
+						{% endifequal %}	
+				
+						{% endfor %}
+  				
+				
+  			</div>
+
+	</div>
+</div>
+	
+<script>
+	$(document).ready(function() {
+		$('.popover-btn').popover()
+	});
+</script>
+
+{% endblock %}
