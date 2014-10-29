@@ -4,7 +4,7 @@ from django.contrib import admin
 from account.views import AccountView, AccountPDF, AddWeightView, AddHeightView, AddPositionView, AddScoreView, AddParentView, AddPersonalView, EditPersonalView, AddCoachView, AddTargetListView, AddPhotoView, AddSchoolView
 from scout.views import ScoutView
 from video.views import VideoView, AddVideoView, PhotoView
-from workoutsheet.views import WorkoutView, WorkoutBaseView
+from workoutsheet.views import WorkoutView, WorkoutWeekView, WorkoutBaseView
 
 admin.autodiscover()
 
@@ -42,6 +42,7 @@ urlpatterns = patterns('',
 	url(r'^scout/$', ScoutView.as_view(), name='scout'),
 	url(r'^workout/$', WorkoutBaseView.as_view(), name='workout'),
 	url(r'^workout/(?P<pk>\d+)/$', WorkoutView.as_view(), name='workout_view'),
+	url(r'^workout/week/(?P<pk>\d+)/$', WorkoutWeekView.as_view(), name='workout_week_view'),
 #	url(r'^workout/create/$', CreateWorkout.as_view(), name='create_workout'),
 #	url(r'^workout/exercise/create/(?P<workout_id>\d+)/$', AddExercisesToWorkout.as_view(), name='exercises_plus_workout'),
 #	url(r'^workout/set/create/(?P<workout_id>\d+)/$', AddExerciseSetsToExercise.as_view(), name='exercise_set_plus_workout'),

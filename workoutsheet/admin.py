@@ -6,7 +6,7 @@ class WorkoutWeekInline(admin.TabularInline):
 	model = WorkoutWeek
 	fieldsets = [
 		('', {'fields': [('workout_week', 'name')]}),
-		('Sets', {'fields': [('set_number', 'reps', 'rest_time', 'tempo')]}),
+		('Sets', {'fields': [('set_number', 'reps', 'rest_time', 'tempo', 'result_array')]}),
 	]
 	extra = 1
 

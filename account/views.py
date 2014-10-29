@@ -1,4 +1,3 @@
-# Create your views here.
 from django.views.generic.list import ListView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
@@ -29,7 +28,7 @@ class AccountView(LoggedInMixin, ListView):
     template_name = 'account/index.html'
 
     def get_queryset(self):
-		return Account.objects.filter(pk=self.request.user.account.id)
+		return [Account.objects.get(pk=self.request.user.account.id)]
 	
 class AddPhotoView(LoggedInMixin, UpdateView):
 	model = Account
@@ -193,6 +192,8 @@ class AccountPDF(PDFTemplateView):
 	template_name = 'account/pdf.html'
 
 	def get_context_data(self, **kwargs):
-		#account = Account.objects.get(user=account_id)
-		kwargs = account.__dict__
+		account = Account.objects.get(pk=self.request.user.account.id)
+		kwargs['weights'] = account.weights()
+		kwargs['heights'] = account.heights()
+		kwargs['account'] = account.__dict__
 		return super(AccountPDF, self).get_context_data(**kwargs)

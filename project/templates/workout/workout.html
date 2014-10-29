@@ -1,4 +1,8 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %} 
+
+{% load get_range %}
+
+{% block content %}
 
 <script>
 	$(document).ready(function () {
@@ -39,11 +43,11 @@
   		<div class="row">
   			<div class="col-sm-12 column" id='cats'>
 				
-  				
+					{% csrf_token %}
 						{% for week in object.weeks %}
 						
 						{% ifequal week.workout_week "1" %}
-						<table class="table table-bordered table-hover table-condensed">
+						<table class="table table-bordered table-striped table-hover table-condensed">
 						<thead>
 							<tr>
 								<th class="col-xs-2 col-md-2">
@@ -64,6 +68,11 @@
 								<th class="col-xs-2 col-md-2">
 									Tempo
 								</th>
+<!--
+								<th class="col-xs-2 col-md-2">
+								 	
+								</th>
+-->
 							</tr>
 						</thead>
 						{% endifequal %}
@@ -87,20 +96,58 @@
   							<td class="col-xs-2 col-md-2">
   								{{ week.tempo }}
   							</td>
+<!--							<td><a onclick="showRow({{ week.set_number}}, {{ week.id }}, '{{ week.result_array }}')"><span class="glyphicon glyphicon-circle-arrow-down"></span></a></td>-->
   						</tr>
+							
+						<tr id="sets_{{week.id}}">
+							<td colspan="7">
+								<table>
+									<tr>
+										<td>
+											<span class="pull-left"><a data-toggle="modal" href="{% url 'workout_week_view' pk=week.id %}" data-target="#modal"><span class="glyphicon glyphicon-edit"></span> </a></span> &nbsp;
+											<span id="set_{{week.id}}" name="set_{{week.id}}" style="width:40px; text-align: center; padding: 2px"></span>	
+											<script>
+												$(function() {
+													showWeeks('{{week.set_number}}', '{{week.id}}', '{{week.result_array}}');
+												});
+											</script>
+											
+										</td>
+									</tr>
+								</table>
+								
+							</td>
+						</tr>	
+							
 						{% ifequal week.workout_week "4" %}
 							</table>
 						{% endifequal %}	
 				
 						{% endfor %}
   				
-				
+
   			</div>
 
 	</div>
 </div>
 	
 <script>
+	
+	function showWeeks(set_number, week, result_array){
+		// get previous values and fill out form...
+		if(result_array == "None"){
+			set_string = "";
+		} else {
+			vals = result_array.split("|");
+			set_string = "<b>Week " + week + " Sets: </b> &nbsp; &nbsp;";
+			$.each(vals, function( index, value ) {
+				set_string += " <span> <b>Set " + (index+1) + ":</b> " + value + " &nbsp; &nbsp;</span>" ;
+			});
+		}
+		var elem = document.getElementById('set_' + week);
+		elem.innerHTML = set_string;
+	}
+	
 	$(document).ready(function() {
 		$('.popover-btn').popover()
 	});

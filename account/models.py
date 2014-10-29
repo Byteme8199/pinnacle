@@ -26,28 +26,28 @@ class Account(models.Model):
 		return photo.replace('/srv/sites/pindev/project/', '/')
 	
 	def weights(self):
-		return Weight.objects.filter(account=self.user)
+		return Weight.objects.filter(account=self.id)
 
 	def heights(self):
-		return Height.objects.filter(account=self.user)
+		return Height.objects.filter(account=self.id)
 
 	def positions(self):
-		return Position.objects.filter(account=self.user)
+		return Position.objects.filter(account=self.id)
 
 	def personals(self):
-		return Personal.objects.filter(account=self.user)
+		return Personal.objects.filter(account=self.id)
 	
 	def coaches(self):
-		return Coach.objects.filter(account=self.user)
+		return Coach.objects.filter(account=self.id)
 
 	def parents(self):
-		return Parent.objects.filter(account=self.user)
+		return Parent.objects.filter(account=self.id)
 
 	def scores(self):
-		return Score.objects.filter(account=self.user)
+		return Score.objects.filter(account=self.id)
 	
 	def target_lists(self):
-		return TargetSchoolsList.objects.filter(account=self.user)
+		return TargetSchoolsList.objects.filter(account=self.id)
 
 	def __unicode__(self):
 		return unicode(self.user.first_name + ' ' + self.user.last_name)

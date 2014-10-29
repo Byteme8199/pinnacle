@@ -1,7 +1,19 @@
 {% block content %}
-{{ created_date }}
-{{ high_school }}
+<h3>{{ user.first_name }} {{ user.last_name }}</h3>
 
+<ul>
+  <li>Member Since: {{ account.created_date|date:"N j"  }}</li>
+  <li>High School: {{ account.high_school }}</li>
+  <li>Weights: 
+    {% for w in weights %}
+      <div>{{ w.weight }} on {{ w.created_date|date:"N j"  }}</div>
+    {% endfor %}
+  </li>
+  <li>Heights:
+    {% for h in heights %}
+      <div>{{ h.height_feet }}'{{ h.height_inches }} on {{ h.created_date|date:"N j"  }}</div>
+    {% endfor %}
+  </li>
+</ul>
 
-{{ title }}
 {% endblock %}

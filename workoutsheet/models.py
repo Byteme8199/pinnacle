@@ -37,9 +37,7 @@ class WorkoutSheet(models.Model):
 	created_date = models.DateTimeField(default=timezone.now(), editable=False)
 	
 	def weeks(self):
-		f = WorkoutWeek.objects.filter(workout=self.pk)
-		print f
-		return f
+		return WorkoutWeek.objects.filter(workout=self.pk)
 
 	
 	EXERCISE_CATEGORY_CHOICES = (
