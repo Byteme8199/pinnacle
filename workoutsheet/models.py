@@ -22,7 +22,36 @@ class WorkoutWeek(models.Model):
 		('4', '4'),
 	)
 	
+	WORKOUT_GROUP = (
+		('A', 'A'),
+		('B', 'B'),
+		('C', 'C'),
+		('D', 'D'),
+		('E', 'E'),
+		('F', 'F'),
+		('G', 'G'),
+		('H', 'H'),
+		('I', 'I'),
+		('J', 'J'),
+		('K', 'K'),
+		('L', 'L'),
+	)
+	
+	WORKOUT_GROUP_ORDER = (
+		('1', '1'),
+		('2', '2'),
+		('3', '3'),
+		('4', '4'),
+		('5', '5'),
+		('6', '6'),
+		('7', '7'),
+		('8', '8'),
+	)
+	
 	workout_week = models.CharField(max_length=5, choices=WORKOUT_WEEK_NUMBER, default='1', verbose_name="Week")
+	group = models.CharField(max_length=1, choices=WORKOUT_GROUP, default='A', verbose_name="Group")
+	group_order = models.CharField(max_length=1, choices=WORKOUT_GROUP_ORDER, default='1', verbose_name="Group Order")
+	
 	
 	def __unicode__(self):
 		return u"%s: Week #%s" % (self.name.name, self.workout_week)
@@ -39,6 +68,11 @@ class WorkoutSheet(models.Model):
 	def weeks(self):
 		return WorkoutWeek.objects.filter(workout=self.pk)
 
+	def fullsheet(self):
+		fullsheet = []
+		for week in WorkoutWeek.objects.filter(workout=self.pk).order_by('group_order', 'group'):	
+			fullsheet.append(week)
+		return fullsheet
 	
 	EXERCISE_CATEGORY_CHOICES = (
 		('GEN', 'General Workouts'),

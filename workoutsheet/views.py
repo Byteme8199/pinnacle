@@ -44,35 +44,3 @@ class WorkoutWeekView(LoggedInMixin, UpdateView):
 	def form_valid(self, form):
 		form.save()
 		return super(WorkoutWeekView, self).form_valid(form)
-	
-#	def get(self, request, **kwargs):
-#		return super(WorkoutWeekView, self).get(request, **kwargs)
-#		
-#	def post(self, request, **kwargs):
-#		sorted_dict = sorted(request.POST.items(), key=operator.itemgetter(0))
-#		print sorted_dict
-#		week = WorkoutWeek.objects.get(pk=kwargs['pk'])
-#		form = WorkoutWeek(result_array=week.result_array)
-#		form.save(update_fields=['result_array'])
-#		print form
-#		return HttpResponseRedirect('/workout/')
-	
-#	def form_valid(self, form):
-#        # This method is called when valid form data has been POSTed.
-#        # It should return an HttpResponse.
-#		form = WorkoutWeek(result_array=form.cleaned_data['result_array'])
-#		form.save()
-#		return super(WorkoutWeekView, self).form_valid(form)
-	
-#		
-#		request.POST = request.POST.copy()
-#		
-#		print request
-#		
-#		
-#		form = self.form_class(request.POST)
-#		if form.is_valid():
-#        	return HttpResponseRedirect('/success/')
-#			return render(request, self.template_name, {'form': form})
-#
-#		return super(WorkoutWeekView, self).post(request, **kwargs)

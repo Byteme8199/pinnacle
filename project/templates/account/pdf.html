@@ -1,6 +1,14 @@
-{% block content %}
-<h3>{{ user.first_name }} {{ user.last_name }}</h3>
+<html>
 
+<head>
+<style>
+
+</style>
+</head>
+
+
+<h3>{{ user.first_name }} {{ user.last_name }}</h3>
+<hr/>
 <ul>
   <li>Member Since: {{ account.created_date|date:"N j"  }}</li>
   <li>High School: {{ account.high_school }}</li>
@@ -16,4 +24,5 @@
   </li>
 </ul>
 
-{% endblock %}
+
+</html>

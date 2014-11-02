@@ -8,47 +8,30 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding model 'WorkoutWeek'
-        db.create_table(u'workoutsheet_workoutweek', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('name', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['exercise.ExerciseName'])),
-            ('workout', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['workoutsheet.WorkoutSheet'])),
-            ('set_number', self.gf('django.db.models.fields.PositiveSmallIntegerField')(max_length=3, null=True, blank=True)),
-            ('percent_of_max', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True)),
-            ('tempo', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True)),
-            ('rest_time', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True)),
-            ('reps', self.gf('django.db.models.fields.PositiveSmallIntegerField')(max_length=4, null=True, blank=True)),
-            ('weight', self.gf('django.db.models.fields.PositiveSmallIntegerField')(max_length=4, null=True, blank=True)),
-            ('result_array', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True)),
-            ('workout_week', self.gf('django.db.models.fields.CharField')(default='1', max_length=5)),
-        ))
-        db.send_create_signal(u'workoutsheet', ['WorkoutWeek'])
+        # Adding field 'WorkoutWeek.group'
+        db.add_column(u'workoutsheet_workoutweek', 'group',
+                      self.gf('django.db.models.fields.CharField')(default='A', max_length=1),
+                      keep_default=False)
 
-        # Adding model 'WorkoutSheet'
-        db.create_table(u'workoutsheet_workoutsheet', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('account', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['account.Account'])),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=255)),
-            ('description', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True)),
-            ('created_date', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2014, 10, 27, 0, 0))),
-            ('exercise_category', self.gf('django.db.models.fields.CharField')(default='GEN', max_length=4)),
-        ))
-        db.send_create_signal(u'workoutsheet', ['WorkoutSheet'])
+        # Adding field 'WorkoutWeek.group_order'
+        db.add_column(u'workoutsheet_workoutweek', 'group_order',
+                      self.gf('django.db.models.fields.CharField')(default='1', max_length=1),
+                      keep_default=False)
 
 
     def backwards(self, orm):
-        # Deleting model 'WorkoutWeek'
-        db.delete_table(u'workoutsheet_workoutweek')
+        # Deleting field 'WorkoutWeek.group'
+        db.delete_column(u'workoutsheet_workoutweek', 'group')
 
-        # Deleting model 'WorkoutSheet'
-        db.delete_table(u'workoutsheet_workoutsheet')
+        # Deleting field 'WorkoutWeek.group_order'
+        db.delete_column(u'workoutsheet_workoutweek', 'group_order')
 
 
     models = {
         u'account.account': {
             'Meta': {'ordering': "['-created_date']", 'object_name': 'Account'},
             'college': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'created_date': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2014, 10, 27, 0, 0)'}),
+            'created_date': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2014, 11, 1, 0, 0)'}),
             'grad_year': ('django.db.models.fields.PositiveIntegerField', [], {'max_length': '4', 'null': 'True', 'blank': 'True'}),
             'high_school': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
@@ -101,7 +84,7 @@ class Migration(SchemaMigration):
         u'workoutsheet.workoutsheet': {
             'Meta': {'object_name': 'WorkoutSheet'},
             'account': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['account.Account']"}),
-            'created_date': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2014, 10, 27, 0, 0)'}),
+            'created_date': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2014, 11, 1, 0, 0)'}),
             'description': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'exercise_category': ('django.db.models.fields.CharField', [], {'default': "'GEN'", 'max_length': '4'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
@@ -109,6 +92,8 @@ class Migration(SchemaMigration):
         },
         u'workoutsheet.workoutweek': {
             'Meta': {'object_name': 'WorkoutWeek'},
+            'group': ('django.db.models.fields.CharField', [], {'default': "'A'", 'max_length': '1'}),
+            'group_order': ('django.db.models.fields.CharField', [], {'default': "'1'", 'max_length': '1'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['exercise.ExerciseName']"}),
             'percent_of_max': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),

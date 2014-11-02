@@ -6,9 +6,19 @@
 
 <script>
 	$(document).ready(function () {
-		$("#workout-nav").addClass("active")
+		$("#workout-nav").addClass("active");
+		
+		$('a').click(function(e) {
+			var elem = $($(e.target)[0]).parent();
+			if ($(elem).attr('data-toggle') === 'modal') {
+				e.preventDefault();
+				$('#modal div.modal-content').load($(elem).attr('href'));
+			}
+		});
 	});
+
 </script>
+
 
 
 <div class="row black-on-white">
@@ -44,80 +54,77 @@
   			<div class="col-sm-12 column" id='cats'>
 				
 					{% csrf_token %}
-						{% for week in object.weeks %}
+						{% for week in object.fullsheet %}
 						
 						{% ifequal week.workout_week "1" %}
 						<table class="table table-bordered table-striped table-hover table-condensed">
 						<thead>
 							<tr>
-								<th class="col-xs-2 col-md-2">
+								<th class="col-xs-4">
 									Name
 								</th>
-								<th class="col-xs-2 col-md-2">
+								<th class="col-xs-1">
 									Week
 								</th>
-								<th class="col-xs-2 col-md-2">
-									Sets
+								<th class="col-xs-1">
+									Sets x Reps
 								</th>
-								<th class="col-xs-2 col-md-2">
-									Reps
+								<th class="col-xs-6">
+								 	Results
 								</th>
-								<th class="col-xs-2 col-md-2">
-									Rest
-								</th>
-								<th class="col-xs-2 col-md-2">
-									Tempo
-								</th>
-<!--
-								<th class="col-xs-2 col-md-2">
-								 	
-								</th>
--->
 							</tr>
 						</thead>
 						{% endifequal %}
 			
   						<tr>
-  							<td class="col-xs-2 col-md-2">
-								{{ week.name }}
+							<td class="col-xs-4">
+								{{ week.group }}{{ week.group_order }}) <a href="{{ week.name.id }}">{{ week.name }}</a>
+								
+								
+								<span class="pull-right"><a data-toggle="modal" href="{% url 'workout_week_view' pk=week.id %}" data-target="#modal"><span class="glyphicon glyphicon-edit"></span> </a></span> &nbsp;
+								
+								{% if week.rest_time %}
+								<span class="pull-right">
+									<a href="#" class="popover-btn" data-toggle="popover" title="Additional Info" data-content="{{ week.rest_time }}{% if week.tempo %} / {{ week.tempo }}{% endif %}"><span class="glyphicon glyphicon-info-sign"></span></a>										
+									</a>
+								</span>
+								{% endif %}
+							
   							</td>
-  							<td class="col-xs-2 col-md-2">
+  							<td class="col-xs-1">
   								{{ week.workout_week }}
   							</td>				
-  							<td class="col-xs-2 col-md-2">
-  								{{ week.set_number }}
+  							<td class="col-xs-1">
+								{% if week.set_number %}{{ week.set_number }}{% endif %}{% if week.reps %} x {{ week.reps }}{% endif %}
   							</td>
-  							<td class="col-xs-2 col-md-2">
-  								{{ week.reps }}
-  							</td>
-  							<td class="col-xs-2 col-md-2">
-  								{{ week.rest_time }}
-  							</td>
-  							<td class="col-xs-2 col-md-2">
-  								{{ week.tempo }}
-  							</td>
-<!--							<td><a onclick="showRow({{ week.set_number}}, {{ week.id }}, '{{ week.result_array }}')"><span class="glyphicon glyphicon-circle-arrow-down"></span></a></td>-->
-  						</tr>
-							
-						<tr id="sets_{{week.id}}">
-							<td colspan="7">
-								<table>
-									<tr>
-										<td>
-											<span class="pull-left"><a data-toggle="modal" href="{% url 'workout_week_view' pk=week.id %}" data-target="#modal"><span class="glyphicon glyphicon-edit"></span> </a></span> &nbsp;
-											<span id="set_{{week.id}}" name="set_{{week.id}}" style="width:40px; text-align: center; padding: 2px"></span>	
-											<script>
-												$(function() {
-													showWeeks('{{week.set_number}}', '{{week.id}}', '{{week.result_array}}');
-												});
-											</script>
-											
-										</td>
+  							<td class="col-xs-6">
+								<table class="smalltable-bordered table-condensed">
+									<tr class="row">
+										<td class="col-xs-2">1</td>
+										<td class="col-xs-2">2</td>
+										<td class="col-xs-2">3</td>
+										<td class="col-xs-2">4</td>
+										<td class="col-xs-2">5</td>
+										<td class="col-xs-2">6</td>
+									</tr>
+									<tr id="set_{{week.id}}" name="set_{{week.id}}" class="row">
+										<td id="set_{{week.id}}_1" class="col-xs-2">-</td>
+										<td id="set_{{week.id}}_2" class="col-xs-2">-</td>
+										<td id="set_{{week.id}}_3" class="col-xs-2">-</td>
+										<td id="set_{{week.id}}_4" class="col-xs-2">-</td>
+										<td id="set_{{week.id}}_5" class="col-xs-2">-</td>
+										<td id="set_{{week.id}}_6" class="col-xs-2">-</td>
 									</tr>
 								</table>
+  							</td>
+							<script>
+									$(function() {
+										showWeeks('{{week.set_number}}', '{{week.id}}', '{{week.result_array}}');
+									});
+								</script>
+  						</tr>
+							
 								
-							</td>
-						</tr>	
 							
 						{% ifequal week.workout_week "4" %}
 							</table>
@@ -135,17 +142,15 @@
 	
 	function showWeeks(set_number, week, result_array){
 		// get previous values and fill out form...
-		if(result_array == "None"){
-			set_string = "";
+		if(!result_array){
+			set_string = "<td colspan='6'></td>";
 		} else {
 			vals = result_array.split("|");
-			set_string = "<b>Week " + week + " Sets: </b> &nbsp; &nbsp;";
 			$.each(vals, function( index, value ) {
-				set_string += " <span> <b>Set " + (index+1) + ":</b> " + value + " &nbsp; &nbsp;</span>" ;
+				var elem = document.getElementById('set_' + week + "_" + (index+1));
+				elem.innerHTML = value;
 			});
 		}
-		var elem = document.getElementById('set_' + week);
-		elem.innerHTML = set_string;
 	}
 	
 	$(document).ready(function() {

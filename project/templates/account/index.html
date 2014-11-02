@@ -3,6 +3,14 @@
 <script>
 	$(document).ready(function () {
 		$("#account-nav").addClass("active");
+		
+		$('a').click(function(e) {
+			var elem = $($(e.target)[0]).parent();
+			if ($(elem).attr('data-toggle') === 'modal') {
+				e.preventDefault();
+				$('#modal div.modal-content').load($(elem).attr('href'));
+			}
+		});
 	});
 
 </script>

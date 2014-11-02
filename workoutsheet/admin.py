@@ -5,7 +5,7 @@ from django.db import models
 class WorkoutWeekInline(admin.TabularInline):
 	model = WorkoutWeek
 	fieldsets = [
-		('', {'fields': [('workout_week', 'name')]}),
+		('', {'fields': [('group', 'group_order', 'workout_week', 'name')]}),
 		('Sets', {'fields': [('set_number', 'reps', 'rest_time', 'tempo', 'result_array')]}),
 	]
 	extra = 1
