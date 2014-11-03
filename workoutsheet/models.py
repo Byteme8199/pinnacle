@@ -105,7 +105,7 @@ class WorkoutSheet(models.Model):
 				self.description = self.workout_template.description
 			if not self.name:
 				self.description = self.workout_template.name
-			workout = WorkoutSheet(account=self.account, name=self.name,description=self.description, created_date=timezone.now(), start_date=self.start_date, workout_template=self.workout_template)
+			workout = WorkoutSheet(account=self.account, name=self.name,description=self.description, created_date=timezone.now(), start_date=self.start_date)
 			workout.save()
 		
 			weeks = self.workout_template.weeks()
