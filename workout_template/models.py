@@ -1,22 +1,19 @@
 from django.db import models
 from django.utils import timezone
-from account.models import Account
 from exercise.models import ExerciseName
-from workout_template.models import WorkoutSheetTemplate, TemplateWorkoutWeek
 from django import template
 register = template.Library()
 
-class WorkoutWeek(models.Model):
+class TemplateWorkoutWeek(models.Model):
 	name = models.ForeignKey(ExerciseName, verbose_name="Exercise")  #Get ExerciseNames from other database table
-	workout = models.ForeignKey('WorkoutSheet')
+	workout = models.ForeignKey('WorkoutSheetTemplate')
 	set_number = models.PositiveSmallIntegerField(max_length=3, blank=True, null=True, verbose_name="Sets" )
-	#result = models.CharField(max_length=255, blank=True, null=True)
 	percent_of_max = models.CharField(max_length=255, blank=True, null=True)
 	tempo = models.CharField(max_length=255, blank=True, null=True)
 	rest_time = models.CharField(max_length=255, blank=True, null=True, verbose_name="Rest")
 	reps = models.PositiveSmallIntegerField(max_length=4, blank=True, null=True)
 	weight = models.PositiveSmallIntegerField(max_length=4, blank=True, null=True)
-	result_array = models.CharField(max_length=255, blank=True, null=True) #comma seperated array for weight results
+	# result_array = models.CharField(max_length=255, blank=True, null=True) #comma seperated array for weight results
 
 	WORKOUT_WEEK_NUMBER = (
 		('1', '1'),
@@ -63,15 +60,9 @@ class WorkoutWeek(models.Model):
 		verbose_name_plural = "Weeks"
 
 
-
-
-
-class WorkoutSheet(models.Model):
-	account = models.ForeignKey(Account)
-	workout_template = models.ForeignKey(WorkoutSheetTemplate, blank=True, null=True)
+class WorkoutSheetTemplate(models.Model):
 	name = models.CharField(max_length=255)
 	description = models.CharField(max_length=255, blank=True, null=True)
-
 	created_date = models.DateTimeField(default=timezone.now(), editable=False)
 	start_date = models.DateTimeField(default=timezone.now(), blank=True, null=True)
 
@@ -81,11 +72,11 @@ class WorkoutSheet(models.Model):
 		return year[0]
 	
 	def weeks(self):
-		return WorkoutWeek.objects.filter(workout=self.pk)
+		return TemplateWorkoutWeek.objects.filter(workout=self.pk)
 
 	def fullsheet(self):
 		fullsheet = []
-		for week in WorkoutWeek.objects.filter(workout=self.pk).order_by('group_order', 'group'):	
+		for week in TemplateWorkoutWeek.objects.filter(workout=self.pk).order_by('group_order', 'group'):	
 			fullsheet.append(week)
 		return fullsheet
 	
@@ -97,25 +88,6 @@ class WorkoutSheet(models.Model):
 	)
 
 	exercise_category = models.CharField(max_length=4, choices=EXERCISE_CATEGORY_CHOICES, default='GEN')
-
-
-	def save(self, *args, **kwargs):
-		if not self.id and self.workout_template:
-			if not self.description:
-				self.description = self.workout_template.description
-			if not self.name:
-				self.description = self.workout_template.name
-			workout = WorkoutSheet(account=self.account, name=self.name,description=self.description, created_date=timezone.now(), start_date=self.start_date, workout_template=self.workout_template)
-			workout.save()
-		
-			weeks = self.workout_template.weeks()
-
-			for w in weeks:
-				new_week = WorkoutWeek(workout=workout, group=w.group, group_order=w.group_order, workout_week=w.workout_week, name=w.name, set_number=w.set_number, reps=w.reps, rest_time=w.rest_time, tempo=w.tempo, weight=w.weight)
-				new_week.save()
-		else:
-			super(WorkoutSheet, self).save(*args, **kwargs)
-
 	
 	class Meta:
 		ordering = ['-start_date']
