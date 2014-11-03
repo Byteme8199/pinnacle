@@ -20,7 +20,20 @@ class LoggedInMixin(object):
     def dispatch(self, *args, **kwargs):
 		return super(LoggedInMixin, self).dispatch(*args, **kwargs)
 
+class WorkoutVideosView(LoggedInMixin, ListView):
+	model = ExerciseName
+	template_name = 'workout/videos.html'
 
+	def get_queryset(self):
+		return ExerciseName.objects.all()
+	
+class WorkoutWorkoutsView(LoggedInMixin, ListView):
+	model = WorkoutSheet
+	template_name = 'workout/workouts.html'
+
+	def get_queryset(self):
+		return WorkoutSheet.objects.filter(account=self.request.user.account.id)
+	
 class WorkoutBaseView(LoggedInMixin, ListView):
 	model = WorkoutSheet
 	template_name = 'workout/index.html'

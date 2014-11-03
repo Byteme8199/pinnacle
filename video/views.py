@@ -53,7 +53,7 @@ class AddVideoView(LoggedInMixin, FormView):
         # This method is called when valid form data has been POSTed.
         # It should return an HttpResponse.
 		account_id = Account.objects.get(pk=self.request.user.account.id)
-		video = Video(account=account_id, title=form.cleaned_data['title'], created_date=timezone.now(),note=form.cleaned_data['note'], video_type=form.cleaned_data['video_type'], file=form.cleaned_data['file'] )
+		video = Video(account=account_id, title=form.cleaned_data['title'], created_date=timezone.now(),note=form.cleaned_data['note'], file=form.cleaned_data['file'] )
 		video.save()
 		
 		### Get Video, compress It and make a thumbnail

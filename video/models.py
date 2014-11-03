@@ -62,7 +62,7 @@ class Video(models.Model):
 	created_date = models.DateTimeField(default=timezone.now())
 	note = models.TextField(blank=True, null=False)
 	has_compressed = models.BooleanField(default=False,editable=False)
-	video_type = models.ForeignKey(VideoType)
+	video_type = models.ForeignKey(VideoType, blank=True, null=True)
 
 	thumbnail_holder = models.CharField(max_length=200,null=True, blank=True)
 

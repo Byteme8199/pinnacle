@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+	<script>
+		$(document).ready(function () {
+			$( "#workout-nav" ).addClass("active")
+		});
+	</script>
+
+
+<div class="row black-on-white">
+
+<ol class="breadcrumb">
+  <li><a href="/">Home</a></li>
+  <li><a href="/workout/">Performance Workout</a></li>
+  <li class="active">Video Library</li>
+</ol>
+	
+	{% if request.GET.alert %}
+	<div class="col-md-12">
+		<div class="alert alert-danger" role="alert">
+			{{ request.GET.alert }}
+			<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		</div>
+	</div>
+	{% endif %}
+	
+	
+	{% if request.GET.success %}
+	<div class="col-md-12">
+		<div class="alert alert-success" role="alert">
+			{{ request.GET.success }}
+			<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		</div>
+	</div>
+	{% endif %}
+	
+	
+	<div class="row">
+		
+	<div class="col-md-12">
+		
+		<h3>Video Library</h3>
+		
+		<div class="col-sm-12">
+			{% for video in object_list %}
+				{% if forloop.first %}
+					{% ifequal video.video "" %}
+					{% else %}
+					<div class="center-block">
+						<video width="100%" height="auto" id="videosource" controls style="margin: auto; max-width: 800px; max-height: 400px">
+						<source src="{{ video.video }}" id="mp4Source" type="video/mp4">
+							Your browser does not support the video tag.
+						</video>
+						<img src="" id="photosource" class="img-responsive" style="display: none">
+						<br>
+					</div>
+					{% endifequal %}
+				{% endif %}
+			{% endfor %}
+		</div>
+	</div>
+		
+
+	<script>
+		function ChangeVid(video) { 					
+			var player = document.getElementById('videosource')
+			var mp4vid = document.getElementById('mp4Source');
+			var photo = document.getElementById('photosource');
+			
+			player.pause();
+			
+			$('#videosource').css("display", "block");
+			$('#photosource').css("display", "none");
+
+			$(mp4vid).attr('src', video);
+			player.load();
+			player.play();
+		}
+		
+		function ChangePhoto(photo) { 					
+			var player = document.getElementById('videosource')
+			player.pause();
+			
+			$('#videosource').css("display", "none");
+			$('#photosource').css("display", "block");
+			$('#photosource').attr('src', photo);
+		}
+	</script>
+	
+</div>	
+		
+		
+		
+<div class="panel-group">
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+			  <h4 class="panel-title">
+				<span data-toggle="collapse" data-parent="#accordion" href="#collapse{{ video.id }}">Videos</small>  
+				</span>
+			  </h4>
+			</div>
+			<div class="panel-body">
+				{% for video in object_list %}
+					{% ifequal video.video "" %}
+					{% else %}
+						<strong onclick="ChangeVid('{{video.video}}')" >{{ video.name }}</strong><br>
+					{% endifequal %}
+				{% endfor %}
+			</div>
+		</div>	
+
+</div>
+		
+				
+</div>
+
+{% endblock %}

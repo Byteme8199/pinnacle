@@ -5,4 +5,4 @@ class VideoForm(ModelForm):
 
 	class Meta:
 		model = Video
-		exclude = ('account', 'created_date')
+		exclude = ('account', 'created_date',  'video_type')

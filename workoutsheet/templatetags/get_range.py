@@ -1,6 +1,6 @@
 from django.template import Library
 
-
+from workoutsheet.models import WorkoutSheet
 
 register = Library()
 
@@ -27,3 +27,9 @@ def get_range(value):
 		return range(value)
 	else:
 		pass
+	
+@register.filter(name='in_year')
+def in_year(self, year):
+	yearstart = year + "-01-01" 
+	yearend = year + "-12-31" 
+	return WorkoutSheet.objects.filter(start_date__range=[yearstart, yearend])

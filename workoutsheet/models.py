@@ -2,6 +2,8 @@ from django.db import models
 from django.utils import timezone
 from account.models import Account
 from exercise.models import ExerciseName
+from django import template
+register = template.Library()
 
 class WorkoutWeek(models.Model):
 	name = models.ForeignKey(ExerciseName, verbose_name="Exercise")  #Get ExerciseNames from other database table
@@ -64,6 +66,12 @@ class WorkoutSheet(models.Model):
 	name = models.CharField(max_length=255)
 	description = models.CharField(max_length=255, blank=True, null=True)
 	created_date = models.DateTimeField(default=timezone.now(), editable=False)
+	start_date = models.DateTimeField(default=timezone.now(), blank=True, null=True)
+
+	def year(self):
+		year = str(self.start_date)
+		year = year.split('-')
+		return year[0]
 	
 	def weeks(self):
 		return WorkoutWeek.objects.filter(workout=self.pk)
@@ -83,6 +91,8 @@ class WorkoutSheet(models.Model):
 
 	exercise_category = models.CharField(max_length=4, choices=EXERCISE_CATEGORY_CHOICES, default='GEN')
 	
+	class Meta:
+		ordering = ['-start_date']
 	def __unicode__(self):
 		return u"%s: %s" % (self.exercise_category, self.name)
 

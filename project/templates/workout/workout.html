@@ -22,6 +22,14 @@
 
 
 <div class="row black-on-white">
+	
+<ol class="breadcrumb">
+  <li><a href="/">Home</a></li>
+  <li><a href="/workout/">Performance Workout</a></li>
+  <li><a href="/workout/workouts/">My Workouts</a></li>
+  <li class="active">{{  object.name }}</li>
+</ol>
+
 
 	{% if request.GET.alert %}
 	<div class="col-md-12">
@@ -43,7 +51,7 @@
 
 	<div class="col-md-12">
 		
-		
+	
 
 		
 		
@@ -85,7 +93,7 @@
 								
 								{% if week.rest_time %}
 								<span class="pull-right">
-									<a href="#" class="popover-btn" data-toggle="popover" title="Additional Info" data-content="{{ week.rest_time }}{% if week.tempo %} / {{ week.tempo }}{% endif %}"><span class="glyphicon glyphicon-info-sign"></span></a>										
+									<a class="popover-btn" data-toggle="popover" title="Additional Info" data-content="{{ week.rest_time }}{% if week.tempo %} / {{ week.tempo }}{% endif %}"><span class="glyphicon glyphicon-info-sign"></span></a>										
 									</a>
 								</span>
 								{% endif %}
@@ -137,6 +145,8 @@
 
 	</div>
 </div>
+</div>
+
 	
 <script>
 	

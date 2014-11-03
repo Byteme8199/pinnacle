@@ -8,6 +8,11 @@
 
 
 <div class="row black-on-white">
+	
+	<ol class="breadcrumb">
+  <li><a href="/">Home</a></li>
+  <li class="active">Performance Workout</li>
+</ol>
 
 	{% if request.GET.alert %}
 	<div class="col-md-12">
@@ -33,139 +38,14 @@
 		<div class="row">
 			
 			<div class="col-sm-12 col-md-6">
-				<div class="panel-group" id="accordion">
+				<a href="/workout/warmup/">Warmup Routines</a><br>
+				<a href="/workout/core/">Core Exercies</a><br>
+				<a href="/workout/plyometric/">Plyometric</a><br>
+				<a href="/workout/videos/">Video Library</a><br>
+				<a href="/workout/workouts/">My Workouts</a><br>
+				<a href="/workout/reports/">Physical Therapy Reports</a><br>
+			</div>	
 
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h4 class="panel-title">
-								<span data-toggle="collapse" data-parent="#accordion" href="#collapse-warmup">
-									Warmup Routines
-								</span>
-							</h4>
-						</div>
-						<div id="collapse-warmup" class="panel-collapse collapse">
-							<div class="panel-body">
-								<div class="row">
-									<div class="col-md-12">
-										Warmup Routines Here
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h4 class="panel-title">
-								<span data-toggle="collapse" data-parent="#accordion" href="#collapse-core">
-									Core Exercises
-								</span>
-							</h4>
-						</div>
-						<div id="collapse-core" class="panel-collapse collapse">
-							<div class="panel-body">
-								<div class="row">
-									<div class="col-md-12">
-										Core Exercises Here
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h4 class="panel-title">
-								<span data-toggle="collapse" data-parent="#accordion" href="#collapse-plyo">
-									Plyometric
-								</span>
-							</h4>
-						</div>
-						<div id="collapse-plyo" class="panel-collapse collapse">
-							<div class="panel-body">
-								<div class="row">
-									<div class="col-md-12">
-									{% for workout in object_list %}
-										{% ifequal workout.exercise_category 'PLYO' %}
-											{{ workout.name }}
-										{% endifequal %}
-									{% endfor %}
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-				</div>
-			</div>
-
-
-			<div class="col-sm-12 col-md-6">
-				<div class="panel-group" id="accordion2">
-
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h4 class="panel-title">
-								<span data-toggle="collapse" data-parent="#accordion2" href="#collapse-videos">
-									Video Library
-								</span>
-							</h4>
-						</div>
-						<div id="collapse-videos" class="panel-collapse collapse">
-							<div class="panel-body">
-								<div class="row">
-									<div class="col-md-12">
-										Video Library
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h4 class="panel-title">
-								<span data-toggle="collapse" data-parent="#accordion2" href="#collapse-workouts">
-									My Workouts
-								</span>
-							</h4>
-						</div>
-						<div id="collapse-workouts" class="panel-collapse collapse">
-							<div class="panel-body">
-								<div class="row">
-									<div class="col-md-12">
-									{% for workout in object_list %}
-										{% ifequal workout.exercise_category 'GEN' %}
-											<a href="{% url 'workout_view' pk=workout.id %}">{{ workout.name }}</a>
-										{% endifequal %}
-									{% endfor %}
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h4 class="panel-title">
-								<span data-toggle="collapse" data-parent="#accordion2" href="#collapse-therapy">
-									Physical Therapy Reports
-								</span>
-							</h4>
-						</div>
-						<div id="collapse-therapy" class="panel-collapse collapse">
-							<div class="panel-body">
-								<div class="row">
-									<div class="col-md-12">
-									Therapy Here
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-				</div>
-			</div>
 		</div>
 	</div>
 </div>
