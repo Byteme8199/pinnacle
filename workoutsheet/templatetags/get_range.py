@@ -29,7 +29,15 @@ def get_range(value):
 		pass
 	
 @register.filter(name='in_year')
-def in_year(self, year):
+def in_year(self, set):
+	set = set.split(",")
+	cat = set[1]
+	year = set[0]
 	yearstart = year + "-01-01" 
 	yearend = year + "-12-31" 
-	return WorkoutSheet.objects.filter(start_date__range=[yearstart, yearend])
+	return WorkoutSheet.objects.filter(start_date__range=[yearstart, yearend], exercise_category=cat)
+
+@register.filter(name='truncate')
+def truncate(self, num):
+	num = num.split(",")
+	return num[0]

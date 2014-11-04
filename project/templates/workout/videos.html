@@ -95,22 +95,35 @@
 		
 <div class="panel-group">
 
-		<div class="panel panel-default">
+	
+	
+	
+	
+	{% for video in object_list %}
+		  <div class="panel panel-default">
 			<div class="panel-heading">
 			  <h4 class="panel-title">
-				<span data-toggle="collapse" data-parent="#accordion" href="#collapse{{ video.id }}">Videos</small>  
-				</span>
+				  <span data-toggle="collapse" data-parent="#accordion" href="#collapse{{ video.id }}">
+					  {% if video.file %}
+					  	<a onclick="ChangeVid('{{video.video}}')"><span class="glyphicon glyphicon-film"></span>{{ video.name }}</a>
+					  {% else %}
+					  	{{ video.name }}
+					  {% endif %}
+				  </span>
 			  </h4>
 			</div>
-			<div class="panel-body">
-				{% for video in object_list %}
-					{% ifequal video.video "" %}
-					{% else %}
-						<strong onclick="ChangeVid('{{video.video}}')" >{{ video.name }}</strong><br>
-					{% endifequal %}
-				{% endfor %}
+			<div id="collapse{{ video.id }}" class="panel-collapse collapse {% if forloop.first %}in{% endif%}">
+			  <div class="panel-body">
+				 <div class="row">
+					<div class="col-xs-12">
+						{% if video.description %}<p>{{video.description}}</p>{% endif %}
+					</div>
+				 </div>
+			  </div>
 			</div>
-		</div>	
+		  </div>
+	{% endfor %}	
+	
 
 </div>
 		
