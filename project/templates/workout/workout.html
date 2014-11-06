@@ -61,10 +61,12 @@
   		<div class="row">
   			<div class="col-sm-12 column" id='cats'>
 				
+				{{object.fullsheet}}
+				
 					{% csrf_token %}
 						{% for week in object.fullsheet %}
-						
-						{% ifequal week.workout_week "1" %}
+
+						{% ifchanged week.group_order %}
 						<table class="table table-bordered table-striped table-hover table-condensed">
 						<thead>
 							<tr>
@@ -82,7 +84,7 @@
 								</th>
 							</tr>
 						</thead>
-						{% endifequal %}
+						 {% endifchanged %}
 			
   						<tr>
 							<td class="col-xs-4">
@@ -134,9 +136,10 @@
 							
 								
 							
-						{% ifequal week.workout_week "4" %}
+						{% ifchanged week.group_order %}
+						{% else %}
 							</table>
-						{% endifequal %}	
+						{% endifchanged %}	
 				
 						{% endfor %}
   				

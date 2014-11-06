@@ -85,7 +85,7 @@ class WorkoutSheet(models.Model):
 
 	def fullsheet(self):
 		fullsheet = []
-		for week in WorkoutWeek.objects.filter(workout=self.pk).order_by('group_order', 'group'):	
+		for week in WorkoutWeek.objects.filter(workout=self.pk).order_by('group', 'group_order'):	
 			fullsheet.append(week)
 		return fullsheet
 	
