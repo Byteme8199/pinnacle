@@ -44,9 +44,11 @@
 		<h3>Video Library</h3>
 		
 		<div class="col-sm-12">
+			{{ request.pk }}
+			
 			{% for video in object_list %}
 				{% if forloop.first %}
-					{% ifequal video.video "" %}
+					{% ifequal video.file "" %}
 					{% else %}
 					<div class="center-block">
 						<video width="100%" height="auto" id="videosource" controls style="margin: auto; max-width: 800px; max-height: 400px">

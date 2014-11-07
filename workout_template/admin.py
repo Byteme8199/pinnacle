@@ -13,4 +13,10 @@ class TemplateWorkoutWeekInline(admin.TabularInline):
 class WorkoutSheetTemplateAdmin(admin.ModelAdmin):
 	inlines = [TemplateWorkoutWeekInline]
 	
+	class Media:
+                css = {
+                        'all': ('admin/css/admin.css',)
+                }
+
+	
 admin.site.register(WorkoutSheetTemplate, WorkoutSheetTemplateAdmin)

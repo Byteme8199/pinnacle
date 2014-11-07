@@ -30,6 +30,14 @@ class WorkoutVideosView(LoggedInMixin, ListView):
 	def get_queryset(self):
 		return ExerciseName.objects.all()
 	
+class WorkoutVideosByIDView(LoggedInMixin, ListView):
+	model = ExerciseName
+	template_name = 'workout/videos.html'
+
+	def get_queryset(self):
+		thisid = self.request.path.split('/')
+		return ExerciseName.objects.filter(id=thisid[3])
+	
 class WorkoutWorkoutsView(LoggedInMixin, ListView):
 	model = WorkoutSheet
 	template_name = 'workout/workouts.html'

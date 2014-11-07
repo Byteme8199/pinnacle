@@ -54,4 +54,9 @@ class TargetSchoolsListInline(admin.StackedInline):
 class AccountAdmin(admin.ModelAdmin):
 	inlines = [WeightInline, HeightInline, ScoreInline, PositionInline, CoachInline, ParentInline, TargetSchoolsListInline, PersonalInline]
 	
+	class Media:
+		css = {
+			'all': ('admin/css/admin.css',)
+		}
+	
 admin.site.register(Account, AccountAdmin)

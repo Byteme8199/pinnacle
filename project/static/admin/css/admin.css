@@ -1,0 +1,63 @@
+
+@media (max-width: 600px) {
+	input[type="text"],
+	input[type="number"],
+	input[type="password"] {
+		width: 100% !important;
+	}
+	.grp-change-form .grp-module {
+		min-width: 100% !important;
+	}
+
+	.grp-readonly, .grp-td {
+		min-width: 100% !important;
+		max-width: 100% !important;
+	}
+
+	form, #grp-content-container {
+		width: 100% !important;
+	}
+	
+	.grp-group div {
+		width: 100% !important;
+	}
+
+}
+
+
+
+
+img {
+	max-width: 100%;
+}
+pre {
+	width: 95%;
+	height: 8em;
+	font-family: monospace;
+	font-size: 0.9em;
+	padding: 1px 2px;
+	margin: 0 0 1em auto;
+	border: 1px inset #666;
+	background-color: #eee;
+	overflow: auto;
+}
+#messages {
+	padding: 0 10px;
+	margin: 1em 0;
+	border: 1px solid #999;
+}
+#progress p {
+	display: block;
+	width: 240px;
+	padding: 2px 5px;
+	margin: 2px 0;
+	border: 1px inset #446;
+	border-radius: 5px;
+	background: #eee url("/static/css/images/progress.png") 100% 0 repeat-y;
+}
+#progress p.success {
+	background: #0c0 none 0 0 no-repeat;
+}
+#progress p.failed {
+	background: #c00 none 0 0 no-repeat;
+}

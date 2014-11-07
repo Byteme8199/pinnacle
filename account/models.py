@@ -61,7 +61,7 @@ class Account(models.Model):
 		
 		subject = "Account Update: " + account
 		message = account + "'s Account has been updated. <a href='http://pinnacleprospects.net/admin/account/account/" + str(self.id) + "'>Click Here to view the changes</a><br />The update occured at " + str(now)
-		from_email = 'ryan@hdvideoandwebdesign.com'
+		from_email = 'pinnacleprospects@gmail.com'
 		to_email = ['rgordon@golfweek.com', '']
 		
 		send_email(subject, message, from_email, to_email)

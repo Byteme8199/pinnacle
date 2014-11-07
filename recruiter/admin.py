@@ -18,5 +18,11 @@ class TargetSchoolAdmin(admin.ModelAdmin):
 	fields = ('school', 'note')
 	inlines = [CoachInline,]
 	# eventually images?
+
+	class Media:
+                css = {
+                        'all': ('admin/css/admin.css',)
+                }
+
 	
 admin.site.register(TargetSchool, TargetSchoolAdmin)

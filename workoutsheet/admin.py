@@ -2,7 +2,7 @@ from django.contrib import admin
 from workoutsheet.models import WorkoutWeek, WorkoutSheet
 from django.db import models
 
-class WorkoutWeekInline(admin.TabularInline):
+class WorkoutWeekInline(admin.StackedInline):
 	model = WorkoutWeek
 	fieldsets = [
 		('', {'fields': [('group', 'group_order', 'workout_week', 'name')]}),
@@ -12,5 +12,11 @@ class WorkoutWeekInline(admin.TabularInline):
 
 class WorkoutSheetAdmin(admin.ModelAdmin):
 	inlines = [WorkoutWeekInline]
+
+	class Media:
+                css = {
+                        'all': ('http://www.hdvideoandwebdesign.com/pinnacle/admin-css/admin.css',)
+                }
+
 	
 admin.site.register(WorkoutSheet, WorkoutSheetAdmin)

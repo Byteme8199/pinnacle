@@ -18,6 +18,13 @@ class PhotoReplyInline(admin.TabularInline):
 class VideoTypeAdmin(admin.ModelAdmin):
 	list_filter = ('created_date',)
 	list_display = ('name', 'created_date')
+
+	class Media:
+                css = {
+                        'all': ('admin/css/admin.css',)
+                }
+
+
 	
 class VideoAdmin(admin.ModelAdmin):
 	model = Video
@@ -27,6 +34,13 @@ class VideoAdmin(admin.ModelAdmin):
 	search_fields = ['title','video_type','created_date','account']
 	raw_id_fields = ('account',)
 	inlines = [VideoReplyInline, PhotoReplyInline]
+
+	class Media:
+		js = ('admin/js/submit.js',)
+                css = {
+                        'all': ('admin/css/admin.css',)
+                }
+
 
 admin.site.register(VideoType, VideoTypeAdmin)	
 admin.site.register(Video, VideoAdmin)

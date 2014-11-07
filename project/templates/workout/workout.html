@@ -61,34 +61,33 @@
   		<div class="row">
   			<div class="col-sm-12 column" id='cats'>
 				
-				{{object.fullsheet}}
-				
 					{% csrf_token %}
 						{% for week in object.fullsheet %}
 
-						{% ifchanged week.group_order %}
-						<table class="table table-bordered table-striped table-hover table-condensed">
-						<thead>
-							<tr>
-								<th class="col-xs-4">
-									Name
-								</th>
-								<th class="col-xs-1">
-									Week
-								</th>
-								<th class="col-xs-1">
-									Sets x Reps
-								</th>
-								<th class="col-xs-6">
-								 	Results
-								</th>
-							</tr>
-						</thead>
-						 {% endifchanged %}
+
+						<div class="row workoutheader {% ifchanged week.group_order %}{% else %}visible-xs{% endifchanged %}">
+							<div class="col-xs-6 col-sm-4 borderright">
+								Name
+							</div>
+							<div class="col-xs-2 col-sm-1 borderright">
+								Week
+							</div>
+							<div class="col-xs-2 col-sm-1 borderright">
+								Sets
+							</div>
+							<div class="col-xs-2 col-sm-1">
+								Reps
+							</div>
+							<div class="hidden-xs col-sm-5 noborder">
+								Results
+							</div>
+						</div>
+
+						 
 			
-  						<tr>
-							<td class="col-xs-4">
-								{{ week.group }}{{ week.group_order }}) <a href="{{ week.name.id }}">{{ week.name }}</a>
+  						<div class="row workoutbody">
+							<div class="col-xs-6 col-sm-4 borderright">
+								{{ week.group }}{{ week.group_order }}) <a href="{% url 'workout_videos_by_id' pk=week.name.id %}">{{ week.name }}</a>
 								
 								
 								<span class="pull-right"><a data-toggle="modal" href="{% url 'workout_week_view' pk=week.id %}" data-target="#modal"><span class="glyphicon glyphicon-edit"></span> </a></span> &nbsp;
@@ -100,16 +99,24 @@
 								</span>
 								{% endif %}
 							
-  							</td>
-  							<td class="col-xs-1">
+  							</div>
+  							<div class="col-xs-2 col-sm-1 borderright">
   								{{ week.workout_week }}
-  							</td>				
-  							<td class="col-xs-1">
-								{% if week.set_number %}{{ week.set_number }}{% endif %}{% if week.reps %} x {{ week.reps }}{% endif %}
-  							</td>
-  							<td class="col-xs-6">
-								<table class="smalltable-bordered table-condensed">
-									<tr class="row">
+  							</div>				
+  							<div class="col-xs-2 col-sm-1 borderright">
+								{% if week.set_number %}{{ week.set_number }}{% endif %}
+  							</div>
+							<div class="col-xs-2 col-sm-1 ">
+								{{ week.reps }}
+  							</div>
+  							<div class="col-xs-12 col-sm-5">
+								<div class="row workoutheader visible-xs">
+									<div class="col-xs-12">
+										Results
+									</div>
+								</div>
+								<table class="smalltable-bordered">
+									<tr class="row workoutheader">
 										<td class="col-xs-2">1</td>
 										<td class="col-xs-2">2</td>
 										<td class="col-xs-2">3</td>
@@ -126,23 +133,14 @@
 										<td id="set_{{week.id}}_6" class="col-xs-2">-</td>
 									</tr>
 								</table>
-  							</td>
+  							</div>
 							<script>
 									$(function() {
 										showWeeks('{{week.set_number}}', '{{week.id}}', '{{week.result_array}}');
 									});
 								</script>
-  						</tr>
-							
-								
-							
-						{% ifchanged week.group_order %}
-						{% else %}
-							</table>
-						{% endifchanged %}	
-				
+  						</div>
 						{% endfor %}
-  				
 
   			</div>
 

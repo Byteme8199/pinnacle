@@ -21,11 +21,13 @@ ADMINS = (
 
 
 ############ TEMP EMAIL SETTINGS  ##############
-#EMAIL_PORT = '465'
-#EMAIL_HOST = 'smtp.comcast.net'
-#EMAIL_HOST_USER = 'byteme8199'
-#EMAIL_HOST_PASSWORD = 'jw&E!#tgOy6dD^&B'
-#EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'pinnacleprospects@gmail.com'
+SERVER_EMAIL = 'pinnacleprospects@gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'pinnacleprospects@gmail.com'
+EMAIL_HOST_PASSWORD = '*0S@U*9yU!!e'
 
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = 'django.contrib.auth.views.login'
