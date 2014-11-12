@@ -19,4 +19,4 @@ class ExerciseName(models.Model):
 
 	class Meta:
 		ordering = ['name']
-		verbose_name_plural = "Exercise Descriptions"	
+		verbose_name_plural = "Exercise Videos"	

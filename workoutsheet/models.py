@@ -14,8 +14,8 @@ class WorkoutWeek(models.Model):
 	percent_of_max = models.CharField(max_length=255, blank=True, null=True)
 	tempo = models.CharField(max_length=255, blank=True, null=True)
 	rest_time = models.CharField(max_length=255, blank=True, null=True, verbose_name="Rest")
-	reps = models.PositiveSmallIntegerField(max_length=4, blank=True, null=True)
-	weight = models.PositiveSmallIntegerField(max_length=4, blank=True, null=True)
+	reps = models.CharField(max_length=255, blank=True, null=True)
+	weight = models.CharField(max_length=255, blank=True, null=True)
 	result_array = models.CharField(max_length=255, blank=True, null=True) #comma seperated array for weight results
 
 	WORKOUT_WEEK_NUMBER = (
@@ -60,7 +60,8 @@ class WorkoutWeek(models.Model):
 		return u"%s: Week #%s" % (self.name.name, self.workout_week)
 
 	class Meta:
-		verbose_name_plural = "Weeks"
+		verbose_name = "Exercise"
+		verbose_name_plural = "Exercises by Week"
 
 
 
@@ -118,6 +119,8 @@ class WorkoutSheet(models.Model):
 
 	
 	class Meta:
+		verbose_name = "Workout"
+		verbose_name_plural = "Workouts"
 		ordering = ['-start_date']
 	def __unicode__(self):
 		return u"%s: %s" % (self.exercise_category, self.name)

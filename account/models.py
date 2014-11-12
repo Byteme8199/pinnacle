@@ -1,3 +1,5 @@
+import smtplib
+from django.conf import settings
 from django.db import models
 from project.utils import Contact
 from django.contrib.auth.models import User
@@ -6,7 +8,18 @@ from django.core.mail import send_mail
 from recruiter.models import TargetSchool
 
 def send_email(subject, message, from_email, to_email):
-    send_mail(subject, message, from_email, to_email)
+    msg =  "From: PinnacleProspects <pinnacleprospects@gmail.com>\n"
+    msg += "To: Ryan <ryan@hdvideoandwebdesign.com>\n"
+    msg += "MIME-Version: 1.0\n"
+    msg += "Content-type: text/html\n"
+    msg += "Subject: " + subject + "\n"
+    msg += "\n\n" + message
+    server = smtplib.SMTP(settings.EMAIL_HOST + ":" + str(settings.EMAIL_PORT))
+    server.starttls()
+    server.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
+    server.sendmail(from_email, to_email, msg)
+    server.quit()
+    # send_mail(subject, message, from_email, to_email)
 
 	
 def upload_path_handler(instance, filename):
@@ -62,7 +75,7 @@ class Account(models.Model):
 		subject = "Account Update: " + account
 		message = account + "'s Account has been updated. <a href='http://pinnacleprospects.net/admin/account/account/" + str(self.id) + "'>Click Here to view the changes</a><br />The update occured at " + str(now)
 		from_email = 'pinnacleprospects@gmail.com'
-		to_email = ['rgordon@golfweek.com', '']
+		to_email = ['ryan@hdvideoandwebdesign.com', '']
 		
 		send_email(subject, message, from_email, to_email)
 
