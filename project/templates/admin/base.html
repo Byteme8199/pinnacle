@@ -163,6 +163,72 @@
 
     </div>
 	
-	<link href="http://www.hdvideoandwebdesign.com/pinnacle/admin-css/admin.css" rel="stylesheet" type="text/css" media="screen" />
+	<style>
+		@media (max-width: 1000px) {
+			input[type="text"],
+			input[type="number"],
+			input[type="password"] {
+				width: 100% !important;
+			}
+			.grp-change-form .grp-module {
+				min-width: 100% !important;
+			}
+
+			.grp-readonly, .grp-td {
+				min-width: 100% !important;
+				max-width: 100% !important;
+			}
+
+			form, #grp-content-container {
+				width: 100% !important;
+			}
+
+			.c-1, .c-2 {
+			float: left !important;
+			}
+
+			.datetime input { width: 50% !important }
+
+			.grp-cell {
+				width: 100% !important; 
+				float: left;
+			}
+
+			.grp-module .grp-row:not(tr).grp-cells .grp-cell+.grp-cell {
+				padding-left: 0px;
+				border-left: 0px solid #fff;
+			}
+			.g-d-c, .g-d-12, .grp-content-container, select[multiple=multiple], .selector .selector-filter input[type=text] {
+				width: 100% !important;
+			}
+
+			.selector { width: 100% !important; }
+			.selector-available, .selector-chosen {
+				width: 45% !important;
+			}
+
+			#grp-content-container div { width: 100% !important; }
+			.grp-changelist-results { overflow-x: auto; }
+			
+			.g-d-12, .l-2cr-fluid.l-d-12 .c-1 {
+				float: left;
+				margin-right: 0px;
+				width: 100%;
+			}
+			.vLargeTextField, .vTextField {
+				height: 118px;
+				width: 100% !important;
+			}
+			.selector ul.selector-chooser {
+				margin: 10px 2px;
+			}
+			.selector .selector-filter input[type=text] {
+				position: absolute;
+			}
+		}
+		
+	</style>
+	
+	
 </body>
 </html>

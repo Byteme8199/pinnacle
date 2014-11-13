@@ -13,10 +13,7 @@ class WorkoutWeekInline(admin.StackedInline):
 class WorkoutSheetAdmin(admin.ModelAdmin):
 	inlines = [WorkoutWeekInline]
 
-	class Media:
-                css = {
-                        'all': ('http://www.hdvideoandwebdesign.com/pinnacle/admin-css/admin.css',)
-                }
-
+	date_hierarchy = 'created_date'
+	list_display = ('exercise_category', 'name', 'account', 'created_date', 'start_date')
 	
 admin.site.register(WorkoutSheet, WorkoutSheetAdmin)

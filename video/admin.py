@@ -3,13 +3,13 @@ from video.models import Video, VideoType, VideoReply, PhotoReply
 from django.db import models
 from django import forms
 
-class VideoReplyInline(admin.TabularInline):
+class VideoReplyInline(admin.StackedInline):
 	model = VideoReply
 	fields = ('file', 'note')
 	readonly_fields = ['created_date']
 	extra = 1
 	
-class PhotoReplyInline(admin.TabularInline):
+class PhotoReplyInline(admin.StackedInline):
 	model = PhotoReply
 	fields = ('file', 'note')
 	readonly_fields = ['created_date']
@@ -19,13 +19,6 @@ class VideoTypeAdmin(admin.ModelAdmin):
 	list_filter = ('created_date',)
 	list_display = ('name', 'created_date')
 
-	class Media:
-                css = {
-                        'all': ('admin/css/admin.css',)
-                }
-
-
-	
 class VideoAdmin(admin.ModelAdmin):
 	model = Video
 	list_filter = ('created_date', 'account', 'video_type')
@@ -37,9 +30,6 @@ class VideoAdmin(admin.ModelAdmin):
 
 	class Media:
 		js = ('admin/js/submit.js',)
-                css = {
-                        'all': ('admin/css/admin.css',)
-                }
 
 
 admin.site.register(VideoType, VideoTypeAdmin)	

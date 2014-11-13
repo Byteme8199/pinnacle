@@ -10,7 +10,7 @@ class CoachInline(admin.StackedInline):
 	readonly_fields = ['created_date']
 	extra = 0	
 	
-class TargetSchoolInline(admin.TabularInline):
+class TargetSchoolInline(admin.StackedInline):
 	model = TargetSchool
 	fields = ('school','note')
 	
@@ -18,11 +18,5 @@ class TargetSchoolAdmin(admin.ModelAdmin):
 	fields = ('school', 'note')
 	inlines = [CoachInline,]
 	# eventually images?
-
-	class Media:
-                css = {
-                        'all': ('admin/css/admin.css',)
-                }
-
 	
 admin.site.register(TargetSchool, TargetSchoolAdmin)

@@ -3,25 +3,25 @@ from account.models import Height, Weight, Score, Account, Position, Coach, Pare
 from project.utils import Contact
 from django.db import models
 
-class HeightInline(admin.TabularInline):
+class HeightInline(admin.StackedInline):
 	model = Height
 	fields = ('height_feet', 'height_inches', 'created_date','note')
 	readonly_fields = ['created_date']
 	extra = 0
 	
-class WeightInline(admin.TabularInline):
+class WeightInline(admin.StackedInline):
 	model = Weight
 	fields = ('weight', 'created_date','note')
 	readonly_fields = ['created_date']
 	extra = 0
 	
-class ScoreInline(admin.TabularInline):
+class ScoreInline(admin.StackedInline):
 	model = Score
 	fields = ('score_type', 'score_data', 'created_date','note')
 	readonly_fields = ['created_date']
 	extra = 0
 	
-class PositionInline(admin.TabularInline):
+class PositionInline(admin.StackedInline):
 	model = Position
 	fields = ('position_type', 'position', 'created_date','note')
 	readonly_fields = ['created_date']
@@ -53,10 +53,5 @@ class TargetSchoolsListInline(admin.StackedInline):
 
 class AccountAdmin(admin.ModelAdmin):
 	inlines = [WeightInline, HeightInline, ScoreInline, PositionInline, CoachInline, ParentInline, TargetSchoolsListInline]
-	
-	class Media:
-		css = {
-			'all': ('admin/css/admin.css',)
-		}
 	
 admin.site.register(Account, AccountAdmin)

@@ -44,7 +44,15 @@ class WorkoutWorkoutsView(LoggedInMixin, ListView):
 	cat_type = 'GEN'
 	
 	def get(self, request, *args, **kwargs):
+		workouts = {}
+		years = [2018 , 2017, 2016, 2015, 2014, 2013, 2012]
+		cat_type = 'GEN'
+		for year in years:
+			yearstart = str(year) + "-01-01"
+			yearend = str(year) + "-12-31"
+			workouts[year] = WorkoutSheet.objects.filter(start_date__range=[yearstart, yearend], exercise_category=cat_type, account=request.user.account.id)
 		context = locals()
+		context['workouts'] = workouts
 		context['cat_type'] = 'GEN'
 		context['years'] = ["2018,GEN","2017,GEN","2016,GEN","2015,GEN","2014,GEN","2013,GEN","2012,GEN"]
 		return render_to_response(self.template_name, context)
@@ -54,7 +62,7 @@ class WorkoutPlyometricView(LoggedInMixin, ListView):
 	template_name = 'workout/workouts.html'
 	
 	def get(self, request, *args, **kwargs):
-		context = locals()
+		context = {}
 		context['cat_type'] = 'PLYO'
 		context['years'] = ["2018,PLYO","2017,PLYO","2016,PLYO","2015,PLYO","2014,PLYO","2013,PLYO","2012,PLYO"]
 		return render_to_response(self.template_name, context)
@@ -64,7 +72,7 @@ class WorkoutWarmupView(LoggedInMixin, ListView):
 	template_name = 'workout/workouts.html'
 
 	def get(self, request, *args, **kwargs):
-		context = locals()
+		context = {}
 		context['cat_type'] = 'WARM'
 		context['years'] = ["2018,WARM","2017,WARM","2016,WARM","2015,WARM","2014,WARM","2013,WARM","2012,WARM"]
 		return render_to_response(self.template_name, context)
@@ -74,7 +82,7 @@ class WorkoutCoreView(LoggedInMixin, ListView):
 	template_name = 'workout/workouts.html'
 	
 	def get(self, request, *args, **kwargs):
-		context = locals()
+		context = {}
 		context['cat_type'] = 'CORE'
 		context['years'] = ["2018,CORE","2017,CORE","2016,CORE","2015,CORE","2014,CORE","2013,CORE","2012,CORE"]
 		return render_to_response(self.template_name, context)
