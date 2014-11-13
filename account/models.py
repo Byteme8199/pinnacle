@@ -87,8 +87,7 @@ class Position(models.Model):
 	position = models.CharField(max_length=255, null=True, blank=True)
 	PRIMARY = 'Primary'
 	SECONDARY = 'Secondary'
-	TERTIARY = 'Tertiary'
-	POSITION_CHOICES = ((PRIMARY, 'Primary'),(SECONDARY, 'Secondary'),(TERTIARY, 'Tertiary'))
+	POSITION_CHOICES = ((PRIMARY, 'Primary'),(SECONDARY, 'Secondary'))
 	position_type = models.CharField(max_length=10, choices=POSITION_CHOICES, default=PRIMARY)
 	note = models.TextField(blank=True, null=False)
 
@@ -101,7 +100,10 @@ class Personal(Contact):
 		
 class Coach(Contact):
 	account = models.ForeignKey(Account)
-	pass
+	#pass
+
+	class Meta:
+		verbose_name_plural = "Coaches"
 
 class Parent(Contact):
 	account = models.ForeignKey(Account)

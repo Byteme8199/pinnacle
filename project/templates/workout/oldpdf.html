@@ -1,0 +1,34 @@
+{% load get_range  %}
+<html>
+
+<head>
+<style>
+
+</style>
+</head>
+
+
+<h3>{{ user.first_name }} {{ user.last_name }}</h3>
+
+{% for i in 4|get_range %}
+    {% for w in weeks %}
+    {{ forloop.parentloop.counter }}
+    {% ifequal w.workout_week forloop.parentloop.counter %}
+    <table>
+      <tr> 
+        <th>{{ w.group }}{{ w.group_order }}</th>
+        <th>{{ w.name }}</th>
+      </tr>
+      <tr> 
+        <td>{{ w }}</td>
+        <td>{{ w }}</td>
+      </tr>
+      <tr>
+	<td>&nbsp;</td>
+      </tr>
+    </table>
+    {% endifequal %}
+    {% endfor %}
+{% endfor %}
+
+</html>

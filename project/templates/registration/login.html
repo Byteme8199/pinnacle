@@ -8,69 +8,118 @@
 	{% endif %}
 {% endblock %}
 
+
+{% block sidenav %}
+	{% if request.GET.modal %}
+		<!--- Don't show Nav Bar with modals --->
+	{% else %}
+		{{ block.super }}
+	{% endif %}
+{% endblock %}
+
+
+{% block footer %}
+	{% if request.GET.modal %}
+		<!--- Don't show Nav Bar with modals --->
+	{% else %}
+		{{ block.super }}
+	{% endif %}
+{% endblock %}
+
+
 {% block body %}
+	{% if request.GET.modal %}
+		<!--- Don't show Nav Bar with modals --->
+	{% else %}
+		{{ block.super }}
+	{% endif %}
+{% endblock %}
+
+
+
+{% block content %}
 
 {% if request.GET.modal %}
 
-<div class="modal-header">
-	<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-	</button>
-	<h4 class="modal-title" id="myModalLabel">Login</h4>
-</div>
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+		</button>
+		<h4 class="modal-title" id="myModalLabel">Login</h4>
+	</div>
 
 
-{% if form.errors %}
+	{% if form.errors %}
 
-<div class="col-md-12">
-		<div class="alert alert-danger" role="alert">
-			Your username and password didn't match. Please try again.
-			<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+	<div class="col-md-12">
+			<div class="alert alert-danger" role="alert">
+				Your username and password didn't match. Please try again.
+				<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+			</div>
+	</div>
+
+	{% endif %}
+
+
+	<form method="post" action="{% url 'django.contrib.auth.views.login' %}"  role="form">
+
+		<div class="modal-body">
+
+		{% csrf_token %}
+
+			<div class="form-group">
+				{{ form.username.errors }}
+				<label for="id_username">Username: </label>
+				<input class="form-control" id="id_username" type="text" name="username" placeholder="Enter username">
+			</div>
+
+			<div class="form-group">
+				{{ form.password.errors }}
+				<label for="id_password">Password: </label>
+				<input class="form-control" id="id_password" type="password" name="password" placeholder="Enter password">
+			</div>
+
+			<!--<input type="hidden" name="next" value="{{ next }}" />-->
+
 		</div>
-</div>
 
-{% endif %}
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			<button type="submit" class="btn btn-default">Login</button>
+		</div>
 
+	</form>
 
-<form method="post" action="{% url 'django.contrib.auth.views.login' %}"  role="form">
-	
-	<div class="modal-body">
+{% else %}
+
+	<div class="black-on-white">
 		
-	{% csrf_token %}
+		<p>Pinnacle Prospects is a closed access system, please login below to access the site.</p>
+		
+		<form method="post" action="{% url 'django.contrib.auth.views.login' %}"  role="form">
+
+
+		{% csrf_token %}
 
 		<div class="form-group">
 			{{ form.username.errors }}
 			<label for="id_username">Username: </label>
-    		<input class="form-control" id="id_username" type="text" name="username" placeholder="Enter username">
+			<input class="form-control" id="id_username" type="text" name="username" placeholder="Enter username">
 		</div>
-		
+
 		<div class="form-group">
 			{{ form.password.errors }}
 			<label for="id_password">Password: </label>
-    		<input class="form-control" id="id_password" type="password" name="password" placeholder="Enter password">
+			<input class="form-control" id="id_password" type="password" name="password" placeholder="Enter password">
 		</div>
 
 		<!--<input type="hidden" name="next" value="{{ next }}" />-->
 
-	</div>
+		<button type="submit" class="btn btn-default">Login</button>	
 
-	<div class="modal-footer">
-		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-		<button type="submit" class="btn btn-default">Login</button>
-	</div>
-
-</form>
-{% else %}
-
-	<div class="col-md-12">
-		<div class="alert alert-success" role="alert">
-			Please login.
-			<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-		</div>
+		</form>
 	</div>
 
 {% endif %}
 
 {% endblock %}
 
-
-{% block footer %}{% endblock %}

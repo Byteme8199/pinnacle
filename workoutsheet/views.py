@@ -11,7 +11,7 @@ from workoutsheet.forms import WorkoutWeekForm
 from exercise.models import ExerciseName
 
 from django.shortcuts import render_to_response
-
+from easy_pdf.views import PDFTemplateView
 
 from django.utils import timezone
 import operator
@@ -101,3 +101,15 @@ class WorkoutWeekView(LoggedInMixin, UpdateView):
 	def form_valid(self, form):
 		form.save()
 		return super(WorkoutWeekView, self).form_valid(form)
+
+
+class WorkoutPDF(PDFTemplateView):
+	
+	model = WorkoutSheet
+	template_name = 'workout/pdf.html'
+
+	def get_context_data(self, workout_id, **kwargs):
+		context = super(WorkoutPDF, self).get_context_data(**kwargs)
+		context['object'] = WorkoutSheet.objects.get(pk=workout_id)
+		context['weeks'] = WorkoutWeek.objects.filter(workout=workout_id)
+		return context

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <title>Pinnacle Prospects</title>
+
+    <!-- Bootstrap -->
+	<style>
+
+	 </style> 
+	  <style>
+	  
+	  #content { max-width: 1100px }  /* Extra height for nav bar */
+
+		html { 
+		  /* background: url(/static/css/images/bg1.jpg) no-repeat center center fixed; */
+		  -webkit-background-size: cover;
+		  -moz-background-size: cover;
+		  -o-background-size: cover;
+		  background-size: cover;
+			
+		}		  
+		  
+		body { background-color: transparent; height: 100%; font-family: 'Ubuntu', sans-serif; font-weight: 300; } 
+		  
+		h3 { margin-top: 0px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+
+		main { max-width: 100%; background-color: #000; height: 80%; }
+
+		.give-me-some-space { margin-right: 5px } 
+		  
+		  
+		/* Nav Bar */
+		  /* .bignav {  margin-top: 95px; background: url(/static/css/images/nav3.png); height: 80px; background-repeat: repeat-x;   } */
+		  .bignav span { font-size: 2em; float: left; color: #FFF;  }
+		  
+		.navbar-default {
+			background-color: #000;
+			border-color: transparent;
+			color: #FFF;
+			margin-top: -60px;
+			z-index: 1;
+		}
+		  
+		.navbar-default .navbar-collapse, .navbar-default .navbar-form {
+			border-color: #000;
+		}
+		  
+		 .navbar-default .navbar-nav > li > a {
+			color: #FFF;
+		}
+		  
+		  .navbar-default .navbar-nav > li > a:hover {
+			color: #DEDEDE;
+		}
+		  
+		.icon-bar { color: #fff }
+		  
+		  
+		/* .nav { margin-left: 350px; } */
+
+		.side-nav { list-style: none; margin-left: 0px; padding-left: 0px;  }
+		.side-nav top { width: 100%; display: block; align-content: center; margin-bottom: 10px; }
+		  .side-nav span { border-bottom: 1px solid #FFF; padding: 5px; color: #FFF;  font-size: 1.3em; font-weight: bold; width: 200px;}
+		  .side-nav bot { color: #fff; font-size: 2em; text-decoration: none; line-height: 25px; }
+		  .side-nav a { text-decoration: none; }
+		  .side-nav li { margin: 10px 0px; padding: 10px 10px }
+		  .side-nav .active { background-color: #eee; -moz-box-shadow:    inset 0 0 10px #000000;
+   -webkit-box-shadow: inset 0 0 10px #000000;
+   box-shadow:         inset 0 0 10px #000000; }
+		  .side-nav .active bot, .side-nav .active span { color: #000 }
+		  .side-nav .active span { border-bottom: 1px solid #000 }
+		  
+		  .collapsed { z-index: 3 } 
+		  
+		#logo { 
+			max-width: 320px;
+			float: left;
+			position: absolute;
+			top: 25px;
+			left: 50px;
+			z-index: 2;
+		}
+		  
+		#tagline { float: left; position: absolute; top: 117px; left: 370px; }
+		  #login a { color: #FFF; float: right; position: absolute; top: 125px; right: 50px;}
+		
+		  
+		 /* Account Page */
+		  .small-list { list-style: none; margin: 0px; padding: 0px; }
+		  .border-right { border-right: 1px solid #dedede;  }
+		  .small-list li { padding: 3px }
+		  .small-list li:nth-child(odd) { background-color: #efefef; }
+		  
+		  .white-on-black { color: #FFF; background-color: #000; padding: 5% 2% }
+		  .white-on-black a { color: #FFF }
+		  .black-on-white { color: #000; background-color: #FFF; padding: 5% 2% }
+		  .black-on-white  a { color: #000 }
+		  
+		  .black-on-white, .white-on-black { overflow-x: auto }
+		  
+		 /* Modal form.as_p sexifying  */
+		  .modal-body p label { width: 100% }
+		  .modal-body p input {
+				display: block;
+				width: 100%;
+				height: 34px;
+				padding: 6px 12px;
+				font-size: 14px;
+				line-height: 1.42857143;
+				color: #555;
+				background-color: #fff;
+				background-image: none;
+				border: 1px solid #ccc;
+				border-radius: 4px;
+				-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+				box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+				-webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+				-o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+				transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+			}
+		  
+		 /* Video Tab */
+		.vid-thumb { max-width: 200px; }
+
+
+		/* Scout tab */
+		.lead { font-weight: bold; }
+		.rank-list .name { font-weight: bold; }
+
+
+		/* Bootstrap Tweeks */
+		.panel-heading { font-weight: bold; }
+		.panel-heading span:first-child { margin-right: 10px; }
+		  
+		  /* Workout Sheets */
+		 .smalltable-bordered tr:nth-child(1) { 
+			 border-bottom: 1px solid #dedede;
+		 }
+		  
+		.smalltable-bordered td { 
+			 border-left: 1px solid #dedede;
+			border-right: 1px solid #dedede;
+		 } 
+		  
+		 .smalltable-bordered { font-size: .9em; margin: 5px 0px }
+		  
+		 .popover-btn { margin: 0px 5px } 
+		  
+		  .workoutweek { margin-bottom: 20px; }
+		  
+		  .workoutheader { border: 1px solid #dedede; background-color: #EEE; padding: 5px 0px; margin-top: 5px; font-size: .9em   }
+		  .workoutheader div, .workoutbody div { }
+		  
+		  .workoutbody, .workoutheader { padding: 5px 0px; border-bottom: 1px solid #dedede  }
+		  
+		  .borderright { border-right: 1px solid #dedede }
+		  
+
+</style>
+	 
+
+	 
+
+  </head>
+  <body>
+
+	  {% block nav %}
+	  
+	  
+
+	  {% endblock %}
+	
+	  {% block body %}
+	  <main>
+		<div class="container-fluid" id="content">  
+			<div class="row">
+				<div class="col-md-9">
+					{% block content %}{% endblock %}
+				</div>
+			</div>	
+		</div>
+	  </main> 
+	  {% endblock %}
+	  
+	  {% block footer %}
+	  	<footer>
+			<span>&copy; Pinnacle Prospects</span>
+	  	</footer>	
+	  {% endblock %}
+	  
+	  
+  </body>
+</html>

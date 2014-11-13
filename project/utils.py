@@ -20,8 +20,7 @@ class Contact(models.Model):
 	class Meta:
 		abstract = True
 
-def make_pdf(thing):
-	""" make a pdf file from the thing the return it?
-	maybe return header and footer for use around the dynamic part?
-	"""
-	pass
+
+
+
+

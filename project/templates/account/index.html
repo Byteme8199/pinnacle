@@ -141,17 +141,35 @@
 			
 		<div class="row">
 			<div class="col-xs-12 col-md-6">
-			<p>
-				<strong>Height</strong><span class=" pull-right"><a data-toggle="modal" href="{% url 'account_height_add' %}" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span><br />
-				<ul>
-					{% for height in account.heights|slice:":10" %}
-					<li>{{ height.height_feet }}' {{ height.height_inches }}"  <small>{{ height.created_date|date:"N j" }}</small></li>
-					{% endfor %}
-				</ul>
-			</p>
 				
+				<div class="row">
+					<div class="col-xs-12 col-sm-6 border-right">
+					<p>
+						<strong>Height</strong><span class=" pull-right"><a data-toggle="modal" href="{% url 'account_height_add' %}" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span><br />
+						<ul class="small-list">
+							{% for height in account.heights %}
+							<li>{{ height.height_feet }}' {{ height.height_inches }}"  <small class="pull-right">{{ height.created_date|date:"N j" }}</small></li>
+							{% endfor %}
+						</ul>
+					</p>
+					</div>
+				
+					<div class="col-xs-12 col-sm-6 ">
+					<p>
+						<strong>Weight</strong><span class=" pull-right"><a data-toggle="modal" href="{% url 'account_weight_add' %}" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span><br />
+						<ul class="small-list">
+							{% for weight in account.weights %}
+							<li>{{ weight.weight }} lbs.  <small class="pull-right">{{ weight.created_date|date:"N j" }}</small></li>
+							{% endfor %}
+						</ul>
+					</p>
+					</div>
+			
+				</div>
+	
 			</div>
 	
+<!--
 			<div class="col-xs-12 col-md-6">
 			<p>
 				<strong>Weight</strong> <span class=" pull-right"><a data-toggle="modal" href="{% url 'account_weight_add' %}" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span><br />
@@ -177,36 +195,38 @@
 				</script>
 			</p>
 			</div>
-	</div>
-	
-		<div class="row">
-			<div class="col-md-6">
-			<p>
-				<strong>Positions</strong><span class=" pull-right"><a data-toggle="modal" href="{% url 'account_position_add' %}" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span><br />
-				{% for position in account.positions %} {{position.position_type}} {{ position.position }} - {{ position.created_date }}
-				<br>{% endfor %}
-			</p>
-			</div>
-			<div class="col-md-6">			
-			<p>
-				<strong>Scores</strong><span class=" pull-right"><a data-toggle="modal" href="{% url 'account_score_add' %}" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span><br />
-				{% for score in account.scores %} {{ score.score_type }} {{score.score_data}} - {{ score.created_date }}
-				<br>{% endfor %}
-			</p>
+-->
+
+			<div class="col-xs-12 col-md-6">
+				<div class="row">
+					<div class="col-xs-12 col-sm-6 border-right">
+					<p>
+						<strong>Positions</strong><span class=" pull-right"><a data-toggle="modal" href="{% url 'account_position_add' %}" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span><br />
+						<ul class="small-list">
+							{% for position in account.positions %}
+								<li>{{position.position_type}} {{ position.position }} <small class="pull-right">{{ position.created_date|date:"N j" }}</small></li>
+							{% endfor %}
+						</ul>
+					</p>
+					</div>
+					<div class="col-xs-12 col-sm-6">			
+					<p>
+						<strong>Scores</strong><span class=" pull-right"><a data-toggle="modal" href="{% url 'account_score_add' %}" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span><br />
+						<ul class="small-list">
+							{% for score in account.scores %}
+								<li>{{ score.score_type }} {{score.score_data}} <small class="pull-right">{{ score.created_date|date:"N j" }}</small></li>
+							{% endfor %}
+						</ul>
+					</p>
+					</div>
+				</div>
 			</div>
 		</div>
-	
-	
-		
-		</div>
-		
 	</div>
-	
-
-
-
+</div>
 </div>
 
+<!--
 <script>
 	window.onload = function(){
 		var ctx = document.getElementById("weight-chart").getContext("2d");
@@ -215,6 +235,7 @@
 		});
 	}
 </script>					
+-->
 
 {% empty %}
 <div class="row">	

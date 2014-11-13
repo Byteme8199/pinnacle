@@ -91,6 +91,11 @@
 		
 		  
 		 /* Account Page */
+		  .small-list { list-style: none; margin: 0px; padding: 0px; }
+		  .border-right { border-right: 1px solid #dedede;  }
+		  .small-list li { padding: 3px }
+		  .small-list li:nth-child(odd) { background-color: #efefef; }
+		  
 		  .white-on-black { color: #FFF; background-color: #000; padding: 5% 2% }
 		  .white-on-black a { color: #FFF }
 		  .black-on-white { color: #000; background-color: #FFF; padding: 5% 2% }
@@ -214,7 +219,7 @@
 		  {% if user.is_anonymous %}
 			
 		    <div id="login">
-				<a data-toggle="modal" href="{% url 'django.contrib.auth.views.login' %}?modal=True" data-target="#modal">login</a>
+				<a href="{% url 'django.contrib.auth.views.login' %}">login</a>
 		    </div>
 		{% else %}
 			<div id="login"><a href="{% url 'django.contrib.auth.views.logout' %}">logout</a></div>
@@ -248,7 +253,7 @@
       <ul class="nav navbar-nav navbar-right">
         {% if user.is_anonymous %}
 			<li>
-				<a data-toggle="modal" href="{% url 'django.contrib.auth.views.login' %}?modal=True" data-target="#modal">LOGIN</a>
+				<a href="{% url 'django.contrib.auth.views.login' %}">LOGIN</a>
 		  </li>
 		{% else %}
 			<li><a href="{% url 'django.contrib.auth.views.logout' %}">LOGOUT</a></li>

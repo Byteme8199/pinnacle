@@ -1,0 +1,91 @@
+{% extends "pdfbase.html" %}
+
+{% load get_range %}
+
+{% block content %}
+
+
+
+<div class="row black-on-white">
+	<div class="col-md-12">
+		
+	<h3>{{  object.name }} <span class=" pull-right"></h3>	
+
+	<!-- FIRST TABLE -->
+  		<div class="row">
+  			<div class="col-sm-12 column" id='cats'>
+				
+						{% for week in object.fullsheet %}
+
+
+						<div class="row workoutheader {% ifchanged week.group_order %}{% else %}visible-xs{% endifchanged %}">
+							<div class="col-xs-6 col-sm-4 borderright">
+								Name
+							</div>
+							<div class="col-xs-2 col-sm-1 borderright">
+								Week
+							</div>
+							<div class="col-xs-2 col-sm-1 borderright">
+								Sets
+							</div>
+							<div class="col-xs-2 col-sm-1">
+								Reps
+							</div>
+							<div class="hidden-xs col-sm-5 noborder">
+								Results
+							</div>
+						</div>
+
+						 
+			
+  						<div class="row workoutbody">
+							<div class="col-xs-6 col-sm-4 borderright">
+								{{ week.group }}{{ week.group_order }}){{ week.name }}
+								
+								
+							
+  							</div>
+  							<div class="col-xs-2 col-sm-1 borderright">
+  								{{ week.workout_week }}
+  							</div>				
+  							<div class="col-xs-2 col-sm-1 borderright">
+								{% if week.set_number %}{{ week.set_number }}{% endif %}
+  							</div>
+							<div class="col-xs-2 col-sm-1 ">
+								{{ week.reps }}
+  							</div>
+  							<div class="col-xs-12 col-sm-5">
+								<div class="row workoutheader visible-xs">
+									<div class="col-xs-12">
+										Results
+									</div>
+								</div>
+								<table class="smalltable-bordered">
+									<tr class="row workoutheader">
+										<td class="col-xs-2">1</td>
+										<td class="col-xs-2">2</td>
+										<td class="col-xs-2">3</td>
+										<td class="col-xs-2">4</td>
+										<td class="col-xs-2">5</td>
+										<td class="col-xs-2">6</td>
+									</tr>
+									<tr id="set_{{week.id}}" name="set_{{week.id}}" class="row">
+										<td id="set_{{week.id}}_1" class="col-xs-2">-</td>
+										<td id="set_{{week.id}}_2" class="col-xs-2">-</td>
+										<td id="set_{{week.id}}_3" class="col-xs-2">-</td>
+										<td id="set_{{week.id}}_4" class="col-xs-2">-</td>
+										<td id="set_{{week.id}}_5" class="col-xs-2">-</td>
+										<td id="set_{{week.id}}_6" class="col-xs-2">-</td>
+									</tr>
+								</table>
+  							</div>
+  						</div>
+						{% endfor %}
+
+  			</div>
+
+	</div>
+</div>
+</div>
+
+{% endblock %}

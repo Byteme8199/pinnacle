@@ -52,7 +52,7 @@ class TargetSchoolsListInline(admin.StackedInline):
 	extra = 0
 
 class AccountAdmin(admin.ModelAdmin):
-	inlines = [WeightInline, HeightInline, ScoreInline, PositionInline, CoachInline, ParentInline, TargetSchoolsListInline, PersonalInline]
+	inlines = [WeightInline, HeightInline, ScoreInline, PositionInline, CoachInline, ParentInline, TargetSchoolsListInline]
 	
 	class Media:
 		css = {
