@@ -33,7 +33,7 @@ class Account(models.Model):
 	grad_year = models.PositiveIntegerField(max_length=4, null=True, blank=True)
 	profile_image = models.FileField(upload_to=upload_path_handler, null=True, blank=True)
 	#target_school = models.ManyToManyField(TargetSchool, null=True, blank=True)
-
+	
 	def photo(self):
 		photo = self.profile_image.path
 		return photo.replace('/srv/sites/pindev/project/', '/')

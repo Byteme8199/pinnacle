@@ -98,8 +98,7 @@ class WorkoutSheet(models.Model):
 	)
 
 	exercise_category = models.CharField(max_length=4, choices=EXERCISE_CATEGORY_CHOICES, default='GEN')
-
-
+	
 	def save(self, *args, **kwargs):
 		if not self.id and self.workout_template:
 			if not self.description:

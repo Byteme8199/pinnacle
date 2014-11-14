@@ -9,12 +9,14 @@ from django.core.urlresolvers import reverse_lazy
 from workoutsheet.models import WorkoutSheet, WorkoutWeek
 from workoutsheet.forms import WorkoutWeekForm
 from exercise.models import ExerciseName
+from account.models import Account
 
 from django.shortcuts import render_to_response
 from easy_pdf.views import PDFTemplateView
 
 from django.utils import timezone
 import operator
+import collections
 
 class LoggedInMixin(object):
 
@@ -44,17 +46,18 @@ class WorkoutWorkoutsView(LoggedInMixin, ListView):
 	cat_type = 'GEN'
 	
 	def get(self, request, *args, **kwargs):
-		workouts = {}
+		context = locals()
+		workouts = collections.OrderedDict()
 		years = [2018 , 2017, 2016, 2015, 2014, 2013, 2012]
 		cat_type = 'GEN'
 		for year in years:
 			yearstart = str(year) + "-01-01"
 			yearend = str(year) + "-12-31"
-			workouts[year] = WorkoutSheet.objects.filter(start_date__range=[yearstart, yearend], exercise_category=cat_type, account=request.user.account.id)
-		context = locals()
+			objs = WorkoutSheet.objects.filter(start_date__year=year, exercise_category=cat_type, account=request.user.account.id)
+			if len(objs) > 0:
+				workouts[year] = objs
 		context['workouts'] = workouts
-		context['cat_type'] = 'GEN'
-		context['years'] = ["2018,GEN","2017,GEN","2016,GEN","2015,GEN","2014,GEN","2013,GEN","2012,GEN"]
+		context['cat_type'] = cat_type
 		return render_to_response(self.template_name, context)
 
 class WorkoutPlyometricView(LoggedInMixin, ListView):
@@ -62,9 +65,18 @@ class WorkoutPlyometricView(LoggedInMixin, ListView):
 	template_name = 'workout/workouts.html'
 	
 	def get(self, request, *args, **kwargs):
-		context = {}
-		context['cat_type'] = 'PLYO'
-		context['years'] = ["2018,PLYO","2017,PLYO","2016,PLYO","2015,PLYO","2014,PLYO","2013,PLYO","2012,PLYO"]
+		context = locals()
+		workouts = collections.OrderedDict()
+		years = [2018 , 2017, 2016, 2015, 2014, 2013, 2012]
+		cat_type = 'PLYO'
+		for year in years:
+			yearstart = str(year) + "-01-01"
+			yearend = str(year) + "-12-31"
+			objs = WorkoutSheet.objects.filter(start_date__year=year, exercise_category=cat_type, account=request.user.account.id)
+			if len(objs) > 0:
+				workouts[year] = objs
+		context['workouts'] = workouts
+		context['cat_type'] = cat_type
 		return render_to_response(self.template_name, context)
 
 class WorkoutWarmupView(LoggedInMixin, ListView):
@@ -72,9 +84,18 @@ class WorkoutWarmupView(LoggedInMixin, ListView):
 	template_name = 'workout/workouts.html'
 
 	def get(self, request, *args, **kwargs):
-		context = {}
-		context['cat_type'] = 'WARM'
-		context['years'] = ["2018,WARM","2017,WARM","2016,WARM","2015,WARM","2014,WARM","2013,WARM","2012,WARM"]
+		context = locals()
+		workouts = collections.OrderedDict()
+		years = [2018 , 2017, 2016, 2015, 2014, 2013, 2012]
+		cat_type = 'WARM'
+		for year in years:
+			yearstart = str(year) + "-01-01"
+			yearend = str(year) + "-12-31"
+			objs = WorkoutSheet.objects.filter(start_date__year=year, exercise_category=cat_type, account=request.user.account.id)
+			if len(objs) > 0:
+				workouts[year] = objs
+		context['workouts'] = workouts
+		context['cat_type'] = cat_type
 		return render_to_response(self.template_name, context)
 
 class WorkoutCoreView(LoggedInMixin, ListView):
@@ -82,17 +103,33 @@ class WorkoutCoreView(LoggedInMixin, ListView):
 	template_name = 'workout/workouts.html'
 	
 	def get(self, request, *args, **kwargs):
-		context = {}
-		context['cat_type'] = 'CORE'
-		context['years'] = ["2018,CORE","2017,CORE","2016,CORE","2015,CORE","2014,CORE","2013,CORE","2012,CORE"]
+		context = locals()
+		workouts = collections.OrderedDict()
+		years = [2018 , 2017, 2016, 2015, 2014, 2013, 2012]
+		cat_type = 'CORE'
+		for year in years:
+			yearstart = str(year) + "-01-01"
+			yearend = str(year) + "-12-31"
+			objs = WorkoutSheet.objects.filter(start_date__year=year, exercise_category=cat_type, account=request.user.account.id)
+			if len(objs) > 0:
+				workouts[year] = objs
+		context['workouts'] = workouts
+		context['cat_type'] = cat_type
 		return render_to_response(self.template_name, context)
 	
 class WorkoutBaseView(LoggedInMixin, ListView):
 	model = WorkoutSheet
 	template_name = 'workout/index.html'
 
-	def get_queryset(self):
-		return WorkoutSheet.objects.filter(account=self.request.user.account.id)
+	def get(self, request, *args, **kwargs):
+		context = locals()
+		cats = ['CORE', 'GEN', 'WARM', 'PLYO']
+		categories = {}
+		for cat in cats:
+			objs = WorkoutSheet.objects.filter(exercise_category=cat, account=request.user.account.id)
+			categories[cat] = len(objs)
+		context['cats'] = categories
+		return render_to_response(self.template_name, context)
 	
 class WorkoutView(LoggedInMixin, UpdateView):
 	model = WorkoutSheet

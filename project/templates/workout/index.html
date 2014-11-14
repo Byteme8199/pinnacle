@@ -14,38 +14,49 @@
   <li class="active">Performance Workout</li>
 </ol>
 
-	{% if request.GET.alert %}
+	
+	
 	<div class="col-md-12">
-		<div class="alert alert-danger" role="alert">
-			{{ request.GET.alert }}
-			<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-			</button>
-		</div>
-	</div>
-	{% endif %} {% if request.GET.success %}
-	<div class="col-md-12">
-		<div class="alert alert-success" role="alert">
-			{{ request.GET.success }}
-			<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-			</button>
-		</div>
-	</div>
-	{% endif %}
-
-	<div class="col-md-12">
-		
-		
 		<div class="row">
-			
-			<div class="col-sm-12 col-md-6">
-				<a href="/workout/warmup/">Warmup Routines</a><br>
-				<a href="/workout/core/">Core Exercies</a><br>
-				<a href="/workout/plyometric/">Plyometric</a><br>
-				<a href="/workout/videos/">Video Library</a><br>
-				<a href="/workout/workouts/">My Workouts</a><br>
-				<a href="/workout/reports/">Physical Therapy Reports</a><br>
+			<div class="col-sm-12">
+				<ul class="list-group">
+					
+					<li class="list-group-item"><a href="/workout/warmup/">
+						<span class="badge pull-right">
+					{% for cat, count in cats.items %}
+						{% ifequal cat 'WARM' %}
+							{{count}}
+						{% endifequal %}
+					{% endfor %}</span> Warmup Routines</a></li>
+					
+					<li class="list-group-item"><a href="/workout/core/">
+						<span class="badge pull-right">
+						{% for cat, count in cats.items %}
+						{% ifequal cat 'CORE' %}
+							{{count}}
+						{% endifequal %}
+					{% endfor %}
+						</span> Core Exercies</a></li>
+					
+					<li class="list-group-item"><a href="/workout/plyometric/">
+						<span class="badge pull-right">
+						{% for cat, count in cats.items %}
+						{% ifequal cat 'PLYO' %}
+							{{count}}
+						{% endifequal %}
+					{% endfor %}</span> Plyometric</a></li>
+					
+					<li class="list-group-item"><a href="/workout/videos/"><span class="badge pull-right">*</span> Video Library</a></li>
+					
+					<li class="list-group-item"><a href="/workout/workouts/"><span class="badge pull-right">
+						{% for cat, count in cats.items %}
+						{% ifequal cat 'GEN' %}
+							{{count}}
+						{% endifequal %}
+					{% endfor %}</span> My Workouts</a></li>
+					<li class="list-group-item"><a href="/workout/reports/"><span class="badge pull-right">*</span> Physical Therapy Reports</a></li>
+				</ul>
 			</div>	
-
 		</div>
 	</div>
 </div>
