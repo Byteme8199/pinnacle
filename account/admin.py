@@ -67,7 +67,6 @@ class AddWorkoutForm(forms.Form):
 
 def add_workout(modeladmin, request, queryset):
         form = None
-        print request.POST.get('post')
         if request.POST.get('post'):
             form = AddWorkoutForm(request.POST)
             if form.is_valid():
@@ -103,6 +102,8 @@ class AccountAdmin(admin.ModelAdmin):
 	inlines = [WeightInline, HeightInline, ScoreInline, PositionInline, CoachInline, ParentInline, TargetSchoolsListInline]
 
         actions = [add_workout]
+
+        list_filter = ('created_date', 'high_school', 'college')
 
 
 admin.site.register(Account, AccountAdmin)

@@ -14,6 +14,8 @@ class WorkoutSheetAdmin(admin.ModelAdmin):
 	inlines = [WorkoutWeekInline]
 
 	date_hierarchy = 'created_date'
+	list_filter = ('exercise_category', 'account', 'created_date', 'start_date')
 	list_display = ('exercise_category', 'name', 'account', 'created_date', 'start_date')
-	
+
+
 admin.site.register(WorkoutSheet, WorkoutSheetAdmin)
