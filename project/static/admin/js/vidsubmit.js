@@ -135,12 +135,23 @@
 		
 
 		
-		// validation
-		if ($('#id_title').val() == "" || $('#id_file').val() == "") {
-			Output(
-			"<p><font color='red'>Please fill in Title, Type and Video File fields before uploading</font></p>"
-			);
-		} else {
+	// validation
+	//if (false) {
+	//		Output(
+	//		"<p><font color='red'>Please fill in Title, Type and Video File fields before uploading</font></p>"
+	//		);
+	//	} else {
+
+            
+            window.$ = $;
+
+	
+			var files = $('input[type=file]');
+
+
+			console.log(files);
+
+	
 			Output(
 				"<p>Commencing Upload</p>"
 			);
@@ -157,7 +168,9 @@
 				ParseFile(f);
 				UploadFile(f);
 			}
-		}
+	// added comment here
+	//	}
+
 	}
 
 	// create output div
@@ -209,7 +222,7 @@
 
 	document.addEventListener('DOMContentLoaded', function (e) {
 
-		Init();
+		//Init();
 	
 	});
 	

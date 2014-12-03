@@ -24,8 +24,6 @@ class ScoutView(LoggedInMixin, ListView):
 		return ScoutSheet.objects.filter(account=self.request.user.account.id)
 	
 	def get_context_data(self, **kwargs):
-		# Call the base implementation first to get a context
 		context = super(ScoutView, self).get_context_data(**kwargs)
-		# Add in the publisher
-		context['rankings'] = CriterionRank.objects.filter(account=self.request.user.account.id).order_by('criterion', '-created_date')
+		context['rankings'] = ScoutSheet.objects.filter(account=self.request.user.account.id)
 		return context

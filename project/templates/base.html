@@ -29,10 +29,25 @@
 		  
 		h3 { margin-top: 0px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
 
-		main { max-width: 100%; background-color: #000; height: 80%; }
+		main { max-width: 100%; background: rgb(0,0,0); /* Old browsers */
+background: -moz-linear-gradient(-45deg,  rgba(0,0,0,1) 0%, rgba(45,45,45,1) 25%, rgba(17,17,17,1) 44%, rgba(43,43,43,1) 80%, rgba(28,28,28,1) 91%, rgba(19,19,19,1) 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(0,0,0,1)), color-stop(25%,rgba(45,45,45,1)), color-stop(44%,rgba(17,17,17,1)), color-stop(80%,rgba(43,43,43,1)), color-stop(91%,rgba(28,28,28,1)), color-stop(100%,rgba(19,19,19,1))); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(-45deg,  rgba(0,0,0,1) 0%,rgba(45,45,45,1) 25%,rgba(17,17,17,1) 44%,rgba(43,43,43,1) 80%,rgba(28,28,28,1) 91%,rgba(19,19,19,1) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(-45deg,  rgba(0,0,0,1) 0%,rgba(45,45,45,1) 25%,rgba(17,17,17,1) 44%,rgba(43,43,43,1) 80%,rgba(28,28,28,1) 91%,rgba(19,19,19,1) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(-45deg,  rgba(0,0,0,1) 0%,rgba(45,45,45,1) 25%,rgba(17,17,17,1) 44%,rgba(43,43,43,1) 80%,rgba(28,28,28,1) 91%,rgba(19,19,19,1) 100%); /* IE10+ */
+background: linear-gradient(135deg,  rgba(0,0,0,1) 0%,rgba(45,45,45,1) 25%,rgba(17,17,17,1) 44%,rgba(43,43,43,1) 80%,rgba(28,28,28,1) 91%,rgba(19,19,19,1) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#131313',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */;
+ height: 80%; opacity: .93 }
 
+		hr { border-top: 1px solid #333; }
+		  .breadcrumb { background-color: transparent}
+		  
 		.give-me-some-space { margin-right: 5px } 
 		  
+		  .list-group-item {
+			background-color: transparent;
+			border: 1px solid #555;
+			}
 		  
 		/* Nav Bar */
 		  .bignav {  margin-top: 95px; background: url(/static/css/images/nav3.png); height: 80px; background-repeat: repeat-x;   }
@@ -85,6 +100,7 @@
 			left: 50px;
 			z-index: 2;
 		}
+		  #bs-example-navbar-collapse-1 { margin-left: 300px; }
 		  
 		#tagline { float: left; position: absolute; top: 117px; left: 370px; }
 		  #login a { color: #FFF; float: right; position: absolute; top: 125px; right: 50px;}
@@ -94,12 +110,12 @@
 		  .small-list { list-style: none; margin: 0px; padding: 0px; }
 		  .border-right { border-right: 1px solid #dedede;  }
 		  .small-list li { padding: 3px }
-		  .small-list li:nth-child(odd) { background-color: #efefef; }
+		  .small-list li:nth-child(odd) { background-color: #111; }
 		  
-		  .white-on-black { color: #FFF; background-color: #000; padding: 5% 2% }
-		  .white-on-black a { color: #FFF }
-		  .black-on-white { color: #000; background-color: #FFF; padding: 5% 2% }
-		  .black-on-white  a { color: #000 }
+		  .white-on-black { color: #000; background-color: #fff; padding: 5% 2% }
+		  .white-on-black a { color: #000 }
+		  .black-on-white { color: #fff; background-color: #000; padding: 5% 2% }
+		  .black-on-white  a { color: #fff }
 		  
 		  .black-on-white, .white-on-black { overflow-x: auto }
 		  
@@ -127,6 +143,17 @@
 		 /* Video Tab */
 		.vid-thumb { max-width: 200px; }
 
+		    .caption {
+				padding: 6px ;
+				color: #FFF;
+			  	background-color: #000;
+			  	opacity: .7;
+			  	font-size: 1em;
+				position: absolute;
+				bottom: 0px;
+				width: 90%;
+			}
+		 .thumbholder { }
 
 		/* Scout tab */
 		.lead { font-weight: bold; }
@@ -136,6 +163,28 @@
 		/* Bootstrap Tweeks */
 		.panel-heading { font-weight: bold; }
 		.panel-heading span:first-child { margin-right: 10px; }
+		  
+		  .panel-default { border: none }
+		  .panel-default > .panel-heading {
+			color: #FFF;
+			background-color: #333;
+			border-color: #222;
+			}
+		  
+		  .popover-title {
+			background-color: #444;
+			}
+		  
+		  .popover-content { background-color: #222 }
+		  
+		  footer span { padding: 10px; color: #FFF; }
+		  
+		  .breadcrumb > .active {
+color: #ccc;
+}
+		  .panel {
+			  background-color: #111;
+		  }
 		  
 		  /* Workout Sheets */
 		 .smalltable-bordered tr:nth-child(1) { 
@@ -154,14 +203,14 @@
 		  /* Workout Sheets */
 		  .workoutweek { margin-bottom: 20px; }
 		  
-		  .workoutheader { border: 1px solid #dedede; background-color: #EEE; padding: 5px 0px; margin-top: 5px; font-size: .9em   }
+		  .workoutheader { border: 1px solid #555; background-color: #444; padding: 5px 0px; margin-top: 5px; font-size: .9em   }
 		  .workoutheader div, .workoutbody div { }
 		  
-		  .workoutbody, .workoutheader { padding: 5px 0px; border-bottom: 1px solid #dedede  }
+		  .workoutbody, .workoutheader { padding: 5px 0px; border-bottom: 1px solid #555  }
 		  
-		  .borderright { border-right: 1px solid #dedede }
+		  .borderright { border-right: 1px solid #55 }
 		  
-		  .subcat {  padding: 10px; border: 1px solid #dedede }
+		  .subcat {  padding: 10px; border: 1px solid #55 }
 		  
 		  
 		/* Chart Canvas */
@@ -190,10 +239,15 @@
 			.bignav { margin-top: 40px; }
 			.navbar-default { margin-top: -57px; }
 			#login { display: none }
+			#bs-example-navbar-collapse-1 { margin-left: 0px; }
 		}
 		
 		  @media (min-width: 768px) {
-			  .tablet-nav { margin-left: 170px; }
+			  #bs-example-navbar-collapse-1 { margin-left: 150px; }
+		  }
+		  
+		  @media (min-width: 992px) {
+			  #bs-example-navbar-collapse-1 { margin-left: 250px; }
 		  }
 
 </style>
@@ -231,11 +285,11 @@
 
 
 	  
-<nav class="navbar navbar-default visible-xs visible-sm" role="navigation">
+<nav class="navbar navbar-default navbar-inverse" role="navigation">
   <div class="container-fluid">
 
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+	  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -245,23 +299,33 @@
 
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
        {% if user.is_anonymous %}
+			 <ul class="nav navbar-nav">
+				 <li class="pull-right"><a href="{% url 'django.contrib.auth.views.login' %}">LOGIN</a></li>
+			</ul>
 		{% else %}
-		  <ul class="nav navbar-nav tablet-nav">
+		  <ul class="nav navbar-nav">
 			<li><a href="{% url 'account' %}">PROFILE</a></li>
 			<li><a href="{% url 'video' %}">PERFORMANCE VIDEOS</a></li>
-			<li><a href="{% url 'workout' %}">PERFORMANCE WORKOUT</a></li>
-			<li><a href="{% url 'scout' %}">SCOUT</a></li>
-		  </ul>
+			  <li class="dropdown">
+				  <a href="{% url 'workout' %}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">PERFORMANCE WORKOUT<span class="caret"></span></a>
+				  <ul class="dropdown-menu" role="menu">
+					<li><a href="{% url 'workout' %}">Index</a></li>
+					<li class="divider"></li>
+					<li><a href="{% url 'workout_workouts' %}">My Workouts</a></li>
+					<li><a href="{% url 'workout_warmup' %}">Warmups</a></li>
+					<li><a href="{% url 'workout_plyo' %}">Plyometrics</a></li>
+					<li><a href="{% url 'workout_core' %}">Core Exercises</a></li>
+					<li class="divider"></li>
+					<li><a href="{% url 'workout_videos' %}">Demonstration Videos</a></li>
+					<li class="divider"></li>
+					<li><a href="#">Physical Therapt Reports</a></li>
+				  </ul>
+			  </li>
+			  <li><a href="{% url 'scout' %}">SCOUT</a></li>
+			  <li class="pull-right"><a href="{% url 'django.contrib.auth.views.logout' %}">LOGOUT</a></li>
+		   </ul>
 		{% endif %}
-      <ul class="nav navbar-nav navbar-right">
-        {% if user.is_anonymous %}
-			<li>
-				<a href="{% url 'django.contrib.auth.views.login' %}">LOGIN</a>
-		  </li>
-		{% else %}
-			<li><a href="{% url 'django.contrib.auth.views.logout' %}">LOGOUT</a></li>
-		{% endif %}
-      </ul>
+			  
     </div>
   </div>
 </nav>
@@ -272,6 +336,7 @@
 	  <main>
 		<div class="container-fluid" id="content">  
 			<div class="row">
+<!--
 			{% block sidenav %}	
 				
 					<div class="col-md-3 visible-md visible-lg visible-xl">
@@ -304,8 +369,9 @@
 					</div>
 				
 			{% endblock %}
+-->
 		  
-				<div class="col-md-9">
+				<div class="col-md-12">
 					{% block content %}{% endblock %}
 				</div>
 			</div>	

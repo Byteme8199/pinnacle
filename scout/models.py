@@ -3,6 +3,27 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from account.models import Account
 
+class CriterionScaleRow(models.Model):
+	rank = models.CharField(max_length=255, blank=False, null=False)
+	column_one = models.CharField(max_length=255, blank=False, null=False)
+	column_two = models.CharField(max_length=255, blank=True, null=True)
+	scale = models.ForeignKey("CriterionScale")
+	
+	class Meta:
+		ordering = ['rank']
+		verbose_name_plural = "Grade"
+	
+class CriterionScale(models.Model):
+	name = models.CharField(max_length=255, blank=False, null=False)
+	column_one_name = models.CharField(max_length=255, blank=False, null=False)
+	column_two_name = models.CharField(max_length=255, blank=True, null=True)
+	
+	class Meta:
+		verbose_name_plural = "Grading Scales"
+		
+	def __unicode__(self):
+		return unicode(self.name)
+
 class Criterion(models.Model):
 	name = models.CharField(max_length=255, blank=False, null=False)
 	
@@ -16,12 +37,13 @@ class Criterion(models.Model):
 class CriterionRank(models.Model):
 	rank = models.PositiveIntegerField()
 	created_date = models.DateTimeField(default=timezone.now())
-	criterion = models.ForeignKey(Criterion)
+	#criterion = models.ForeignKey(CriterionScale)
 	scoutsheet = models.ForeignKey("ScoutSheet")
-	account = models.ForeignKey(Account)
+	scale = models.ForeignKey("CriterionScale")
+	#account = models.ForeignKey(Account)
 	
 	def __unicode__(self):
-		return unicode('[' + self.criterion.name + '] ' + str(self.rank) )
+		return unicode('[' + self.scale.name + '] - ' + str(self.rank) )
 	
 	class Meta:
 		ordering = ['-created_date']

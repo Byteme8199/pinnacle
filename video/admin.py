@@ -8,13 +8,13 @@ class VideoReplyInline(admin.StackedInline):
 	fields = ('file', 'note')
 	readonly_fields = ['created_date']
 	extra = 1
-	
+
 class PhotoReplyInline(admin.StackedInline):
 	model = PhotoReply
 	fields = ('file', 'note')
 	readonly_fields = ['created_date']
 	extra = 1
-	
+
 class VideoTypeAdmin(admin.ModelAdmin):
 	list_filter = ('created_date',)
 	list_display = ('name', 'created_date')
@@ -28,9 +28,9 @@ class VideoAdmin(admin.ModelAdmin):
 	raw_id_fields = ('account',)
 	inlines = [VideoReplyInline, PhotoReplyInline]
 
-	class Media:
-		js = ('admin/js/submit.js',)
+	#class Media:
+	#	js = ('admin/js/vidsubmit.js',)
 
 
-admin.site.register(VideoType, VideoTypeAdmin)	
+admin.site.register(VideoType, VideoTypeAdmin)
 admin.site.register(Video, VideoAdmin)

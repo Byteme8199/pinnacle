@@ -40,7 +40,7 @@
 		<div class="col-sm-12">
 			{% for video in object_list %}
 				{% if forloop.first %}
-					<div class="center-block">
+					<div class="center-block" align="center">
 						<video width="100%" height="auto" id="videosource" controls style="margin: auto; max-width: 800px; max-height: 400px">
 						<source src="{{ video.video }}" id="mp4Source" type="video/mp4">
 							Your browser does not support the video tag.
@@ -54,6 +54,7 @@
 	</div>
 		
 
+		
 	<script>
 		function ChangeVid(video) { 					
 			var player = document.getElementById('videosource')
@@ -82,11 +83,54 @@
 	
 </div>	
 		
+	
+	<div class="row"><hr></div>	
+	
+	
+<div class="row">
+	
+	{% for video in object_list %}
+
 		
-		
+		  <div class="col-xs-6 col-sm-4 col-md-3">
+			<div class="thumbholder">
+			  <img src="{{ video.thumbnail }}" alt="{{ video.note }}" title="{{video.note}}" onclick="ChangeVid('{{video.video}}')" class="img-responsive img-rounded">
+			  <div class="caption">
+				<span>{{video.title}}</span>
+				{% if video.note %}<p>{{video.note}}</p>{% endif %}
+				
+				  {% for reply in video.replies %}
+				  	<button onclick="ChangeVid('{{reply.video}}')" type="button" class="btn btn-default btn-xs pull-right">
+					  <span class="glyphicon glyphicon glyphicon-film" aria-hidden="true"></span>
+					</button>
+				  {% endfor %}
+				  {% for reply in video.photos %}
+				  	<button onclick="ChangePhoto('{{reply.photo}}')" type="button" class="btn btn-default btn-xs pull-right">
+					  <span class="glyphicon glyphicon glyphicon-picture" aria-hidden="true"></span>
+					</button>
+				  {% endfor %}
+
+			  </div>
+			</div>
+		  </div>
+		 
+
+	{% endfor %}
+
+</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	{% comment %}		
 <div class="panel-group" id="accordion">
 	
-	
+
 	{% for video in object_list %}
 
 		  <div class="panel panel-default">
@@ -153,10 +197,13 @@
 			</div>
 		  </div>
 
-	{% endfor %}	
+	{% endfor %}
+
 	
 </div>
-		
+	{% endcomment %}
+	
+	
 				
 </div>
 
