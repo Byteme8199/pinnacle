@@ -14,11 +14,11 @@ def send_email(subject, message, from_email, to_email):
     msg += "Content-type: text/html\n"
     msg += "Subject: " + subject + "\n"
     msg += "\n\n" + message
-    server = smtplib.SMTP(settings.EMAIL_HOST + ":" + str(settings.EMAIL_PORT))
-    server.starttls()
-    server.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
-    server.sendmail(from_email, to_email, msg)
-    server.quit()
+    # server = smtplib.SMTP(settings.EMAIL_HOST + ":" + str(settings.EMAIL_PORT))
+    # server.starttls()
+    # server.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
+    # server.sendmail(from_email, to_email, msg)
+    # server.quit()
     # send_mail(subject, message, from_email, to_email)
 
 	
