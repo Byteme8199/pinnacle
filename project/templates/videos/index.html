@@ -41,11 +41,13 @@
 			{% for video in object_list %}
 				{% if forloop.first %}
 					<div class="center-block" align="center">
+						<p id="titlesource">{{ video.title }}</p>
 						<video width="100%" height="auto" id="videosource" controls style="margin: auto; max-width: 800px; max-height: 400px">
 						<source src="{{ video.video }}" id="mp4Source" type="video/mp4">
 							Your browser does not support the video tag.
 						</video>
 						<img src="" id="photosource" class="img-responsive" style="display: none">
+						<p id="notesource">{{ video.note }}</p>
 						<br>
 					</div>
 				{% endif %}
@@ -56,7 +58,7 @@
 
 		
 	<script>
-		function ChangeVid(video) { 					
+		function ChangeVid(video, note, title) { 					
 			var player = document.getElementById('videosource')
 			var mp4vid = document.getElementById('mp4Source');
 			var photo = document.getElementById('photosource');
@@ -65,19 +67,26 @@
 			
 			$('#videosource').css("display", "block");
 			$('#photosource').css("display", "none");
+			$('#notesource').html(note);
+			$('#titlesource').html(title);
+			$("html, body").scrollTop($(".black-on-white").offset().top);
 
 			$(mp4vid).attr('src', video);
 			player.load();
 			player.play();
 		}
 		
-		function ChangePhoto(photo) { 					
+		function ChangePhoto(photo, note, title) { 					
 			var player = document.getElementById('videosource')
 			player.pause();
 			
 			$('#videosource').css("display", "none");
 			$('#photosource').css("display", "block");
 			$('#photosource').attr('src', photo);
+			$('#notesource').html(note);
+			$('#titlesource').html(title);
+			$("html, body").scrollTop($(".black-on-white").offset().top);
+			
 		}
 	</script>
 	
@@ -92,22 +101,18 @@
 	{% for video in object_list %}
 
 		
-		  <div class="col-xs-6 col-sm-4 col-md-3">
+		  <div class="col-xs-12 col-sm-4 col-md-3">
 			<div class="thumbholder">
-			  <img src="{{ video.thumbnail }}" alt="{{ video.note }}" title="{{video.note}}" onclick="ChangeVid('{{video.video}}')" class="img-responsive img-rounded">
+			  <img src="{{ video.thumbnail }}" alt="{{ video.note }}" title="{{video.note}}" onclick="ChangeVid('{{video.video}}', '{{video.note}}', '{{video.title}}')" class="img-responsive img-rounded">
 			  <div class="caption">
 				<span>{{video.title}}</span>
 				{% if video.note %}<p>{{video.note}}</p>{% endif %}
 				
 				  {% for reply in video.replies %}
-				  	<button onclick="ChangeVid('{{reply.video}}')" type="button" class="btn btn-default btn-xs pull-right">
-					  <span class="glyphicon glyphicon glyphicon-film" aria-hidden="true"></span>
-					</button>
+					  <span onclick="ChangeVid('{{reply.video}}', '{{ reply.note|safe }}', '{{reply.title}}')" class="glyphicon glyphicon glyphicon-film pull-right" aria-hidden="true"></span>
 				  {% endfor %}
 				  {% for reply in video.photos %}
-				  	<button onclick="ChangePhoto('{{reply.photo}}')" type="button" class="btn btn-default btn-xs pull-right">
-					  <span class="glyphicon glyphicon glyphicon-picture" aria-hidden="true"></span>
-					</button>
+					  <span onclick="ChangePhoto('{{reply.photo}}', '{{ reply.note|safe }}', '{{reply.title}}')" class="glyphicon glyphicon glyphicon-picture pull-right" aria-hidden="true"></span>
 				  {% endfor %}
 
 			  </div>

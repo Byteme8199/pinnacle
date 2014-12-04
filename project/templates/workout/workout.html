@@ -57,8 +57,10 @@
 		
 	<h3>{{  object.name }} <span class=" pull-right"></h3>	
 
-	<!-- FIRST TABLE -->
-  		<div class="row">
+		
+		
+		{% ifequal object.exercise_category "WARM" %}
+				<div class="row">
   			<div class="col-sm-12 column" id='cats'>
 				
 					{% csrf_token %}
@@ -78,12 +80,87 @@
 							<div class="col-xs-2 col-sm-1">
 								Reps
 							</div>
+						</div>
+
+  						<div class="row workoutbody">
+							<div class="col-xs-6 col-sm-4 borderright">
+								{{ week.group }}{{ week.group_order }}) <a href="{% url 'workout_videos_by_id' pk=week.name.id %}">{{ week.name }}</a>							
+  							</div>
+  							<div class="col-xs-2 col-sm-1 borderright">
+  								{{ week.workout_week }}
+  							</div>				
+  							<div class="col-xs-2 col-sm-1 borderright">
+								{% if week.set_number %}{{ week.set_number }}{% endif %}
+  							</div>
+							<div class="col-xs-2 col-sm-1 ">
+								{{ week.reps }}
+  							</div>
+				
+  						</div>
+						{% endfor %}
+
+  			</div>
+
+	</div>
+		
+		
+		{% else %}
+		
+	<!-- FIRST TABLE -->
+  		<div class="row">
+  			<div class="col-sm-12 column" id='cats'>
+				    <div class="tabButtons">
+                        <button type="button" class="btn btn-default">1</button>
+                        <button type="button" class="btn btn-default">2</button>
+                        <button type="button" class="btn btn-default">3</button>
+                        <button type="button" class="btn btn-default">4</button>
+                        <button type="button" class="btn btn-default">All</button>
+                    </div>
+					{% csrf_token %}
+						{% for week in object.fullsheet %}
+
+                        <div class="tab week-{{ week.workout_week }}">
+
+                        <!--
+						<div class="row workoutheader {% ifchanged week.group_order %}{% else %}visible-xs{% endifchanged %}">
+							<div class="col-xs-6 col-sm-4 borderright">
+								Name
+							</div>
+							<div class="col-xs-2 col-sm-1 borderright">
+								Week
+							</div>
+							<div class="col-xs-2 col-sm-1 borderright">
+								Sets
+							</div>
+							<div class="col-xs-2 col-sm-1">
+								Reps
+							</div>
 							<div class="hidden-xs col-sm-5 noborder">
 								Results
 							</div>
 						</div>
-
+                        -->
 						 
+						{% ifchanged week.workout_week %}
+						<div class="row workoutheader">
+							<div class="col-xs-6 col-sm-4 borderright">
+								Name
+							</div>
+							<div class="col-xs-2 col-sm-1 borderright">
+								Week
+							</div>
+							<div class="col-xs-2 col-sm-1 borderright">
+								Sets
+							</div>
+							<div class="col-xs-2 col-sm-1">
+								Reps
+							</div>
+							<div class="hidden-xs col-sm-5 noborder">
+								Results
+							</div>
+						</div>
+                        {% endifchanged %}
+
 			
   						<div class="row workoutbody">
 							<div class="col-xs-6 col-sm-4 borderright">
@@ -100,7 +177,7 @@
 								{% endif %}
 							
   							</div>
-  							<div class="col-xs-2 col-sm-1 borderright">
+                            <div class="col-xs-2 col-sm-1 borderright">
   								{{ week.workout_week }}
   							</div>				
   							<div class="col-xs-2 col-sm-1 borderright">
@@ -140,22 +217,45 @@
 									});
 								</script>
   						</div>
+
+                        </div> <!-- end tab -->
+
 						{% endfor %}
 
   			</div>
 
 	</div>
+	{% endifequal %}
 </div>
 </div>
 
 	
 <script>
+    
+
+    function weekTabs () {
+        $('.tab').hide();
+        $('div[class*=week-1]').show();
+
+        $('.tabButtons').on('click', function (event) {
+            if (event.target.tagName === "BUTTON") {
+                var target =  $(event.target).text();
+                if (target === 'All') {
+                    $('.tab').show();
+                } else {
+                    $('.tab').hide();
+                    var targstr = "div[class*=week-" + target + "]";
+                    $(targstr).show();
+                }
+            }        
+        });
+
+    }
+    
 	
 	function showWeeks(set_number, week, result_array){
 		// get previous values and fill out form...
-		if(!result_array){
-			set_string = "<td colspan='6'></td>";
-		} else {
+        if(result_array) {
 			vals = result_array.split("|");
 			$.each(vals, function( index, value ) {
 				var elem = document.getElementById('set_' + week + "_" + (index+1));
@@ -165,7 +265,9 @@
 	}
 	
 	$(document).ready(function() {
-		$('.popover-btn').popover()
+		$('.popover-btn').popover();
+
+        weekTabs();
 	});
 </script>
 

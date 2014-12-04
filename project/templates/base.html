@@ -10,7 +10,7 @@
     <!-- Bootstrap -->
     <link rel="stylesheet" href="/static/css/bootstrap.css?version={% now 't' %}">
 	<link rel="stylesheet" href="/static/css/style.css?version={% now 't' %}">
-	<link href='http://fonts.googleapis.com/css?family=Ubuntu:300' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Abel' rel='stylesheet' type='text/css'>
 	  
 	  <style>
 	  
@@ -25,7 +25,7 @@
 			
 		}		  
 		  
-		body { background-color: transparent; height: 100%; font-family: 'Ubuntu', sans-serif; font-weight: 300; } 
+		body { background-color: transparent; height: 100%; font-family: 'Abel', sans-serif; font-weight: 300; } 
 		  
 		h3 { margin-top: 0px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
 
@@ -112,9 +112,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', end
 		  .small-list li { padding: 3px }
 		  .small-list li:nth-child(odd) { background-color: #111; }
 		  
-		  .white-on-black { color: #000; background-color: #fff; padding: 5% 2% }
+		  .white-on-black { color: #000; background-color: #fff;  }
 		  .white-on-black a { color: #000 }
-		  .black-on-white { color: #fff; background-color: #000; padding: 5% 2% }
+		  .black-on-white { color: #fff; background-color: #000; padding: 15px;  }
 		  .black-on-white  a { color: #fff }
 		  
 		  .black-on-white, .white-on-black { overflow-x: auto }
@@ -145,15 +145,22 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', end
 
 		    .caption {
 				padding: 6px ;
-				color: #FFF;
-			  	background-color: #000;
+				color: #fff;
 			  	opacity: .7;
 			  	font-size: 1em;
-				position: absolute;
-				bottom: 0px;
-				width: 90%;
+				
 			}
-		 .thumbholder { }
+		 .thumbholder { margin-bottom: 15px; border: 1px solid #444; border-radius: 7px; cursor: pointer; background: rgb(35,35,35); /* Old browsers */
+background: -moz-linear-gradient(left,  rgba(35,35,35,1) 0%, rgba(14,14,14,1) 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(35,35,35,1)), color-stop(100%,rgba(14,14,14,1))); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(left,  rgba(35,35,35,1) 0%,rgba(14,14,14,1) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(left,  rgba(35,35,35,1) 0%,rgba(14,14,14,1) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(left,  rgba(35,35,35,1) 0%,rgba(14,14,14,1) 100%); /* IE10+ */
+background: linear-gradient(to right,  rgba(35,35,35,1) 0%,rgba(14,14,14,1) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#232323', endColorstr='#0e0e0e',GradientType=1 ); /* IE6-9 */
+ }
+		  
+		  #notesource { width: 100%; padding: 15px; text-align: left}
 
 		/* Scout tab */
 		.lead { font-weight: bold; }

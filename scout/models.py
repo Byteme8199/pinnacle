@@ -52,7 +52,19 @@ class CriterionRank(models.Model):
 class ScoutSheet(models.Model):
 	account = models.ForeignKey(Account)
 	created_date = models.DateTimeField(default=timezone.now())
-	note = models.TextField(blank=True, null=False)	
+	scout = models.CharField("Scout", max_length=255, blank=True, null=True)
+	note = models.TextField("Physical Description", blank=True, null=True)
+	note2 = models.TextField("Abilities", blank=True, null=True)	
+	note3 = models.TextField("Weaknesses", blank=True, null=True)	
+	note4 = models.TextField("Signability and Player Summation", blank=True, null=True)
+	dates_seen = models.TextField("Dates Seen", blank=True, null=True)	
+	ab_seen = models.CharField("At Bats Seen", max_length=255, blank=True, null=True)
+ 	games_seen = models.CharField("Games Seen", max_length=255, blank=True, null=True)
+	report_count = models.CharField("Report Count", max_length=255, blank=True, null=True)
+	date_completed = models.DateTimeField("Date completed", default=timezone.now())
+	makeup = models.CharField("Makeup", max_length=255, blank=True, null=True)
+	role = models.CharField("Role:", max_length=255, blank=True, null=True)
+	ofp = models.CharField("OFP", max_length=255, blank=True, null=True)
 	
 	def ranks(self):
 		return CriterionRank.objects.filter(scoutsheet=self.id)
