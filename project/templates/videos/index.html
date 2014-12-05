@@ -40,8 +40,8 @@
 		<div class="col-sm-12">
 			{% for video in object_list %}
 				{% if forloop.first %}
-					<div class="center-block" align="center">
-						<p id="titlesource">{{ video.title }}</p>
+			<p><strong class="subhead" id="titlesource">{{ video.title }}</strong></p>
+					<div class="center-block" align="center">						
 						<video width="100%" height="auto" id="videosource" controls style="margin: auto; max-width: 800px; max-height: 400px">
 						<source src="{{ video.video }}" id="mp4Source" type="video/mp4">
 							Your browser does not support the video tag.
@@ -105,7 +105,7 @@
 			<div class="thumbholder">
 			  <img src="{{ video.thumbnail }}" alt="{{ video.note }}" title="{{video.note}}" onclick="ChangeVid('{{video.video}}', '{{video.note}}', '{{video.title}}')" class="img-responsive img-rounded">
 			  <div class="caption">
-				<span>{{video.title}}</span>
+				  <p><span onclick="ChangeVid('{{video.video}}', '{{video.note}}', '{{video.title}}')"><strong>{{video.title}}</strong></span>
 				{% if video.note %}<p>{{video.note}}</p>{% endif %}
 				
 				  {% for reply in video.replies %}
@@ -114,6 +114,7 @@
 				  {% for reply in video.photos %}
 					  <span onclick="ChangePhoto('{{reply.photo}}', '{{ reply.note|safe }}', '{{reply.title}}')" class="glyphicon glyphicon glyphicon-picture pull-right" aria-hidden="true"></span>
 				  {% endfor %}
+				  </p>
 
 			  </div>
 			</div>

@@ -69,11 +69,13 @@ FFMPEG
 
 We use ffmpeg for making thumbnails from the uploaded videos.
 
+::
     $ sudo apt-add-repository ppa:jon-severinsson/ffmpeg
     $ sudo apt-get update
     $ sudo apt-get install ffmpeg
 
-There is a full story about this here_. This is the short answer from Guillaume ~3 answers down.
+There is a full story about this here_. 
+The above is the short answer from Guillaume ~3 answers down.
 
 .. _here: http://askubuntu.com/questions/432542/is-ffmpeg-missing-from-the-official-repositories-in-14-04
 
@@ -82,8 +84,7 @@ There is a full story about this here_. This is the short answer from Guillaume 
 REDIS
 ~~~~
 
-We may or may not be using redis for celery implementation.
-
+We may or may not be using redis for celery / djcelery implementation.
 Follow these_ directions but use the most up to date (Stable) version from redis_.
 
 .. _these: https://www.digitalocean.com/community/tutorials/how-to-install-and-use-redis
@@ -135,8 +136,10 @@ Make a location for the example site::
     $ cd pinnacle
     $ exit
     $ sudo chown www-data:www-data /srv/sites/pinnacle/project/static/
-# note: I think we need to repeat the process for media so that nginx will allow 
-#       video / picture uploads
+
+.. note:: 
+    I think we need to repeat the process for media so that nginx will allow video / picture uploads
+
     $ sudo chown www-data:www-data /srv/sites/pinnacle/project/media/
     $ sudo su deploy
 
