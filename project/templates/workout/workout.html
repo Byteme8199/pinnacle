@@ -72,9 +72,6 @@
 								Name
 							</div>
 							<div class="col-xs-2 col-sm-1 borderright">
-								Week
-							</div>
-							<div class="col-xs-2 col-sm-1 borderright">
 								Sets
 							</div>
 							<div class="col-xs-2 col-sm-1">
@@ -84,11 +81,8 @@
 
   						<div class="row workoutbody">
 							<div class="col-xs-6 col-sm-4 borderright">
-								{{ week.group }}{{ week.group_order }}) <a href="{% url 'workout_videos_by_id' pk=week.name.id %}">{{ week.name }}</a>							
-  							</div>
-  							<div class="col-xs-2 col-sm-1 borderright">
-  								{{ week.workout_week }}
-  							</div>				
+								<a href="{% url 'workout_videos_by_id' pk=week.name.id %}">{{ week.name }}</a>							
+  							</div>		
   							<div class="col-xs-2 col-sm-1 borderright">
 								{% if week.set_number %}{{ week.set_number }}{% endif %}
   							</div>

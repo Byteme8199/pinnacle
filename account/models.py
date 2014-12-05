@@ -36,13 +36,18 @@ class Account(models.Model):
 	grad_year = models.PositiveIntegerField(max_length=10, null=True, blank=True)
 	grad_class = models.CharField("Class", max_length=5, null=True, blank=True)
 	eligible = models.PositiveIntegerField(max_length=10, null=True, blank=True)
-	dob = models.CharField(max_length=10, null=True, blank=True)
+	dob = models.CharField("Date of Birth", max_length=10, null=True, blank=True)
 	profile_image = models.FileField(upload_to=upload_path_handler, null=True, blank=True)
+	team_image = models.FileField(upload_to=upload_path_handler, null=True, blank=True)
 	#target_school = models.ManyToManyField(TargetSchool, null=True, blank=True)
 	
 	def photo(self):
 		photo = self.profile_image.path
 		return photo.replace('/srv/sites/pindev/project/', '/')
+	
+	def team_photo(self):
+		team = self.team_image.path
+		return team.replace('/srv/sites/pindev/project/', '/')
 	
 	def weights(self):
 		return Weight.objects.filter(account=self.id)

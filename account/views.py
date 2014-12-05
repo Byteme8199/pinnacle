@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
 from account.models import Account, Weight, Height, Position, Score, Parent, Coach, TargetSchoolsList, Personal
-from account.forms import HeightForm, WeightForm, PositionForm, ScoreForm, ParentForm, CoachForm, PersonalForm, TargetSchoolsListForm, PhotoForm, SchoolForm
+from account.forms import HeightForm, WeightForm, PositionForm, ScoreForm, ParentForm, CoachForm, PersonalForm, TargetSchoolsListForm, PhotoForm, TeamPhotoForm, SchoolForm
 
 from django.views.generic.edit import FormView, UpdateView
 from django.utils import timezone
@@ -39,6 +39,16 @@ class AddPhotoView(LoggedInMixin, UpdateView):
 	def form_valid(self, form):
 		form.save()
 		return super(AddPhotoView, self).form_valid(form)
+	
+class AddTeamPhotoView(LoggedInMixin, UpdateView):
+	model = Account
+	form_class = TeamPhotoForm
+	template_name = 'account/add_team_pic.html'
+	success_url = '/account/'
+
+	def form_valid(self, form):
+		form.save()
+		return super(AddTeamPhotoView, self).form_valid(form)
 	
 class AddSchoolView(LoggedInMixin, UpdateView):
 	model = Account

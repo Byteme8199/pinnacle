@@ -37,13 +37,20 @@ class PhotoForm(ModelForm):
 
 	class Meta:
 		model = Account
-		exclude = ('account', 'user', 'high_school', 'college', 'grad_year',  'created_date')
+		exclude = ('account', 'user', 'high_school', 'college', 'grad_year',  'created_date', 'club', 'throws', 'bats', 'grad_class', 'eligible', 'dob', 'team_image')
+		
+class TeamPhotoForm(ModelForm):
+
+	class Meta:
+		model = Account
+		exclude = ('account', 'user', 'high_school', 'college', 'grad_year',  'created_date', 'club', 'throws', 'bats', 'grad_class', 'eligible', 'dob', 'profile_image')
+		
 		
 class SchoolForm(ModelForm):
 
 	class Meta:
 		model = Account
-		exclude = ('account', 'user', 'profile_image', 'created_date')
+		exclude = ('account', 'user', 'profile_image', 'team_image', 'created_date')
 		
 class PersonalForm(ModelForm):
 

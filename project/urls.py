@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.conf.urls import *
 from django.contrib import admin
-from account.views import AccountView, AccountPDF, AddWeightView, AddHeightView, AddPositionView, AddScoreView, AddParentView, AddPersonalView, EditPersonalView, AddCoachView, AddTargetListView, AddPhotoView, AddSchoolView
+from account.views import AccountView, AccountPDF, AddWeightView, AddHeightView, AddPositionView, AddScoreView, AddParentView, AddPersonalView, EditPersonalView, AddCoachView, AddTargetListView, AddPhotoView, AddSchoolView, AddTeamPhotoView
 from scout.views import ScoutView
 from video.views import VideoView, AddVideoView, PhotoView
 from workoutsheet.views import WorkoutView, WorkoutWeekView, WorkoutBaseView, WorkoutVideosView, WorkoutWorkoutsView, WorkoutWarmupView, WorkoutCoreView, WorkoutPlyometricView, WorkoutVideosByIDView, WorkoutPDF
@@ -29,6 +29,7 @@ urlpatterns = patterns('',
 	url(r'^account/$', AccountView.as_view(), name='account'),
 	url(r'^account/pdf/$', AccountPDF.as_view(), name='account_pdf'),
 	url(r'^account/add/photo/(?P<pk>\d+)/$', AddPhotoView.as_view(), name='account_photo_add'),
+	url(r'^account/add/team_photo/(?P<pk>\d+)/$', AddTeamPhotoView.as_view(), name='account_team_photo_add'),
 	url(r'^account/add/school/(?P<pk>\d+)/$', AddSchoolView.as_view(), name='account_school_add'),
 	url(r'^account/add/weight/$', AddWeightView.as_view(), name='account_weight_add'),
 	url(r'^account/add/height/$', AddHeightView.as_view(), name='account_height_add'),
