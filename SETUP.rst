@@ -16,10 +16,11 @@ Download lists of new/upgradable packages::
 
     $ sudo aptitude update
 
-SSH server was already installed on digitalocean (I think) otherwise
 
 OpenSSH
 ~~~~~~
+
+SSH server was already installed on digitalocean (I think) if not carry here it is in case
 
 Since I like to connect to my servers using SSH the first thing I install is openssh-server::
 
@@ -38,8 +39,8 @@ The Python header files are needed in order to compile binding libraries like ``
 PostgreSQL
 ~~~~~~~~~
 
-::
 Might be up to version 9.3 or higher when you get back to this
+::
 
     $ sudo aptitude install postgresql postgresql-server-dev-9.1
 
@@ -51,9 +52,6 @@ Make your Ubuntu user a PostgreSQL superuser::
 
 Restart PostgreSQL::
 
-Old School
-    $ sudo /etc/init.d/postgresql restart
-New School
     $ sudo service postgresql restart
 
 
@@ -63,6 +61,36 @@ Nginx And Git
 ::
 
     $ sudo aptitude install nginx git
+
+
+
+FFMPEG
+~~~~~
+
+We use ffmpeg for making thumbnails from the uploaded videos.
+
+    $ sudo apt-add-repository ppa:jon-severinsson/ffmpeg
+    $ sudo apt-get update
+    $ sudo apt-get install ffmpeg
+
+There is a full story about this here_. This is the short answer from Guillaume ~3 answers down.
+
+.. _here: http://askubuntu.com/questions/432542/is-ffmpeg-missing-from-the-official-repositories-in-14-04
+
+
+
+REDIS
+~~~~
+
+We may or may not be using redis for celery implementation.
+
+Follow these_ directions but use the most up to date (Stable) version from redis_.
+
+.. _these: https://www.digitalocean.com/community/tutorials/how-to-install-and-use-redis
+.. _redis: http://redis.io/download
+
+
+
 
 
 
@@ -107,7 +135,8 @@ Make a location for the example site::
     $ cd pinnacle
     $ exit
     $ sudo chown www-data:www-data /srv/sites/pinnacle/project/static/
-    .. note:: I think we need to repeat the process for media so that nginx will allow video / picture uploads
+# note: I think we need to repeat the process for media so that nginx will allow 
+#       video / picture uploads
     $ sudo chown www-data:www-data /srv/sites/pinnacle/project/media/
     $ sudo su deploy
 
@@ -186,7 +215,7 @@ Start the gunicorn site::
 Step 5: Setup Nginx to proxy to your new example site
 -----------------------------------------------------
 
-Create a new file ``sudo vi /etc/nginx/sites-available/example-site.conf`` and add the following to the contents of the file::
+Create a new file ``sudo vi /etc/nginx/sites-available/pinnacle.conf`` and add the following to the contents of the file::
 
     server {
 
@@ -220,11 +249,8 @@ Enable the new site::
 
     $ cd /etc/nginx/sites-enabled
     $ sudo rm default
-    $ sudo ln -s ../sites-available/example-site.conf
+    $ sudo ln -s ../sites-available/pinnacle.conf
 
 Start nginx::
 
-Old School
-    $ sudo /etc/init.d/nginx start
-New School
     $ sudo service nginx restart 

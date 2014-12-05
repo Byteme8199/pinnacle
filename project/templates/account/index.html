@@ -50,7 +50,13 @@
 								</div>
 							</div>
 						{% endif %}
-
+						
+						<div class="row">
+							<div class="col-xs-12">
+								<hr>
+							</div>
+						</div>
+						
 						{% if account.team_image %}
 							<div class="row">
 								<div class="col-xs-12">
@@ -66,22 +72,33 @@
 					
 					<div class="col-sm-4">
 						
+						
 						{% if account.personals %} 
 							{% for personal in account.personals %}
 								<p><strong class="subhead">Personal<span class=" pull-right"><a data-toggle="modal" href="{% url 'account_personal_edit' pk=personal.id %}" data-target="#modal"><span class="glyphicon glyphicon-user"></span></a></span></strong></p>
 
-								<div class="row">
-									<div class="col-md-12">{{ personal.street }}<br>{{ personal.city }}, {{personal.state}} {{ personal.zipcode }}</div>
-								</div>
-								<div class="row">
-									<div class="col-md-12"><span class="glyphicon glyphicon-phone"></span> {{ personal.phone}}</div>
-									<div class="col-md-12"><A href="mailto:{{ personal.email }}"><span class="glyphicon glyphicon-envelope"></span> {{ personal.email }}</A></div>
-								</div>
+								<p>
+									<strong>Contact:</strong><br />
+									{{ personal.street }}<br>{{ personal.city }}, {{personal.state}} {{ personal.zipcode }}
+									<br><span class="glyphicon glyphicon-phone"></span> {{ personal.phone}}
+									<br><A href="mailto:{{ personal.email }}"><span class="glyphicon glyphicon-envelope"></span> {{ personal.email }}</A>
+								</p>
 							{% endfor %}
 						{% else %}
 							<p><strong class="subhead">Personal<span class=" pull-right"><a data-toggle="modal" href="{% url 'account_personal_add' %}" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span></strong></p>
 						<p>Add Personal Information using the <span class="glyphicon glyphicon-plus"></span> icon above</p>
 						{% endif %}
+						</p>
+					
+						<p>
+							<strong>Date of Birth:</strong><br />
+							{{ account.dob }}
+						</p>
+						
+						<p>
+							<strong>Bats / Throws:</strong><br />
+							{{ account.bats }} / {{ account.throws }}
+						</p>
 
 					</div>
 					
@@ -93,17 +110,7 @@
 							{% if account.high_school %}{{account.high_school}}{% endif %}
 							{% if account.college %}/ {{account.college}}{% endif %}
 						</p>
-						
-						<p>
-							<strong>Date of Birth:</strong><br />
-							{{ account.dob }}
-						</p>
-						
-						<p>
-							<strong>Bats / Throws:</strong><br />
-							{{ account.bats }} / {{ account.throws }}
-						</p>
-						
+
 						<p>
 							<strong>Club / National Team</strong><br />
 							{{ account.club }}
@@ -161,6 +168,12 @@
 				</div>
 			</div>
 			
+
+<div class="row">
+	<div class="col-xs-12">
+		<br>
+	</div>
+</div>
 			
 		<div class="row">
 			<div class="col-xs-12 col-md-6">
