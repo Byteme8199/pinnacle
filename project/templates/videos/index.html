@@ -42,7 +42,7 @@
 				{% if forloop.first %}
 			<p><strong class="subhead" id="titlesource">{{ video.title }}</strong></p>
 					<div class="center-block" align="center">						
-						<video width="100%" height="auto" id="videosource" controls style="margin: auto; max-width: 800px; max-height: 400px">
+						<video width="100%" height="auto" id="videosource" controls preload="auto" style="margin: auto; max-width: 800px; max-height: 400px">
 						<source src="{{ video.video }}" id="mp4Source" type="video/mp4">
 							Your browser does not support the video tag.
 						</video>

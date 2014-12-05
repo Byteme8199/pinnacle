@@ -67,9 +67,8 @@ Nginx And Git
 FFMPEG
 ~~~~~
 
-We use ffmpeg for making thumbnails from the uploaded videos.
+We use ffmpeg for making thumbnails from the uploaded videos.::
 
-::
     $ sudo apt-add-repository ppa:jon-severinsson/ffmpeg
     $ sudo apt-get update
     $ sudo apt-get install ffmpeg
@@ -81,10 +80,10 @@ The above is the short answer from Guillaume ~3 answers down.
 
 
 
-REDIS
+REDIS*
 ~~~~
 
-We may or may not be using redis for celery / djcelery implementation.
+We are not currently using redis for celery / djcelery implementation.
 Follow these_ directions but use the most up to date (Stable) version from redis_.
 
 .. _these: https://www.digitalocean.com/community/tutorials/how-to-install-and-use-redis
@@ -122,10 +121,10 @@ Setup a virtualenv::
 
 .. note::
 
-    I personally use and setup virtualenvwrapper on all my servers and local development machines so that I can use ``workon <virtualenv>`` to easily activate a virtualenv. This is why I put all my virtualenvs in ``/usr/local/virtualenvs``.
+    I use and setup virtualenvwrapper on my servers and local development machines so that I can use ``workon <virtualenv>`` to easily activate a virtualenv. This is why I put all my virtualenvs in ``/usr/local/virtualenvs``.
 
 
-Make a location for the example site::
+Make a location for the site::
 
     $ cd /srv/
     $ sudo mkdir sites
@@ -136,14 +135,13 @@ Make a location for the example site::
     $ cd pinnacle
     $ exit
     $ sudo chown www-data:www-data /srv/sites/pinnacle/project/static/
-
-.. note:: 
-    I think we need to repeat the process for media so that nginx will allow video / picture uploads
-
+    # I think we need to repeat the process for media so that nginx will allow video / picture uploads
     $ sudo chown www-data:www-data /srv/sites/pinnacle/project/media/
     $ sudo su deploy
 
-Create the file ``/srv/sites/example-site/config/settings/local.py`` and add the following. Make sure to change the password and then save the file. I usually use a `random string generator <http://clsc.net/tools/random-string-generator.php>`_ to generate a new password for each new Postgresql database and user::
+
+TL;DR; Update ``/srv/sites/pinnacle/project/settings/local.py`` to reflect the server settings to use.
+Create the file ``/srv/sites/pinnacle/project/settings/local.py`` and add the following. Make sure to change the password and then save the file. I usually use a `random string generator <http://clsc.net/tools/random-string-generator.php>`_ to generate a new password for each new Postgresql database and user::
 
     from base import *
 
@@ -160,8 +158,8 @@ Create the file ``/srv/sites/example-site/config/settings/local.py`` and add the
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'example_site',
-            'USER': 'example_site',
+            'NAME': 'pinnacle',
+            'USER': 'pinnacle',
             'PASSWORD': '<enter a new secure password>',
             'HOST': 'localhost',
         }
@@ -169,53 +167,101 @@ Create the file ``/srv/sites/example-site/config/settings/local.py`` and add the
 
 Install the sites required python packages::
 
-    $ source /usr/local/virtualenvs/example-site/bin/activate
-    $ cd /srv/sites/example-site/
-    $ pip install -r config/requirements/production.txt
+    $ source /usr/local/virtualenvs/pinnacle/bin/activate
+    $ cd /srv/sites/pinnacle/
+    $ pip install -r requirements/reboot.txt
 
-Create a PostgreSQL user and database for your example-site::
+Create a PostgreSQL user and database for your site::
 
     # exit out of the deploy user account
     $ exit
-    $ createuser example_site -P
+    $ createuser pinnacle -P
     $ Enter password for new role: [enter the same password you used in the local.py file from above]
     $ Enter it again: [enter the password again]
     $ Shall the new role be a superuser? (y/n) n
     $ Shall the new role be allowed to create databases? (y/n) y
     $ Shall the new role be allowed to create more new roles? (y/n) n
-    $ createdb example_site -O example_site
+    $ createdb pinnacle -O pinnacle
 
 
+Setup your database for the site::
+
+    # back into deploy
+    $ sudo su deploy
+    $ cd /srv/sites/pinnacle
+    # type the word python less by making manage.py executable
+    $ chmod +x manage.py
+    # setup the db
+    $ ./manage.py syncdb
+    # you are using south, right?
+    $ ./manage.py migrate --all
+
+If you are itching to test the setup django's runserver should work now. 
+**DO NOT** use runserver for production. (according to the django guys)
 
 
-
-Step 4: Daemonize Gunicorn using Ubuntu's Upstart* 
---------------------------------------------------
-
-********* This didn't work last I tried I will update with a working version here *********
-
+Step 4: Daemonize Gunicorn using Ubuntu's Upstart 
+-------------------------------------------------
 
 Create your Upstart configuration file::
 
-    $ sudo vi /etc/init/gunicorn_example-site.conf
+    $ sudo vi /etc/init/pinnacle.conf
 
 Add the following and save the file::
 
-    description "upstart configuration for gunicorn example-site"
-
-    start on net-device-up
-    stop on shutdown
-
+    description "Pinnacle Dev website"
+    start on runlevel [2345]
+    stop on runlevel [06]
     respawn
+    respawn limit 10 5
 
-    exec /usr/local/virtualenvs/example-site/bin/gunicorn_django -u www-data -c /srv/sites/example-site/config/gunicorn/example-site.py /srv/sites/example-site/config/settings/__init__.py
+    script
+        NAME=pinnacle
+        PORT=8000
+        NUM_WORKERS=2
+        TIMEOUT=600
+        USER=deploy
+        GROUP=deploy
+        LOGFILE=/var/log/gunicorn/$NAME.log
+        LOGDIR=$(dirname $LOGFILE)
+        test -d $LOGDIR || mkdir -p $LOGDIR
+        cd /srv/sites/$NAME
+        exec /usr/local/virtualenvs/$NAME/bin/gunicorn \
+                -w $NUM_WORKERS -t $TIMEOUT \
+                --user=$USER --group=$GROUP --log-level=debug \
+                --name=$NAME -b 127.0.0.1:$PORT \
+                --log-file=$LOGFILE 2>>$LOGFILE \
+                project.wsgi:application
+    end script
 
-Start the gunicorn site::
 
-    $ sudo start gunicorn_example-site
+NAME must match the name of your project folder from earlier and PORT must match the nginx port below. 
+Update NUM_WORKERS according to the server setup being used. Finally the next to last line is where 
+the wsgi.py file is found in the project. 
 
 
-Step 5: Setup Nginx to proxy to your new example site
+Add the config as a system service::
+    
+    $ sudo ln -fs /lib/init/upstart-job /etc/init.d/pinnacle
+
+Make it start at system boot::
+
+    $ sudo update-rc.d pinnacle defaults
+
+
+Start the site service::
+
+    $ sudo service pinnacle start
+
+Your site should now be running on the port specified above. Nginx setup below handles port forwarding.
+
+Step 5: Daemonize the Celery process
+------------------------------------
+
+** still researching this **
+
+
+Step 6: Setup Nginx to proxy to your new example site
 -----------------------------------------------------
 
 Create a new file ``sudo vi /etc/nginx/sites-available/pinnacle.conf`` and add the following to the contents of the file::
@@ -257,3 +303,6 @@ Enable the new site::
 Start nginx::
 
     $ sudo service nginx restart 
+
+If you followed these directions your server ip or domain name if you have already pointed that at the server 
+should show you your site.
