@@ -19,11 +19,13 @@ def send_email(subject, message, from_email, to_email):
     # server.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
     # server.sendmail(from_email, to_email, msg)
     # server.quit()
-    # send_mail(subject, message, from_email, to_email)
-
+    # send_mail(subject, message, from_email, to_email)	
 	
 def upload_path_handler(instance, filename):
 	return "./profiles/%s/%s" % (instance.user.username, filename)
+
+def upload_path_handler_2(instance, filename):
+	return "./profiles/%s/%s" % (instance.account.user.username, filename)
 
 class Account(models.Model):
 	user = models.OneToOneField(User, related_name='account')
@@ -70,6 +72,9 @@ class Account(models.Model):
 	def scores(self):
 		return Score.objects.filter(account=self.id)
 	
+	def memos(self):
+		return UserMemo.objects.filter(account=self.id)
+	
 	def target_lists(self):
 		return TargetSchoolsList.objects.filter(account=self.id)
 
@@ -91,6 +96,22 @@ class Account(models.Model):
 		send_email(subject, message, from_email, to_email)
 
 		super(Account,self).save(*args, **kwargs)
+
+class UserMemo(models.Model):
+	account = models.ForeignKey(Account)
+	note = models.TextField(blank=True, null=False)
+	note_image = models.FileField(upload_to=upload_path_handler_2, null=True, blank=True)
+	created_date = models.DateTimeField(default=timezone.now())
+	
+	def memo_image(self):
+		note = self.note_image.path
+		return note.replace('/srv/sites/pindev/project/', '/')
+	
+	def __unicode__(self):
+		return unicode(self.account.user.username + ': ' + self.note)
+
+	class Meta:
+		ordering = ['-created_date']
 
 class Position(models.Model):
 	account = models.ForeignKey(Account)
