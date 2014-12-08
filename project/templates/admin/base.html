@@ -164,7 +164,7 @@
     </div>
 	
 	<style>
-		@media (max-width: 1000px) {
+		@media (max-width: 1024px) {
 			input[type="text"],
 			input[type="number"],
 			input[type="password"] {
@@ -225,6 +225,19 @@
 			.selector .selector-filter input[type=text] {
 				position: absolute;
 			}
+			#site-name { display: none }
+			#grp-context-navigation { overflow-x: auto  }
+			#grp-page-tools { display: none }
+			header#grp-header #grp-navigation ul#grp-user-tools {
+				margin: 0 -10px 0 10px;
+				border-left: 1px solid #090909;
+				width: 100px;
+				float: left;
+			}
+			header#grp-header #grp-navigation ul#grp-user-tools>li.grp-user-options-container {
+			width: 100px;
+			}
+			.grp-fixed-footer { position: relative !important}
 		}
 		
 	</style>
