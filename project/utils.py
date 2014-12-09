@@ -8,9 +8,12 @@ class Contact(models.Model):
 	street = models.CharField(max_length=255, blank=True, null=True)
 	city = models.CharField(max_length=255, blank=True, null=True)
 	state = models.CharField(max_length=2, blank=True, null=True) # change this to a dropdown ie ENUM type
-	zipcode = models.PositiveIntegerField(max_length=5, blank=True, null=True)
+	zipcode = models.PositiveIntegerField("Zip Code", max_length=5, blank=True, null=True)
 	phone = models.CharField(max_length=15, blank=True, null=True)
 	email = models.EmailField(max_length=250, blank=True, null=True)
+	facebook = models.CharField(max_length=255, blank=True, null=True)
+	twitter = models.CharField(max_length=255, blank=True, null=True)
+	instagram = models.CharField(max_length=255, blank=True, null=True)
 	created_date = models.DateTimeField(default=timezone.now())
 	note = models.TextField(blank=True, null=False)
 

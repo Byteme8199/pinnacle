@@ -123,13 +123,39 @@
 									<br><span class="glyphicon glyphicon-phone"></span> {{ personal.phone}}
 									<br><A href="mailto:{{ personal.email }}"><span class="glyphicon glyphicon-envelope"></span> {{ personal.email }}</A>
 								</p>
+						
+
+							<p>
+									<strong>Social Accounts:</strong><br />
+							</p>
+
+						
+						{% if personal.facebook %}
+							<p>
+								<a href="http://facebook.com/{{ personal.facebook }}"><i class="fa fa-facebook fa"></i> {{ personal.facebook }}</a>
+							</p>
+						{% endif %}
+						
+						
+						{% if personal.twitter %}
+							<p>
+								<a href="http://twitter.com/{{ personal.twitter }}"><i class="fa fa-twitter fa"></i> {{ personal.twitter }}</a>
+							</p>
+						{% endif %}
+						
+						{% if personal.instagram %}
+							<p>
+								<a href="http://instagram.com/{{ personal.instagram }}"><i class="fa fa-instagram fa"></i> {{ personal.instagram }}</a>
+							</p>
+						{% endif %}
+						
 							{% endfor %}
 						{% else %}
 							<p><strong class="subhead">Personal<span class=" pull-right"><a data-toggle="modal" href="{% url 'account_personal_add' %}" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span></strong></p>
 						<p>Add Personal Information using the <span class="glyphicon glyphicon-plus"></span> icon above</p>
 						{% endif %}
 						</p>
-					
+
 						<p>
 							<strong>Date of Birth:</strong><br />
 							{{ account.dob }}

@@ -31,7 +31,7 @@ class CoachForm(ModelForm):
 
 	class Meta:
 		model = Coach
-		exclude = ('account', 'created_date')
+		exclude = ('account', 'created_date', 'facebook', 'twitter', 'instagram')
 
 class PhotoForm(ModelForm):
 
@@ -62,7 +62,7 @@ class ParentForm(ModelForm):
 
 	class Meta:
 		model = Parent
-		exclude = ('account', 'created_date')
+		exclude = ('account', 'created_date', 'facebook', 'twitter', 'instagram')
 		
 class TargetSchoolsListForm(ModelForm):
 

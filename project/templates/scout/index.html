@@ -96,104 +96,151 @@
 				</td>
 			</tr>
 	</table>
-		<table id="scout" class="table table-responsive">
+	
+	<div class="row">
+		<div class="col-sm-12 col-sm-4">
+			<table id="scout" class="table table-responsive">
 					<tr>
 						<td class="head">Ratings</td>
 						<td class="head">P</td>
 						<td class="head">F</td>
-						<td class="head" colspan="2">Running and Hitting</td>
-						<td class="head" colspan="2">Makeup</td>
 					</tr>
 				<tr>
 					<td class="head">Hitting Ability:</td>
 					<td>{{ ranking.ratings_hitting_ability_p }}</td>
 					<td>{{ ranking.ratings_hitting_ability_f }}</td>
-					<td class="head">Hit Type:</td>
-					<td>{{ ranking.hit_type }}</td>
-					<td class="head">Athleticism:</td>
-					<td>{{ ranking.makeup_athleticism }}</td>
 				</tr>
 			
 				<tr>
 					<td class="head">Raw Power:</td>
 					<td>{{ ranking.ratings_raw_power_p }}</td>
 					<td>{{ ranking.ratings_raw_power_f }}</td>
-					<td class="head">Hit Approach:</td>
-					<td>{{ ranking.hit_approach }}</td>
-					<td class="head">Aptitude:</td>
-					<td>{{ ranking.makeup_aptitude }}</td>
 				</tr>
 			
 				<tr>
 					<td class="head">Game Power:</td>
 					<td>{{ ranking.ratings_game_power_p }}</td>
 					<td>{{ ranking.ratings_game_power_f }}</td>
-					<td class="head">Time to 1B:</td>
-					<td>{{ ranking.time_to_1b }}</td>
-					<td class="head">Character:</td>
-					<td>{{ ranking.makeup_character }}</td>
 				</tr>
 			
 				<tr>
 					<td class="head">Running Speed:</td>
 					<td>{{ ranking.ratings_running_speed_p }}</td>
 					<td>{{ ranking.ratings_running_speed_f }}</td>
-					<td class="head">Time to Right:</td>
-					<td>{{ ranking.time_to_right }}</td>
-					<td class="head">Dedication:</td>
-					<td>{{ ranking.makeup_dedication }}</td>
 				</tr>
 			
 				<tr>
 					<td class="head">Base Running:</td>
 					<td>{{ ranking.ratings_base_running_p }}</td>
 					<td>{{ ranking.ratings_base_running_f }}</td>
-					<td></td>
-					<td></td>
-					<td class="head">Instinct:</td>
-					<td>{{ ranking.makeup_instinct }}</td>
 				</tr>
 			
 				<tr>
 					<td class="head">Arm Strength:</td>
 					<td>{{ ranking.ratings_arm_strength_p }}</td>
 					<td>{{ ranking.ratings_arm_strength_f }}</td>
-					<td></td>
-					<td></td>
-					<td class="head">Aggressiveness:</td>
-					<td>{{ ranking.makeup_aggressiveness }}</td>
 				</tr>
 			
 				<tr>
 					<td class="head">Arm Accuracy:</td>
 					<td>{{ ranking.ratings_arm_accuracy_p }}</td>
 					<td>{{ ranking.ratings_arm_accuracy_f }}</td>
-					<td></td>
-					<td></td>
-					<td class="head">Confidence:</td>
-					<td>{{ ranking.makeup_confidence }}</td>
 				</tr>
 			
 				<tr>
 					<td class="head">Fielding:</td>
 					<td>{{ ranking.ratings_fielding_p }}</td>
 					<td>{{ ranking.ratings_fielding_f }}</td>
-					<td></td>
-					<td></td>
-					<td class="head">Maturity:</td>
-					<td>{{ ranking.makeup_maturity }}</td>
 				</tr>
 			
 				<tr>
 					<td class="head">Range:</td>
 					<td>{{ ranking.ratings_range_p }}</td>
 					<td>{{ ranking.ratings_range_f }}</td>
-					<td></td>
-					<td></td>
+				</tr>
+		</table>
+		</div>	
+		<div class="col-sm-12 col-sm-4">
+			<table id="scout" class="table table-responsive">
+					<tr>
+						<td class="head" colspan="2">Running and Hitting</td>
+					</tr>
+				<tr>
+					<td class="head">Hit Type:</td>
+					<td>{{ ranking.hit_type }}</td>
+				</tr>
+			
+				<tr>
+					<td class="head">Hit Approach:</td>
+					<td>{{ ranking.hit_approach }}</td>
+				</tr>
+			
+				<tr>
+					<td class="head">Time to 1B:</td>
+					<td>{{ ranking.time_to_1b }}</td>
+				</tr>
+			
+				<tr>
+					<td class="head">Time to Right:</td>
+					<td>{{ ranking.time_to_right }}</td>
+				</tr>
+		</table>
+		</div>	
+		<div class="col-sm-12 col-sm-4">
+			<table id="scout" class="table table-responsive">
+					<tr>
+						<td class="head" colspan="2">Makeup</td>
+					</tr>
+				<tr>
+					<td class="head">Athleticism:</td>
+					<td>{{ ranking.makeup_athleticism }}</td>
+				</tr>
+			
+				<tr>
+					<td class="head">Aptitude:</td>
+					<td>{{ ranking.makeup_aptitude }}</td>
+				</tr>
+			
+				<tr>
+					<td class="head">Character:</td>
+					<td>{{ ranking.makeup_character }}</td>
+				</tr>
+			
+				<tr>
+					<td class="head">Dedication:</td>
+					<td>{{ ranking.makeup_dedication }}</td>
+				</tr>
+			
+				<tr>
+					<td class="head">Instinct:</td>
+					<td>{{ ranking.makeup_instinct }}</td>
+				</tr>
+			
+				<tr>
+					<td class="head">Aggressiveness:</td>
+					<td>{{ ranking.makeup_aggressiveness }}</td>
+				</tr>
+			
+				<tr>
+					<td class="head">Confidence:</td>
+					<td>{{ ranking.makeup_confidence }}</td>
+				</tr>
+			
+				<tr>
+					<td class="head">Maturity:</td>
+					<td>{{ ranking.makeup_maturity }}</td>
+				</tr>
+			
+				<tr>
 					<td class="head">Competitiveness:</td>
 					<td>{{ ranking.makeup_competitiveness }}</td>
 				</tr>
 		</table>
+		</div>	
+	</div>
+	
+	
+		
 			
 		<table id="scout" class="table table-responsive">	
 			<tr>
