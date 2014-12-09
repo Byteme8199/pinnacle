@@ -2,7 +2,7 @@
 [Pinnacle Dev - Live Site](http://pinnacle.hdvideoandwebdesign.com)
 
 
-# Workout Templates
+## Workout Templates
 
 In order to use a workout template when creating a workout you must first create a template.  
 Template creation is performed in the same way a regular workout is created with the exception of assigning an account.
@@ -16,3 +16,9 @@ If you need anything to be different from the template version select the workou
 
 
 In order to store data for each week separately, we do need to add each week individually. Otherwise there would be no way to change the reps, sets by week.
+
+
+
+## Setup Docs
+
+[How to setup the site](./SETUP.md)
