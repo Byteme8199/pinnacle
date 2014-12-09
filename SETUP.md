@@ -8,11 +8,11 @@ These instructions are modified from those found at [epicserve].
 
 
 Before you begin it might be a good idea to update your system clock
-```bash
+```shell
 $ sudo ntpdate time.nist.gov
 ```
 Download lists of new/upgradable packages
-```bash
+```shell
 $ sudo aptitude update
 ```
 
@@ -21,7 +21,7 @@ $ sudo aptitude update
 SSH server was already installed on digitalocean (I think) if not carry here it is in case
 
 Since I like to connect to my servers using SSH the first thing I install is openssh-server
-```bash
+```shell
 $ sudo aptitude install openssh-server
 ```
 ssh should work to your server now (I *really* *really* hope you did this before disconnecting)
@@ -29,37 +29,37 @@ ssh should work to your server now (I *really* *really* hope you did this before
 ### Python Header Files
 
 The Python header files are needed in order to compile binding libraries like `psycopg2`.
-```bash
+```shell
 $ sudo aptitude install python2.7-dev
 ```
 
 ### PostgreSQL
 
 Might be up to version 9.3 or higher when you get back to this.
-```bash
+```shell
 $ sudo aptitude install postgresql postgresql-server-dev-9.1
 ```
 Make your Ubuntu user a PostgreSQL superuser
-```bash
+```shell
 $ sudo su - postgres
 $ createuser --superuser <your username>
 $ exit
 ```
 Restart PostgreSQL
-```bash
+```shell
 $ sudo service postgresql restart
 ```
 
 ### Nginx And Git
 
-```bash
+```shell
 $ sudo aptitude install nginx git
 ```
 
 ### FFMPEG
 
 We use ffmpeg for making thumbnails from the uploaded videos.::
-```bash
+```shell
 $ sudo apt-add-repository ppa:jon-severinsson/ffmpeg
 $ sudo apt-get update
 $ sudo apt-get install ffmpeg
@@ -85,14 +85,14 @@ Follow [these] directions but use the most up to date (Stable) version from [red
 
 The reason we are setting up a generic deploy user is so that if you have multiple developers who are allowed to do deployments you can easily add the developer's SSH public key to the deploy user's ``/home/deploy/.ssh/authorized_keys`` file in order to allow them to do deployments.
 
-```bash
+```shell
 $ sudo useradd -d /home/deploy -m -s /bin/bash deploy
 ```
 
 ## Step 3: Install Pinnacle Site
 
 #### Setup a virtualenv
-```bash
+```shell
 $ sudo apt-get install python-setuptools
 $ sudo easy_install pip virtualenv
 $ cd /usr/local/
@@ -111,7 +111,7 @@ Note:
 [virtualenvwrapper]: https://virtualenvwrapper.readthedocs.org/en/latest/install.html
 
 #### Make a location for the site
-```bash
+```shell
 $ cd /srv/
 $ sudo mkdir sites
 $ sudo chown deploy:deploy sites
@@ -161,7 +161,7 @@ DATABASES = {
 ```
 
 #### Install the sites required python packages
-```bash
+```shell
 $ source /usr/local/virtualenvs/pinnacle/bin/activate
 $ cd /srv/sites/pinnacle/
 $ pip install -r requirements/reboot.txt
@@ -170,7 +170,7 @@ $ pip install -r requirements/reboot.txt
 > production requirements you need to use
 
 #### Create a PostgreSQL user and database for your site
-```bash
+```shell
 # exit out of the deploy user account
 $ exit
 $ createuser pinnacle -P
@@ -183,7 +183,7 @@ $ createdb pinnacle -O pinnacle
 ```
 
 #### Setup your database for the site::
-```bash
+```shell
 # back into deploy
 $ sudo su deploy
 $ cd /srv/sites/pinnacle
