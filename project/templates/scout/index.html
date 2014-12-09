@@ -19,91 +19,158 @@
 	
 	<style>
 		#scout td { padding: 5px; text-align: center; }
-		#scout th { padding: 5px; text-align: center; font-size: 1.5em; }
+		
 		#scout td, #scout th { border: 1px solid #dedede }
-		#scout .head { font-weight: bold; background-color: #444; text-align: left; }
+		#scout .head { font-weight: bold; background-color: #303030; text-align: left; }
+		#scout th { padding: 5px; text-align: center !important; font-size: 1.2em; }
 		#scout .left { text-align: left; }
 		
 	</style>
 	
-		<table id="scout" class="table table-responsive">
+		
+	
+	<div class="row">
+		<div class="col-sm-12 col-sm-4">
+		
+			<table id="scout" class="table table-responsive">
 			<tr>
-				<th colspan="3">{{ ranking.account.user.first_name }} {{ ranking.account.user.last_name }}</th>
-				<th>{% for position in ranking.account.positions %}{% ifequal position.position_type "Primary" %}{{ position.position }}{% endifequal %}{% endfor %}</th>
-				<th>Role: {{ ranking.role }}</th>
-				<th>OFP: {{ranking.ofp }}</th>
+				<th class="head" colspan="2">{{ ranking.account.user.first_name }} {{ ranking.account.user.last_name }}</th>
 			</tr>
 			<tr>
 				<td class="head">Scout: </td>
 				<td class="left">{{ ranking.scout }}</td>
-				<td class="head">DOB: </td>
-				<td>{{ ranking.account.dob }}</td>
-				<td class="head">Makeup: </td>
-				<td>{{ ranking.makeup }}</td>
 			</tr>
 			<tr>
 				<td class="head">School: </td>
 				<td class="left">{{ ranking.account.high_school }}</td>
-				<td class="head">Height: </td>
-				<td>{% for height in ranking.account.heights %}{% if forloop.last %}{{ height.height_feet }}' {{ height.height_inches }}{% endif %}{% endfor %}</td>
-				<td class="head">Date Completed: </td>
-				<td>{{ ranking.date_completed }}</td>
 			</tr>
 			<tr>
 				<td class="head">College: </td>
 				<td class="left">{{ ranking.account.college }}</td>
-				<td class="head">Weight: </td>
-				<td>{% for weight in ranking.account.weights %}{% if forloop.last %}{{ weight.weight }}{% endif %}{% endfor %}</td>
-				<td class="head">Report Count: </td>
-				<td>{{ ranking.report_count }}</td>
 			</tr>
 			<tr>
 				<td class="head">Grad Date: </td>
 				<td class="left">{{ ranking.account.grad_year }}</td>
-				<td class="head">Bats: </td>
-				<td>{{ ranking.account.bats }}</td>
-				<td class="head">Games Seen: </td>
-				<td>{{ ranking.games_seen }}</td>
 			</tr>
 			<tr>
 				<td class="head">Class/Eligibility: </td>
-				<td>{{ ranking.account.grad_class }}/{{ ranking.account.eligible }}</td>
-				<td class="head">Throws: </td>
-				<td>{{ ranking.account.throws }}</td>
-				<td class="head">At Bats Seen: </td>
-				<td>{{ ranking.ab_seen }}</td>
+				<td class="left">{{ ranking.account.grad_class }}/{{ ranking.account.eligible }}</td>
 			</tr>
 			
 			<tr>
 				<td class="head">Club/Nat'l Team: </td>
-				<td>{{ ranking.account.club }}</td>
-				<td class="head">Dates Seen: </td>
-				<td colspan="3">{{ ranking.dates_seen }}</td>
+				<td class="left">{{ ranking.account.club }}</td>
 			</tr>
-			
 			<tr>
-				<td class="head">Address: </td>
-				<td colspan="3" class="left">
-					{% for personal in ranking.account.personals %}
-						{{ personal.street }}<br>{{ personal.city }}, {{ personal.state }} {{ personal.zipcode }}
-					{% endfor %}
-				</td>
 				<td class="head">Phone: </td>
-				<td class="left" colspan="3">
+				<td class="left">
 					{% for personal in ranking.account.personals %}
 						{{ personal.phone }}
 					{% endfor %}
 				</td>
 			</tr>
+			
+			<tr>
+				<td class="head">Address: </td>
+				<td class="left">
+					{% for personal in ranking.account.personals %}
+						{{ personal.street }}<br>{{ personal.city }}, {{ personal.state }} {{ personal.zipcode }}
+					{% endfor %}
+				</td>
+			</tr>
+			</table>
+		</div>
+		
+		
+		
+		
+		<div class="col-sm-12 col-sm-4">
+		
+			<table id="scout" class="table table-responsive">
+			<tr>
+				<th colspan="2" class="head">Personal</th>
+			</tr>
+			<tr>
+				<td class="head">Positions: </td>
+				<td>{% for position in ranking.account.positions %}{% ifequal position.position_type "Primary" %}{% if forloop.first %}/{% endif %}{{ position.position }}{% endifequal %}{% endfor %}</td>
+			</tr>
+			<tr>
+				<td class="head">DOB: </td>
+				<td>{{ ranking.account.dob }}</td>
+			</tr>
+			<tr>
+				<td class="head">Height: </td>
+				<td>{% for height in ranking.account.heights %}{% if forloop.last %}{{ height.height_feet }}' {{ height.height_inches }}{% endif %}{% endfor %}</td>
+			</tr>
+			<tr>
+				<td class="head">Weight: </td>
+				<td>{% for weight in ranking.account.weights %}{% if forloop.last %}{{ weight.weight }}{% endif %}{% endfor %}</td>
+			</tr>
+			<tr>
+				<td class="head">Bats: </td>
+				<td>{{ ranking.account.bats }}</td>
+			</tr>
+			<tr>
+				<td class="head">Throws: </td>
+				<td>{{ ranking.account.throws }}</td>
+			</tr>
+
+			</table>
+		</div>
+		
+		
+		
+		
+		
+		<div class="col-sm-12 col-sm-4">
+		<table id="scout" class="table table-responsive">
+			<tr>
+				<th colspan="2" class="head">Scouting</th>
+			</tr>
+			<tr>
+				<td class="head">Role: </td>
+				<td>{{ ranking.role }}</td>
+			</tr>
+			<tr>
+				<td class="head">OFP: </td>
+				<td>{{ranking.ofp }}</td>
+			</tr>
+			<tr>
+				<td class="head">Makeup: </td>
+				<td>{{ ranking.makeup }}</td>
+			</tr>
+			<tr>
+				<td class="head">Date Completed: </td>
+				<td>{{ ranking.date_completed|date:'m/d/Y' }}</td>
+			</tr>
+			<tr>
+				<td class="head">Report Count: </td>
+				<td>{{ ranking.report_count }}</td>
+			</tr>
+			<tr>
+				<td class="head">Games Seen: </td>
+				<td>{{ ranking.games_seen }}</td>
+			</tr>
+			<tr>
+				<td class="head">At Bats Seen: </td>
+				<td>{{ ranking.ab_seen }}</td>
+			</tr>
+			
+			<tr>
+				<td class="head">Dates Seen: </td>
+				<td colspan="3">{{ ranking.dates_seen }}</td>
+			</tr>
 	</table>
+		</div>
+	</div>
 	
 	<div class="row">
 		<div class="col-sm-12 col-sm-4">
 			<table id="scout" class="table table-responsive">
 					<tr>
-						<td class="head">Ratings</td>
-						<td class="head">P</td>
-						<td class="head">F</td>
+						<th class="head">Ratings</th>
+						<th class="head">P</th>
+						<th class="head">F</th>
 					</tr>
 				<tr>
 					<td class="head">Hitting Ability:</td>
@@ -163,7 +230,7 @@
 		<div class="col-sm-12 col-sm-4">
 			<table id="scout" class="table table-responsive">
 					<tr>
-						<td class="head" colspan="2">Running and Hitting</td>
+						<th class="head" colspan="2">Running and Hitting</th>
 					</tr>
 				<tr>
 					<td class="head">Hit Type:</td>
@@ -189,7 +256,7 @@
 		<div class="col-sm-12 col-sm-4">
 			<table id="scout" class="table table-responsive">
 					<tr>
-						<td class="head" colspan="2">Makeup</td>
+						<th class="head" colspan="2">Makeup</th>
 					</tr>
 				<tr>
 					<td class="head">Athleticism:</td>

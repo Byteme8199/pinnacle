@@ -21,7 +21,7 @@ class TemplateWorkoutWeek(models.Model):
 		('3', '3'),
 		('4', '4'),
 	)
-	
+
 	WORKOUT_GROUP = (
 		('A', 'A'),
 		('B', 'B'),
@@ -36,7 +36,7 @@ class TemplateWorkoutWeek(models.Model):
 		('K', 'K'),
 		('L', 'L'),
 	)
-	
+
 	WORKOUT_GROUP_ORDER = (
 		('1', '1'),
 		('2', '2'),
@@ -47,12 +47,12 @@ class TemplateWorkoutWeek(models.Model):
 		('7', '7'),
 		('8', '8'),
 	)
-	
+
 	workout_week = models.CharField(max_length=5, choices=WORKOUT_WEEK_NUMBER, default='1', verbose_name="Week")
 	group = models.CharField(max_length=1, choices=WORKOUT_GROUP, default='A', verbose_name="Group")
 	group_order = models.CharField(max_length=1, choices=WORKOUT_GROUP_ORDER, default='1', verbose_name="Group Order")
-	
-	
+
+
 	def __unicode__(self):
 		return u"%s: Week #%s" % (self.name.name, self.workout_week)
 
@@ -71,16 +71,16 @@ class WorkoutSheetTemplate(models.Model):
 		year = str(self.start_date)
 		year = year.split('-')
 		return year[0]
-	
+
 	def weeks(self):
 		return TemplateWorkoutWeek.objects.filter(workout=self.pk)
 
 	def fullsheet(self):
 		fullsheet = []
-		for week in TemplateWorkoutWeek.objects.filter(workout=self.pk).order_by('group_order', 'group'):	
+		for week in TemplateWorkoutWeek.objects.filter(workout=self.pk).order_by('group_order', 'group'):
 			fullsheet.append(week)
 		return fullsheet
-	
+
 	EXERCISE_CATEGORY_CHOICES = (
 		('GEN', 'General Workouts'),
 		('WARM', 'Warmup Exercises'),
@@ -89,7 +89,7 @@ class WorkoutSheetTemplate(models.Model):
 	)
 
 	exercise_category = models.CharField(max_length=4, choices=EXERCISE_CATEGORY_CHOICES, default='GEN')
-	
+
 	class Meta:
 		verbose_name = "Workout Template"
 		verbose_name_plural = "Workout Templates"

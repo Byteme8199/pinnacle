@@ -5,7 +5,7 @@ from django.db import models
 class TemplateWorkoutWeekInline(admin.StackedInline):
 	model = TemplateWorkoutWeek
 	fieldsets = [
-		('', {'fields': [('group', 'group_order', 'workout_week', 'name')]}),
+		('', {'fields': [('group', 'group_order', 'name')]}),
 		('Sets', {'fields': [('set_number', 'reps', 'rest_time', 'tempo')]}),
 	]
 	extra = 1

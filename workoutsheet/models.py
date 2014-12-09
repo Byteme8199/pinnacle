@@ -24,7 +24,7 @@ class WorkoutWeek(models.Model):
 		('3', '3'),
 		('4', '4'),
 	)
-	
+
 	WORKOUT_GROUP = (
 		('A', 'A'),
 		('B', 'B'),
@@ -39,7 +39,7 @@ class WorkoutWeek(models.Model):
 		('K', 'K'),
 		('L', 'L'),
 	)
-	
+
 	WORKOUT_GROUP_ORDER = (
 		('1', '1'),
 		('2', '2'),
@@ -50,12 +50,12 @@ class WorkoutWeek(models.Model):
 		('7', '7'),
 		('8', '8'),
 	)
-	
+
 	workout_week = models.CharField(max_length=5, choices=WORKOUT_WEEK_NUMBER, default='1', verbose_name="Week")
 	group = models.CharField(max_length=1, choices=WORKOUT_GROUP, default='A', verbose_name="Group")
 	group_order = models.CharField(max_length=1, choices=WORKOUT_GROUP_ORDER, default='1', verbose_name="Group Order")
-	
-	
+
+
 	def __unicode__(self):
 		return u"%s: Week #%s" % (self.name.name, self.workout_week)
 
@@ -80,16 +80,16 @@ class WorkoutSheet(models.Model):
 		year = str(self.start_date)
 		year = year.split('-')
 		return year[0]
-	
+
 	def weeks(self):
 		return WorkoutWeek.objects.filter(workout=self.pk)
 
 	def fullsheet(self):
 		fullsheet = []
-		for week in WorkoutWeek.objects.filter(workout=self.pk).order_by('group', 'group_order', 'workout_week'):	
+		for week in WorkoutWeek.objects.filter(workout=self.pk).order_by('group', 'group_order', 'workout_week'):
 			fullsheet.append(week)
 		return fullsheet
-	
+
 	EXERCISE_CATEGORY_CHOICES = (
 		('GEN', 'General Workouts'),
 		('WARM', 'Warmup Exercises'),
@@ -98,7 +98,7 @@ class WorkoutSheet(models.Model):
 	)
 
 	exercise_category = models.CharField(max_length=4, choices=EXERCISE_CATEGORY_CHOICES, default='GEN')
-	
+
 	def save(self, *args, **kwargs):
 		if not self.id and self.workout_template:
 			if not self.description:
@@ -107,16 +107,18 @@ class WorkoutSheet(models.Model):
 				self.description = self.workout_template.name
 			workout = WorkoutSheet(account=self.account, name=self.name,description=self.description, created_date=timezone.now(), start_date=self.start_date)
 			workout.save()
-		
+
 			weeks = self.workout_template.weeks()
 
 			for w in weeks:
-				new_week = WorkoutWeek(workout=workout, group=w.group, group_order=w.group_order, workout_week=w.workout_week, name=w.name, set_number=w.set_number, reps=w.reps, rest_time=w.rest_time, tempo=w.tempo, weight=w.weight)
-				new_week.save()
+				for i in range(4):
+					weeknum = i + 1
+					new_week = WorkoutWeek(workout=workout, group=w.group, group_order=w.group_order, workout_week=weeknum, name=w.name, set_number=w.set_number, reps=w.reps, rest_time=w.rest_time, tempo=w.tempo, weight=w.weight)
+					new_week.save()
 		else:
 			super(WorkoutSheet, self).save(*args, **kwargs)
 
-	
+
 	class Meta:
 		verbose_name = "Workout"
 		verbose_name_plural = "Workouts"

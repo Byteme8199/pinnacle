@@ -306,3 +306,12 @@ Start nginx::
 
 If you followed these directions your server ip or domain name if you have already pointed that at the server 
 should show you your site.
+
+
+
+Maintenance 
+-----------
+
+Database backups by digitalocean_.
+
+.. _digitalocean: https://www.digitalocean.com/community/tutorials/how-to-backup-postgresql-databases-on-an-ubuntu-vps

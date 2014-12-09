@@ -84,8 +84,10 @@ def add_workout(modeladmin, request, queryset):
                     weeks = workout.weeks()
 
                     for w in weeks:
-                        new_week = WorkoutWeek(workout=new_workout, group=w.group, group_order=w.group_order, workout_week=w.workout_week, name=w.name, set_number=w.set_number, reps=w.reps, rest_time=w.rest_time, tempo=w.tempo, weight=w.weight)
-                        new_week.save()
+						for i in range(4):
+							weeknum = i + 1
+							new_week = WorkoutWeek(workout=new_workout, group=w.group, group_order=w.group_order, workout_week=weeknum, name=w.name, set_number=w.set_number, reps=w.reps, rest_time=w.rest_time, tempo=w.tempo, weight=w.weight)
+							new_week.save()
 
                 modeladmin.message_user(request, ("Successfully added workout for %d Accounts") % (queryset.count(),))
                 return HttpResponseRedirect(request.get_full_path())
