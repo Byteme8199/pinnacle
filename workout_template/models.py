@@ -54,7 +54,7 @@ class TemplateWorkoutWeek(models.Model):
 
 
 	def __unicode__(self):
-		return u"%s: Week #%s" % (self.name.name, self.workout_week)
+            return u"%s: %d Sets x %s Reps" % (self.name.name, self.set_number, self.reps)
 
 	class Meta:
 		verbose_name = "Exercises"
