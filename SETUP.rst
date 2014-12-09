@@ -196,7 +196,7 @@ Setup your database for the site::
     # you are using south, right?
     $ ./manage.py migrate --all
 
-If you are itching to test the setup django's runserver should work now. 
+If you are itching to test the setup, django's runserver should work now. 
 **DO NOT** use runserver for production. (according to the django guys)
 
 

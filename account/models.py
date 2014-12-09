@@ -6,21 +6,9 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from django.core.mail import send_mail
 from recruiter.models import TargetSchool
+from video.tasks import send_the_email
 
-def send_email(subject, message, from_email, to_email):
-    msg =  "From: PinnacleProspects <pinnacleprospects@gmail.com>\n"
-    msg += "To: Ryan <ryan@hdvideoandwebdesign.com>\n"
-    msg += "MIME-Version: 1.0\n"
-    msg += "Content-type: text/html\n"
-    msg += "Subject: " + subject + "\n"
-    msg += "\n\n" + message
-    # server = smtplib.SMTP(settings.EMAIL_HOST + ":" + str(settings.EMAIL_PORT))
-    # server.starttls()
-    # server.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
-    # server.sendmail(from_email, to_email, msg)
-    # server.quit()
-    # send_mail(subject, message, from_email, to_email)	
-	
+
 def upload_path_handler(instance, filename):
 	return "./profiles/%s/%s" % (instance.user.username, filename)
 
@@ -42,15 +30,15 @@ class Account(models.Model):
 	profile_image = models.FileField(upload_to=upload_path_handler, null=True, blank=True)
 	team_image = models.FileField(upload_to=upload_path_handler, null=True, blank=True)
 	#target_school = models.ManyToManyField(TargetSchool, null=True, blank=True)
-	
+
 	def photo(self):
 		photo = self.profile_image.path
 		return photo.replace('/srv/sites/pindev/project/', '/')
-	
+
 	def team_photo(self):
 		team = self.team_image.path
 		return team.replace('/srv/sites/pindev/project/', '/')
-	
+
 	def weights(self):
 		return Weight.objects.filter(account=self.id)
 
@@ -62,7 +50,7 @@ class Account(models.Model):
 
 	def personals(self):
 		return Personal.objects.filter(account=self.id)
-	
+
 	def coaches(self):
 		return Coach.objects.filter(account=self.id)
 
@@ -71,10 +59,10 @@ class Account(models.Model):
 
 	def scores(self):
 		return Score.objects.filter(account=self.id)
-	
+
 	def memos(self):
 		return UserMemo.objects.filter(account=self.id)
-	
+
 	def target_lists(self):
 		return TargetSchoolsList.objects.filter(account=self.id)
 
@@ -83,17 +71,17 @@ class Account(models.Model):
 
 	class Meta:
 		ordering = ['-created_date']
-	
+
 	def save(self, *args, **kwargs):
 		account = self.user.first_name + ' ' + self.user.last_name
 		now = timezone.now()
-		
+
 		subject = "Account Update: " + account
 		message = account + "'s Account has been updated. <a href='http://pinnacleprospects.net/admin/account/account/" + str(self.id) + "'>Click Here to view the changes</a><br />The update occured at " + str(now)
-		from_email = 'pinnacleprospects@gmail.com'
+                from_email = 'pinnacleprospects@gmail.com'
 		to_email = ['ryan@hdvideoandwebdesign.com', '']
-		
-		send_email(subject, message, from_email, to_email)
+
+		send_the_email.delay(subject, message, from_email, to_email)
 
 		super(Account,self).save(*args, **kwargs)
 
@@ -102,11 +90,11 @@ class UserMemo(models.Model):
 	note = models.TextField(blank=True, null=False)
 	note_image = models.FileField(upload_to=upload_path_handler_2, null=True, blank=True)
 	created_date = models.DateTimeField(default=timezone.now())
-	
+
 	def memo_image(self):
 		note = self.note_image.path
 		return note.replace('/srv/sites/pindev/project/', '/')
-	
+
 	def __unicode__(self):
 		return unicode(self.account.user.username + ': ' + self.note)
 
@@ -129,7 +117,7 @@ class Position(models.Model):
 class Personal(Contact):
 	account = models.ForeignKey(Account)
 	pass
-		
+
 class Coach(Contact):
 	account = models.ForeignKey(Account)
 	#pass
@@ -161,7 +149,7 @@ class Height(models.Model):
 	def save(self, *args, **kwargs):
 		self.tot_inches = (self.height_feet * 12) + self.height_inches
 		super(Height,self).save(*args, **kwargs)
-		
+
 	class Meta:
 		ordering = ['created_date']
 
@@ -193,4 +181,4 @@ class Score(models.Model):
 
 	class Meta:
 		ordering = ['-created_date']
-	
+
