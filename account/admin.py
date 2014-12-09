@@ -78,7 +78,7 @@ def add_workout(modeladmin, request, queryset):
                     description = ""
 
                 for account in queryset:
-                    new_workout = WorkoutSheet(account=account, name=name, description=description, created_date=timezone.now(), start_date=timezone.now())
+                    new_workout = WorkoutSheet(account=account, name=name, description=description, created_date=timezone.now(), start_date=timezone.now(), exercise_category=workout.exercise_category)
                     new_workout.save()
 
                     weeks = workout.weeks()
