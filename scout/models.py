@@ -67,7 +67,7 @@ class ScoutSheet(models.Model):
 	ofp = models.CharField("OFP", max_length=255, blank=True, null=True)
 	
 	scale = (('1','1'),('2','2'),('3','3'),('4','4'),('5','5'),('6','6'),('7','7'),('8','8'),('9','9'),('10','10'))
-	player_type_choices = (('Position Player','Position Player'),('Pitcher','Pitcher'),('Both','Both'))
+	player_type_choices = (('Position','Position'),('Pitcher','Pitcher'),('Both','Both'))
 	player_type = models.CharField("Player Type", max_length=10, choices=player_type_choices, blank=True, null=True)
 	
 	ratings_hitting_ability_p = models.CharField("Hitting Ability - Present", max_length=10, choices=scale, blank=True, null=True)
