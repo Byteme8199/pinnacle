@@ -60,17 +60,25 @@
 					<div class="col-xs-12 col-sm-5">
 						{% if account.memos %}
 						
-						<p><strong class="subhead">Messages <span class="pull-right"><a href=""><span class="glyphicon glyphicon-envelope"></span></a><span class="badge pull-right">{{ account.memos|length }}</span></span></strong></p>
+						<p><strong class="subhead">Messages <span class="pull-right"><a><span class="glyphicon glyphicon-envelope"></span></a><span class="badge pull-right">{{ account.memos_count|length }}</span></span></strong></p>
 						
+							<div class="memo_wrapper">
 							{% for memo in account.memos %}				
-								<li>
-									<div>
-										<p>{{ memo.note }}</p>
-									</div>
-								</li>
+								<div class="media {% if memo.is_new %}mail_active{% endif %}">
+								  <a class="media-left">
+									<span class="glyphicon glyphicon-envelope"></span>
+								  </a>
+								  <div class="media-body">
+									<h4 class="media-heading">{{ memo.note }}</h4>
+									  <small>{{ memo.created_date }}</small>
+								  </div>
+								</div>
 							{% endfor %}
+							</div>
 						
 						{% endif %}
+						
+						<div class="hidden">{{ account.see_memos }}</div>
 						
 					</div>
 					

@@ -8,6 +8,9 @@ from django.core.mail import send_mail
 from recruiter.models import TargetSchool
 from video.tasks import send_the_email
 
+from datetime import datetime, timedelta
+
+
 def upload_path_handler(instance, filename):
 	return "./profiles/%s/%s" % (instance.user.username, filename)
 
@@ -66,7 +69,14 @@ class Account(models.Model):
 		return CarouselImage.objects.all()
 
 	def memos(self):
-		return UserMemo.objects.filter(account=self.id)
+		return UserMemo.objects.filter(account=self.id).order_by('-created_date')
+	
+	def memos_count(self):
+		return UserMemo.objects.filter(account=self.id, is_new=1).order_by('-created_date')
+	
+	def see_memos(self):
+		UserMemo.objects.filter(account=self.id).update(is_new=0)
+		pass
 
 	def target_lists(self):
 		return TargetSchoolsList.objects.filter(account=self.id)
@@ -110,6 +120,7 @@ class UserMemo(models.Model):
 	note = models.TextField(blank=True, null=False)
 	note_image = models.FileField(upload_to=upload_path_handler_2, null=True, blank=True)
 	created_date = models.DateTimeField(default=timezone.now())
+	is_new = models.BooleanField(default=1)
 	
 	def memo_image(self):
 		note = self.note_image.path

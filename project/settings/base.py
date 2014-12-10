@@ -25,7 +25,7 @@ DEFAULT_FROM_EMAIL = 'pinnacleprospects@gmail.com'
 SERVER_EMAIL = 'pinnacleprospects@gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 465
+EMAIL_PORT = 567
 
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = 'django.contrib.auth.views.login'
@@ -159,7 +159,7 @@ INSTALLED_APPS = (
     'grappelli',
     'django.contrib.admin',
     'easy_pdf',
-	'djcelery',
+	# 'djcelery',
 	'project',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
