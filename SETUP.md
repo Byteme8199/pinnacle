@@ -266,6 +266,43 @@ Seems like it will be something similar to Daemonizing Gunicorn
 * [more](http://stackoverflow.com/questions/10250682/how-to-write-an-ubuntu-upstart-job-for-celery-django-celery-in-a-virtualenv?rq=1)
 
 
+try this out
+
+```shell
+# iamcelery -runs the celery worker in the virtualenv 
+#
+#
+# This task runs on startup to start the celery server as the env user
+
+description "Celery Backend for long running processes"
+
+start on runlevel [2345]
+stop on runlevel [06]
+
+# Try to restart if it ends unexpectedly
+respawn
+# Try max of 10 times with 5 second timeouts
+respawn limit 10 5
+# Time to wait between sending TERM and KILL signals
+kill timeout 20
+
+script
+    NAME=pindev
+    USER=deploy
+    # NAME should be the name of the virtual environment
+    # To make things easier for me I use the name
+    # name of the project file
+    ENV=/usr/local/virtualenvs/$NAME/bin/celery
+    SRV=/srv/sites/$NAME
+    exec sudo su -s /bin/sh -c 'cd $SRV; exec "$0" "$@"' \
+        $USER -- $ENV \
+        --app=project.celery:app worker -l info
+end script
+
+```
+
+
+
 ## Step 6: Setup Nginx to proxy to your new example site
 
 Create a new file `sudo vi /etc/nginx/sites-available/pinnacle.conf` and add the following to the contents of the file

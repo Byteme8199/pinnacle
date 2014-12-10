@@ -67,6 +67,8 @@ class ScoutSheet(models.Model):
 	ofp = models.CharField("OFP", max_length=255, blank=True, null=True)
 	
 	scale = (('1','1'),('2','2'),('3','3'),('4','4'),('5','5'),('6','6'),('7','7'),('8','8'),('9','9'),('10','10'))
+	player_type_choices = (('Position Player','Position Player'),('Pitcher','Pitcher'),('Both','Both'))
+	player_type = models.CharField("Player Type", max_length=10, choices=player_type_choices, blank=True, null=True)
 	
 	ratings_hitting_ability_p = models.CharField("Hitting Ability - Present", max_length=10, choices=scale, blank=True, null=True)
 	ratings_hitting_ability_f = models.CharField("Hitting Ability - Future", max_length=10, choices=scale, blank=True, null=True)
@@ -91,6 +93,59 @@ class ScoutSheet(models.Model):
 	hit_approach = models.CharField("Hit Approach", max_length=255, blank=True, null=True)
 	time_to_1b = models.CharField("Time to 1B", max_length=255, blank=True, null=True)
 	time_to_right = models.CharField("Time to Right", max_length=255, blank=True, null=True)
+	
+	
+	ratings_fb_velocity_p = models.CharField("FB Velocity - Present", max_length=10, choices=scale, blank=True, null=True)
+	ratings_fb_velocity_f = models.CharField("FB Velocity - Future", max_length=10, choices=scale, blank=True, null=True)
+	ratings_fb_velocity_h = models.CharField("FB Velocity - High", max_length=10, blank=True, null=True)
+	ratings_fb_velocity_l = models.CharField("FB Velocity - Low", max_length=10, blank=True, null=True)
+	ratings_fb_velocity_pc = models.CharField("FB Velocity - Present Command", max_length=10, choices=scale, blank=True, null=True)
+	ratings_fb_velocity_fc = models.CharField("FB Velocity - Future Command", max_length=10, choices=scale, blank=True, null=True)
+	ratings_fb_movement_p = models.CharField("FB Movement - Present", max_length=10, choices=scale, blank=True, null=True)
+	ratings_fb_movement_f = models.CharField("FB Movement - Future", max_length=10, choices=scale, blank=True, null=True)
+	ratings_fb_movement_n = models.CharField("FB Movement - Notes", max_length=255, blank=True, null=True)
+	
+	ratings_curve_p = models.CharField("Curveball - Present", max_length=10, choices=scale, blank=True, null=True)
+	ratings_curve_f = models.CharField("Curveball - Future", max_length=10, choices=scale, blank=True, null=True)
+	ratings_curve_h = models.CharField("Curveball - High", max_length=10, blank=True, null=True)
+	ratings_curve_l = models.CharField("Curveball - Low", max_length=10, blank=True, null=True)
+	ratings_curve_pc = models.CharField("Curveball - Present Command", max_length=10, choices=scale, blank=True, null=True)
+	ratings_curve_fc = models.CharField("Curveball - Future Command", max_length=10, choices=scale, blank=True, null=True)
+	
+	ratings_slider_p = models.CharField("Slider - Present", max_length=10, choices=scale, blank=True, null=True)
+	ratings_slider_f = models.CharField("Slider - Future", max_length=10, choices=scale, blank=True, null=True)
+	ratings_slider_h = models.CharField("Slider - High", max_length=10, blank=True, null=True)
+	ratings_slider_l = models.CharField("Slider - Low", max_length=10, blank=True, null=True)
+	ratings_slider_pc = models.CharField("Slider - Present Command", max_length=10, choices=scale, blank=True, null=True)
+	ratings_slider_fc = models.CharField("Slider - Future Command", max_length=10, choices=scale, blank=True, null=True)
+	
+	ratings_change_p = models.CharField("Change - Present", max_length=10, choices=scale, blank=True, null=True)
+	ratings_change_f = models.CharField("Change - Future", max_length=10, choices=scale, blank=True, null=True)
+	ratings_change_h = models.CharField("Change - High", max_length=10, blank=True, null=True)
+	ratings_change_l = models.CharField("Change - Low", max_length=10, blank=True, null=True)
+	ratings_change_pc = models.CharField("Change - Present Command", max_length=10, choices=scale, blank=True, null=True)
+	ratings_change_fc = models.CharField("Change - Future Command", max_length=10, choices=scale, blank=True, null=True)
+	
+	ratings_other_p = models.CharField("Other Pitch - Present", max_length=10, choices=scale, blank=True, null=True)
+	ratings_other_f = models.CharField("Other Pitch - Future", max_length=10, choices=scale, blank=True, null=True)
+	ratings_other_h = models.CharField("Other Pitch - High", max_length=10, blank=True, null=True)
+	ratings_other_l = models.CharField("Other Pitch - Low", max_length=10, blank=True, null=True)
+	ratings_other_pc = models.CharField("Other Pitch - Present Command", max_length=10, choices=scale, blank=True, null=True)
+	ratings_other_fc = models.CharField("Other Pitch - Future Command", max_length=10, choices=scale, blank=True, null=True)
+	
+	ratings_control_p = models.CharField("Control - Present", max_length=10, choices=scale, blank=True, null=True)
+	ratings_control_f = models.CharField("Control - Future", max_length=10, choices=scale, blank=True, null=True)
+	ratings_pitchability_p = models.CharField("Pitchability - Present", max_length=10, choices=scale, blank=True, null=True)
+	ratings_pitchability_f = models.CharField("Pitchability - Future", max_length=10, choices=scale, blank=True, null=True)
+	ratings_delivery_p = models.CharField("Delivery - Present", max_length=10, choices=scale, blank=True, null=True)
+	ratings_delivery_f = models.CharField("Delivery - Future", max_length=10, choices=scale, blank=True, null=True)
+	ratings_arm_action_p = models.CharField("Arm Action - Present", max_length=10, choices=scale, blank=True, null=True)
+	ratings_arm_action_f = models.CharField("Arm Action - Future", max_length=10, choices=scale, blank=True, null=True)
+
+	
+	delivery = models.TextField("Delivery", blank=True, null=True)	
+	arm_action = models.TextField("Arm Action", blank=True, null=True)	
+	arm_slot = models.CharField("Arm Slot", max_length=255, blank=True, null=True)
 	
 	makeup_athleticism = models.CharField("Athleticism", max_length=10, choices=scale, blank=True, null=True)
 	makeup_aptitude = models.CharField("Aptitude", max_length=10, choices=scale, blank=True, null=True)

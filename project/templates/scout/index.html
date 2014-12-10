@@ -166,12 +166,13 @@
 	
 	<div class="row">
 		<div class="col-sm-12 col-sm-4">
+			{% if ranking.player_type == 'Position Player' or ranking.player_type == 'Both' %}
 			<table id="scout" class="table table-responsive">
-					<tr>
-						<th class="head">Ratings</th>
-						<th class="head">P</th>
-						<th class="head">F</th>
-					</tr>
+				<tr>
+					<th class="head">Ratings</th>
+					<th class="head">P</th>
+					<th class="head">F</th>
+				</tr>
 				<tr>
 					<td class="head">Hitting Ability:</td>
 					<td>{{ ranking.ratings_hitting_ability_p }}</td>
@@ -226,33 +227,164 @@
 					<td>{{ ranking.ratings_range_f }}</td>
 				</tr>
 		</table>
+		{% endif %}
+			
+			{% if ranking.player_type == 'Pitcher' or ranking.player_type == 'Both' %}
+			
+			<table id="scout" class="table table-responsive">
+				<tr>
+					<th class="head">Ratings</th>
+					<th class="head">P</th>
+					<th class="head">F</th>
+					<th class="head">H</th>
+					<th class="head">L</th>
+					<th class="head">P Cmd</th>
+					<th class="head">F Cmd</th>
+				</tr>
+				<tr>
+					<td class="head">FB Velocity:</td>
+					<td>{{ ranking.ratings_fb_velocity_p }}</td>
+					<td>{{ ranking.ratings_fb_velocity_f }}</td>
+					<td>{{ ranking.ratings_fb_velocity_h }}</td>
+					<td>{{ ranking.ratings_fb_velocity_l }}</td>
+					<td>{{ ranking.ratings_fb_velocity_pc }}</td>
+					<td>{{ ranking.ratings_fb_velocity_fc }}</td>
+				</tr>
+				
+				<tr>
+					<td class="head">FB Movement:</td>
+					<td>{{ ranking.ratings_fb_movement_p }}</td>
+					<td>{{ ranking.ratings_fb_movement_f }}</td>
+					<td colspan="4">{{ ranking.ratings_fb_movement_n }}</td>
+				</tr>
+			
+				<tr>
+					<td class="head">Curveball:</td>
+					<td>{{ ranking.ratings_curve_p }}</td>
+					<td>{{ ranking.ratings_curve_f }}</td>
+					<td>{{ ranking.ratings_curve_h }}</td>
+					<td>{{ ranking.ratings_curve_l }}</td>
+					<td>{{ ranking.ratings_curve_pc }}</td>
+					<td>{{ ranking.ratings_curve_fc }}</td>
+				</tr>
+				
+				<tr>
+					<td class="head">Slider:</td>
+					<td>{{ ranking.ratings_slider_p }}</td>
+					<td>{{ ranking.ratings_slider_f }}</td>
+					<td>{{ ranking.ratings_slider_h }}</td>
+					<td>{{ ranking.ratings_slider_l }}</td>
+					<td>{{ ranking.ratings_slider_pc }}</td>
+					<td>{{ ranking.ratings_slider_fc }}</td>
+				</tr>
+				
+				<tr>
+					<td class="head">Changeup:</td>
+					<td>{{ ranking.ratings_change_p }}</td>
+					<td>{{ ranking.ratings_change_f }}</td>
+					<td>{{ ranking.ratings_change_h }}</td>
+					<td>{{ ranking.ratings_change_l }}</td>
+					<td>{{ ranking.ratings_change_pc }}</td>
+					<td>{{ ranking.ratings_change_fc }}</td>
+				</tr>
+				
+				<tr>
+					<td class="head">Other:</td>
+					<td>{{ ranking.ratings_other_p }}</td>
+					<td>{{ ranking.ratings_other_f }}</td>
+					<td>{{ ranking.ratings_other_h }}</td>
+					<td>{{ ranking.ratings_other_l }}</td>
+					<td>{{ ranking.ratings_other_pc }}</td>
+					<td>{{ ranking.ratings_other_fc }}</td>
+				</tr>
+			
+				<tr>
+					<td class="head">Control:</td>
+					<td>{{ ranking.ratings_control_p }}</td>
+					<td>{{ ranking.ratings_control_f }}</td>
+				</tr>
+			
+				<tr>
+					<td class="head">Pitchability:</td>
+					<td>{{ ranking.ratings_pitchability_p }}</td>
+					<td>{{ ranking.ratings_pitchability_f }}</td>
+				</tr>
+				
+				<tr>
+					<td class="head">Delivery:</td>
+					<td>{{ ranking.ratings_delivery_p }}</td>
+					<td>{{ ranking.ratings_delivery_f }}</td>
+				</tr>
+				
+				<tr>
+					<td class="head">Arm Action:</td>
+					<td>{{ ranking.ratings_arm_action_p }}</td>
+					<td>{{ ranking.ratings_arm_action_f }}</td>
+				</tr>
+		</table>
+			
+			
+			{% endif %}
 		</div>	
+		
+		
 		<div class="col-sm-12 col-sm-4">
 			<table id="scout" class="table table-responsive">
+				{% if ranking.player_type == 'Position Player' or ranking.player_type == 'Both' %}
 					<tr>
 						<th class="head" colspan="2">Running and Hitting</th>
 					</tr>
-				<tr>
-					<td class="head">Hit Type:</td>
-					<td>{{ ranking.hit_type }}</td>
-				</tr>
-			
-				<tr>
-					<td class="head">Hit Approach:</td>
-					<td>{{ ranking.hit_approach }}</td>
-				</tr>
-			
-				<tr>
-					<td class="head">Time to 1B:</td>
-					<td>{{ ranking.time_to_1b }}</td>
-				</tr>
-			
-				<tr>
-					<td class="head">Time to Right:</td>
-					<td>{{ ranking.time_to_right }}</td>
-				</tr>
+					<tr>
+						<td class="head">Hit Type:</td>
+						<td>{{ ranking.hit_type }}</td>
+					</tr>
+					<tr>
+						<td class="head">Hit Approach:</td>
+						<td>{{ ranking.hit_approach }}</td>
+					</tr>
+					<tr>
+						<td class="head">Time to 1B:</td>
+						<td>{{ ranking.time_to_1b }}</td>
+					</tr>
+
+					<tr>
+						<td class="head">Time to Right:</td>
+						<td>{{ ranking.time_to_right }}</td>
+					</tr>
+				{% endif %}
+				{% if ranking.player_type == 'Pitcher' or ranking.player_type == 'Both' %}
+					<tr>
+						<th class="head" colspan="2">Pitching</th>
+					</tr>
+					<tr>
+						<td class="head">Arm Slot:</td>
+						<td>{{ ranking.arm_slot }}</td>
+					</tr>
+
+					<tr>
+						<td colspan="2" class="head">Delivery:</td>
+					</tr>
+					<tr>	
+						<td colspan="2">{{ ranking.delivery }}</td>
+					</tr>
+				
+					<tr>
+						<td colspan="2" class="head">Arm Action:</td>
+					</tr>
+					<tr>	
+						<td colspan="2">{{ ranking.arm_action }}</td>
+					</tr>
+
+				{% endif %}
+				
 		</table>
 		</div>	
+		
+		
+		
+		
+		
+		
 		<div class="col-sm-12 col-sm-4">
 			<table id="scout" class="table table-responsive">
 					<tr>
