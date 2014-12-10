@@ -8,12 +8,14 @@ from django.core.mail import send_mail
 from recruiter.models import TargetSchool
 from video.tasks import send_the_email
 
-
 def upload_path_handler(instance, filename):
 	return "./profiles/%s/%s" % (instance.user.username, filename)
 
 def upload_path_handler_2(instance, filename):
 	return "./profiles/%s/%s" % (instance.account.user.username, filename)
+
+def upload_path_handler_carousel(instance, filename):
+	return "./carousel_images/%s" % (filename)
 
 class Account(models.Model):
 	user = models.OneToOneField(User, related_name='account')
@@ -59,6 +61,9 @@ class Account(models.Model):
 
 	def scores(self):
 		return Score.objects.filter(account=self.id)
+	
+	def carousel_images(self):
+		return CarouselImage.objects.all()
 
 	def memos(self):
 		return UserMemo.objects.filter(account=self.id)
@@ -85,12 +90,27 @@ class Account(models.Model):
 
 		super(Account,self).save(*args, **kwargs)
 
+class CarouselImage(models.Model):
+	caption = models.TextField(blank=True, null=False)
+	carousel_image = models.FileField(upload_to=upload_path_handler_carousel, null=True, blank=True)
+	created_date = models.DateTimeField(default=timezone.now())
+
+	def image(self):
+		image_path = self.carousel_image.path
+		return image_path.replace('/srv/sites/pindev/project/', '/')
+
+	def __unicode__(self):
+		return unicode(self.caption)
+
+	class Meta:
+		ordering = ['-created_date']
+		
 class UserMemo(models.Model):
 	account = models.ForeignKey(Account)
 	note = models.TextField(blank=True, null=False)
 	note_image = models.FileField(upload_to=upload_path_handler_2, null=True, blank=True)
 	created_date = models.DateTimeField(default=timezone.now())
-
+	
 	def memo_image(self):
 		note = self.note_image.path
 		return note.replace('/srv/sites/pindev/project/', '/')

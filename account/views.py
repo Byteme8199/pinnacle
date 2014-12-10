@@ -23,12 +23,22 @@ class LoggedInMixin(object):
 		return super(LoggedInMixin, self).dispatch(*args, **kwargs)
 
 class AccountView(LoggedInMixin, ListView):
-
     model = Account
     template_name = 'account/index.html'
 
     def get_queryset(self):
 		return [Account.objects.get(pk=self.request.user.account.id)]
+	
+class GuestAccountView(LoggedInMixin, ListView):
+	model = Account
+	template_name = 'account/index.html'
+
+	def get_queryset(self):
+		if self.request.user.is_staff:
+			thisid = self.request.path.split('/')
+			return Account.objects.filter(id=thisid[2])
+		else:
+			return [Account.objects.get(pk=self.request.user.account.id)]
 	
 class AddPhotoView(LoggedInMixin, UpdateView):
 	model = Account

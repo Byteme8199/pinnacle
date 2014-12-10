@@ -25,6 +25,7 @@
 		}		  
 
 		body { background-color: transparent; height: 100%; font-family: 'Abel', sans-serif; font-weight: 300; font-size: 1.6em } 
+		.nopad { padding: 0px; }
 		  
 		h3 {
 margin-top: 0px;
@@ -34,6 +35,21 @@ margin-bottom: 15px;
 font-size: 200%;
 }
 		  
+	
+#admin-links {
+	margin-left: 0px !important; margin-right: 0px !important;
+}		  
+#admin-links a {
+color: #fff;
+font-size: 100%;
+display: block;
+padding: 3px 5px;
+clear: both;
+font-weight: normal;
+line-height: 1.42857143;
+white-space: nowrap;
+}
+
 /* Slider
 /*-----------------------------------------------------------------------------------*/
 .slider_container{ margin:auto; clear:both; text-align:center;}
@@ -586,8 +602,29 @@ background-color: #444 !important;
 				  </ul>
 			  </li>
 			  <li class="uibutton"><a href="{% url 'scout' %}">SCOUT</a></li>
+			  {% if user.is_staff %}
+				<li class="dropdown uibutton">
+					<a href="/admin" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">ADMIN<span class="caret"></span></a>
+				  <ul class="dropdown-menu" role="menu">
+					  <li><a href="/admin">Admin Area</a></li>
+					  <li class="divider"></li>
+					  <li><a href="#">View As:</a></li>
+					  {% for user in users %}
+						<li>
+							<div class="row" id="admin-links">
+								<div class="col-xs-6"><a href="{% url 'guest_account' pk=user.id %}">{{ user.user.first_name|slice:"1" }}. {{ user.user.last_name }}</a></div>
+								<div class="col-xs-3"><a href="{% url 'guest_video' pk=user.id %}">V</a> </div>
+								<div class="col-xs-3"><a href="{% url 'guest_scout' pk=user.id %}">S</a></div>
+							</div>
+					    </li>
+					  {% endfor %}
+				  </ul>
+			  	</li>
+			  {% endif %}
 			  <li class="uibutton pull-right"><a href="{% url 'django.contrib.auth.views.logout' %}">LOGOUT</a></li>
 		   </ul>
+		
+		
 		{% endif %}
 			  
     </div>
@@ -597,6 +634,7 @@ background-color: #444 !important;
 	  {% endblock %}
 	
 	  {% block body %}
+	  
 	  <main>
 		<div class="container-fluid" id="content">  
 			<div class="row">
@@ -685,9 +723,9 @@ background-color: #444 !important;
 	  
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-	  <script type="text/javascript" src="http://rapidsportsperformance.com/wp-content/themes/rapid/scripts/jquery.flexslider-min.js?ver=1"></script>
-	  <script type="text/javascript" src="http://rapidsportsperformance.com/wp-content/themes/rapid/scripts/jquery.easing.1.3.js?ver=1"></script>
-	  <script type="text/javascript" src="http://rapidsportsperformance.com/wp-content/themes/rapid/scripts/jquery.elastislide.js?ver=1"></script>
+	  <script type="text/javascript" src="/static/js/jquery.flexslider-min.js"></script>
+	  <script type="text/javascript" src="/static/js/jquery.easing.1.3.js"></script>
+	  <script type="text/javascript" src="/static/js/jquery.elastislide.js"></script>
 	  
   </body>
 </html>

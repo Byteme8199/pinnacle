@@ -42,6 +42,17 @@ class VideoView(LoggedInMixin, ListView):
 			#vid.thumbnail()
  		return Video.objects.filter(account=self.request.user.account.id)
 	
+class GuestVideoView(LoggedInMixin, ListView):
+	model = Video
+	template_name = 'videos/index.html'
+
+	def get_queryset(self):
+		if self.request.user.is_staff:
+			thisid = self.request.path.split('/')
+			return Video.objects.filter(account=thisid[2])
+		else:
+			return Video.objects.filter(account=self.request.user.account.id)
+	
 class AddVideoView(LoggedInMixin, FormView):
 	
 	model = Video

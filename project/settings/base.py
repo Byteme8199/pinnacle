@@ -96,6 +96,7 @@ GRAPPELLI_ADMIN_TITLE = (
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',
     "django.core.context_processors.request",
+	"account.context_processors.users"
 )
 
 # List of finder classes that know how to find static files in

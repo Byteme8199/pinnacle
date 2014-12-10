@@ -3,7 +3,7 @@ from django.contrib.admin import helpers
 from django.http import HttpResponseRedirect
 from django.template.response import TemplateResponse
 from django.utils import timezone
-from account.models import Height, Weight, Score, Account, Position, Coach, Parent, TargetSchoolsList, Personal, UserMemo
+from account.models import Height, Weight, Score, Account, Position, Coach, Parent, TargetSchoolsList, Personal, UserMemo, CarouselImage
 from workoutsheet.models import WorkoutSheet, WorkoutWeek
 from workout_template.models import WorkoutSheetTemplate, TemplateWorkoutWeek
 from project.utils import Contact
@@ -102,6 +102,9 @@ add_workout.short_description = "Add Workout to selected Accounts"
 
 class UserMemoAdmin(admin.ModelAdmin):
 	list_filter = ('created_date', 'account')
+	
+class CarouselImageAdmin(admin.ModelAdmin):
+	list_filter = ('caption', 'created_date')
 
 class AccountAdmin(admin.ModelAdmin):
 	inlines = [WeightInline, HeightInline, ScoreInline, PositionInline, CoachInline, ParentInline, TargetSchoolsListInline]
@@ -110,6 +113,6 @@ class AccountAdmin(admin.ModelAdmin):
 
         list_filter = ('created_date', 'high_school', 'college')
 
-
+admin.site.register(CarouselImage, CarouselImageAdmin)
 admin.site.register(UserMemo, UserMemoAdmin)
 admin.site.register(Account, AccountAdmin)

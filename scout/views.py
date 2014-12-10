@@ -27,3 +27,24 @@ class ScoutView(LoggedInMixin, ListView):
 		context = super(ScoutView, self).get_context_data(**kwargs)
 		context['rankings'] = ScoutSheet.objects.filter(account=self.request.user.account.id)
 		return context
+	
+	
+class GuestScoutView(LoggedInMixin, ListView):
+	model = ScoutSheet
+	template_name = 'scout/index.html'
+
+	def get_queryset(self):
+		if self.request.user.is_staff:
+			thisid = self.request.path.split('/')
+			return ScoutSheet.objects.filter(account=thisid[2])
+		else:
+			return ScoutSheet.objects.filter(account=self.request.user.account.id)
+		
+	def get_context_data(self, **kwargs):
+		thisid = self.request.path.split('/')
+		context = super(GuestScoutView, self).get_context_data(**kwargs)
+		if self.request.user.is_staff:
+			context['rankings'] = ScoutSheet.objects.filter(account=thisid[2])
+		else:
+			context['rankings'] = ScoutSheet.objects.filter(account=self.request.user.account.id)
+		return context
