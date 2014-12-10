@@ -28,7 +28,7 @@ def send_the_email(subject, message, from_email, to_email):
                print 'sending mail'
                server.sendmail(from_email, to_email, msg)
                server.quit()
-        except SMTPException:
+        except Exception, e:
                print "Connection failed"
 
 
