@@ -19,14 +19,17 @@ def send_the_email(subject, message, from_email, to_email):
         msg += "Content-type: text/html\n"
         msg += "Subject: " + subject + "\n"
         msg += "\n\n" + message
-        server = smtplib.SMTP(settings.EMAIL_HOST + ":" + str(settings.EMAIL_PORT))
-        print 'starting tls'
-        server.starttls()
-        print 'logging in'
-        server.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
-        print 'sending mail'
-        server.sendmail(from_email, to_email, msg)
-        server.quit()
+        try:
+               server = smtplib.SMTP(settings.EMAIL_HOST + ":" + str(settings.EMAIL_PORT))
+               print 'starting tls'
+               server.starttls()
+               print 'logging in'
+               server.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
+               print 'sending mail'
+               server.sendmail(from_email, to_email, msg)
+               server.quit()
+        except Error:
+               print "Connection failed"
 
 
 

@@ -25,7 +25,7 @@ DEFAULT_FROM_EMAIL = 'pinnacleprospects@gmail.com'
 SERVER_EMAIL = 'pinnacleprospects@gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 567
+EMAIL_PORT = 587 # or 465 for digital ocean
 
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = 'django.contrib.auth.views.login'
