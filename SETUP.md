@@ -56,6 +56,11 @@ $ sudo service postgresql restart
 $ sudo aptitude install nginx git
 ```
 
+Note:
+> If you are serving video files replace nginx with nginx-extras 
+> in order to get the mp4 and flv nginx modules
+
+
 ### FFMPEG
 
 We use ffmpeg for making thumbnails from the uploaded videos.::

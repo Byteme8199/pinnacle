@@ -4,6 +4,7 @@ from account.models import Account
 from django.utils import timezone
 from django.core.mail import send_mail
 from subprocess import check_output
+from video.tasks import make_thumbnail
 
 class VideoType(models.Model):
 	name = models.CharField(max_length=100, blank=True, null=False)
@@ -25,7 +26,7 @@ def make_thumbnail_and_compress(self, type):
 		vid = Video.objects.get(pk=self.id)
 
 	if not self.has_compressed:
-		split = vid.file.path.split('/')	
+		split = vid.file.path.split('/')
 		newsplit = split[6].split('.')
 		filename = newsplit[0]
 
@@ -34,27 +35,27 @@ def make_thumbnail_and_compress(self, type):
 		else:
 			new_thumb = vid.file.path.replace(split[8], str(self.id) + ".jpg")
 
-		# internal server/external server 
+		# internal server/external server
 		thumbnail = new_thumb.replace("/srv/sites/pindev/project", "")
-			
-	
+
+
 		#Make Thumbnail
 		check_output(["ffmpeg", "-itsoffset", "-4", "-i", str(vid.file.path), "-y", "-vcodec", "mjpeg", "-vframes", "1", "-an", "-f", "rawvideo", "-s", "320x240", str(new_thumb)])
 		self.has_compressed = True
-		
+
 		self.save()
-	
+
 	else:
 		sp = self.file.path.split('/')
 		if type =='reply':
 			this = self.file.path.replace(sp[8], str(self.parent.id) + "-" + str(self.id) + '-reply.jpg')
 		else:
 			this = self.file.path.replace(sp[8], str(str(self.id) + '.jpg'))
-			
+
 		thumbnail = this.replace("/srv/sites/pindev/project", "")
-		
+
 	return thumbnail
-		
+
 
 class Video(models.Model):
 	title = models.CharField(max_length=200)
@@ -71,16 +72,16 @@ class Video(models.Model):
 	def video(self):
 		path = Video.objects.filter(pk=self.id)
 		return path[0].file.path.replace("/srv/sites/pindev/project", "")
-	
+
 	def thumbnail(self):
-		return make_thumbnail_and_compress(self, 'user')		
-	
+		return make_thumbnail_and_compress(self, 'user')
+
 	def videos(self):
 		return Video.objects.filter(account=self.account)
 
 	def replies(self):
 		return VideoReply.objects.filter(parent=self.id)
-	
+
 	def photos(self):
 		return PhotoReply.objects.filter(parent=self.id)
 
@@ -91,7 +92,7 @@ class Video(models.Model):
 		ordering = ['-created_date']
 
 	def save(self, *args, **kwargs):
-		
+
 		#### EMAIL NOTIFICATION ####
 		account = self.account.user.first_name + ' ' + self.account.user.last_name
 		now = timezone.now()
@@ -101,7 +102,10 @@ class Video(models.Model):
 		from_email = 'ryan@hdvideoandwebdesign.com'
 		to_email = 'rgordon@golfweek.com'
 		send_mail(title, message, from_email, [to_email], fail_silently=False)
-		
+
+                ## Thumbnail celery function ##
+                # make_thumbnail(self.pk)
+
 		super(Video,self).save(*args, **kwargs)
 
 class VideoReply(models.Model):
@@ -111,36 +115,36 @@ class VideoReply(models.Model):
 	video_embed = models.CharField(max_length=200, blank=True, null=True)
 	file = models.FileField(upload_to=upload_path_handler_reply)
 	has_compressed = models.BooleanField(default=False,editable=False)
-	
+
 	def video(self):
 		path = VideoReply.objects.filter(pk=self.id)
 		return path[0].file.path.replace("/srv/sites/pindev/project", "")
-	
+
 	def replies(self):
 		return VideoReply.objects.filter(account=self.parent.account)
-	
+
 	def thumbnail(self):
-		return make_thumbnail_and_compress(self, 'reply')		
+		return make_thumbnail_and_compress(self, 'reply')
 
 	def __unicode__(self):
 		return unicode('[ Video Reply ] %s' % (self.parent.title))
 
 	class Meta:
 		verbose_name_plural = "Video Replies"
-		
+
 class PhotoReply(models.Model):
 	parent = models.ForeignKey(Video)
 	created_date = models.DateTimeField(default=timezone.now())
 	note = models.TextField(blank=True, null=False)
 	file = models.FileField(upload_to=upload_path_handler_reply)
-	
+
 	def photo(self):
 		photo = self.file.path
 		return photo.replace('/srv/sites/pindev/project/', '/')
-	
+
 	def replies(self):
 		return PhotoReply.objects.filter(account=self.parent.account)
-	
+
 	def __unicode__(self):
 		return unicode('[ Photo Reply ] %s' % (self.parent.title))
 

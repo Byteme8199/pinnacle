@@ -57,7 +57,7 @@
 
 					</div>
 					
-					<div class="col-xs-12 col-sm-5">
+					<div class="col-sm-5 hidden-xs">
 						{% if account.memos %}
 						
 						<p><strong class="subhead">Messages <span class="pull-right"><a><span class="glyphicon glyphicon-envelope"></span></a><span class="badge pull-right">{{ account.memos_count|length }}</span></span></strong></p>
@@ -77,9 +77,6 @@
 							</div>
 						
 						{% endif %}
-						
-						<div class="hidden">{{ account.see_memos }}</div>
-						
 					</div>
 					
 				</div>
@@ -127,9 +124,33 @@
 						
 						<div class="col-xs-12 visible-xs">&nbsp;</div>
 						
+						<div class="col-xs-12 visible-xs">
+						{% if account.memos %}
+						
+						<p><strong class="subhead">Messages <span class="pull-right"><a><span class="glyphicon glyphicon-envelope"></span></a><span class="badge pull-right">{{ account.memos_count|length }}</span></span></strong></p>
+						
+							<div class="memo_wrapper">
+							{% for memo in account.memos %}				
+								<div class="media {% if memo.is_new %}mail_active{% endif %}">
+								  <a class="media-left">
+									<span class="glyphicon glyphicon-envelope"></span>
+								  </a>
+								  <div class="media-body">
+									<h4 class="media-heading">{{ memo.note }}</h4>
+									  <small>{{ memo.created_date }}</small>
+								  </div>
+								</div>
+							{% endfor %}
+							</div>
+						
+						{% endif %}
+						<div class="hidden">{{ account.see_memos }}</div>
+						</div>
+
 					</div>
+
 					
-					<div class="col-sm-4">
+					<div class="col-xs-12 col-sm-4">
 						
 						
 						{% if account.personals %} 
@@ -187,7 +208,7 @@
 
 					</div>
 					
-					<div class="col-sm-6">
+					<div class="col-xs-12 col-sm-6">
 						
 						<p><strong class="subhead">Schools/Teams<span class=" pull-right"><a data-toggle="modal" href="{% url 'account_school_add' pk=account.id %}" data-target="#modal"><span class="glyphicon glyphicon-book"></span></a></span></strong></p>
 						<p>
@@ -212,14 +233,13 @@
 						</p>
 
 					</div>
-					
-					
-				</div>
-			
+
+			</div>
+	
 			<div class="row">&nbsp;</div>
 	
 			<div class="row">
-				<div class="col-md-6">
+				<div class="col-xs-12 col-md-6">
 					<p>
 						<strong class="subhead">High School Coach(s) <span class=" pull-right"><a data-toggle="modal" href="{% url 'account_coach_add' %}" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span></strong>
 						{% for coach in account.coaches %} 
@@ -235,7 +255,7 @@
 					</p>
 				</div>	
 			
-				<div class="col-md-6">
+				<div class="col-xs-12 col-md-6">
 					<p>
 						<strong class="subhead">Parent Contact <span class=" pull-right"><a data-toggle="modal" href="{% url 'account_parent_add' %}" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span></strong>
 
