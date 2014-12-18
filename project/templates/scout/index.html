@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-
 {% block content %}
 
 	<script>
@@ -118,10 +117,7 @@
 			</table>
 		</div>
 		
-		
-		
-		
-		
+
 		<div class="col-sm-12 col-sm-4">
 		<table id="scout" class="table table-responsive">
 			<tr>
@@ -164,8 +160,10 @@
 		</div>
 	</div>
 	
+
+
 	<div class="row">
-		<div class="col-sm-12 col-sm-4">
+		<div class="col-xs-12 col-sm-4">
 			{% if ranking.player_type == 'Position' or ranking.player_type == 'Both' %}
 			<table id="scout" class="table table-responsive">
 				<tr>
@@ -328,7 +326,7 @@
 		</div>	
 		
 		
-		<div class="col-sm-12 col-sm-4">
+		<div class="col-xs-12 col-sm-4">
 			<table id="scout" class="table table-responsive">
 				{% if ranking.player_type == 'Position' or ranking.player_type == 'Both' %}
 					<tr>
@@ -385,7 +383,7 @@
 		
 		
 		
-		<div class="col-sm-12 col-sm-4">
+		<div class="col-xs-12 col-sm-4">
 			<table id="scout" class="table table-responsive">
 					<tr>
 						<th class="head" colspan="2">Makeup</th>
@@ -439,9 +437,518 @@
 	</div>
 	
 	
-		
-			
-		<table id="scout" class="table table-responsive">	
+	
+	{% if ranking.show_catcher %}
+	<div class="row">	
+		<div class="col-xs-12 col-sm-6">
+			<table id="scout" class="table table-responsive">
+			<tr>
+				<th colspan="2" class="head">Catcher Pros</th>
+			</tr>
+			<tr>
+				<td class="head">Shows a primary and secondary position</td>
+				<td>{% if ranking.catcher_1 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Footwork in primary is simple/balanced</td>
+				<td>{% if ranking.catcher_2 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Footwork in secondary is simple/balanced</td>
+				<td>{% if ranking.catcher_3 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Hands are soft and strong</td>
+				<td>{% if ranking.catcher_4 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Stops the ball in the strikezone</td>
+				<td>{% if ranking.catcher_5 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Stays balanced during the catch</td>
+				<td>{% if ranking.catcher_6 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Gets into a good blocking position</td>
+				<td>{% if ranking.catcher_7 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Reacts to ball in dirt easily</td>
+				<td>{% if ranking.catcher_8 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Gets to his feet easily after block</td>
+				<td>{% if ranking.catcher_9 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Clean transition to throwing hand</td>
+				<td>{% if ranking.catcher_10 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Simple throwing action</td>
+				<td>{% if ranking.catcher_11 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Gains ground to throw</td>
+				<td>{% if ranking.catcher_12 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Ball keeps flight through the base</td>
+				<td>{% if ranking.catcher_13 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Body size is durable</td>
+				<td>{% if ranking.catcher_14 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Made somebody say 'wow'</td>
+				<td>{% if ranking.catcher_15 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>	
+			</table>
+		</div>
+
+		<div class="col-xs-12 col-sm-6">
+			<table id="scout" class="table table-responsive">
+			<tr>
+				<th colspan="2" class="head">Catcher Cons</th>
+			</tr>
+			<tr>
+			<td class="head">No difference in primary and secondary</td>
+				<td>{% if ranking.catcher_16 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+			<td class="head">Footwork does not provide balance</td>
+				<td>{% if ranking.catcher_17 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Hands are heavy at the catch</td>
+				<td>{% if ranking.catcher_18 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Does not have strong hands</td>
+				<td>{% if ranking.catcher_19 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Takes strikes out of strike zone</td>
+				<td>{% if ranking.catcher_20 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Off balance when receiving</td>
+				<td>{% if ranking.catcher_21 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Late reaction to block position</td>
+				<td>{% if ranking.catcher_22 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Does not get into efficient block position</td>
+				<td>{% if ranking.catcher_23 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Struggles to get up after block</td>
+				<td>{% if ranking.catcher_24 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Trouble getting ball out of glove</td>
+				<td>{% if ranking.catcher_25 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Arm action breaks rhythm</td>
+				<td>{% if ranking.catcher_26 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Loses ground to throwing position</td>
+				<td>{% if ranking.catcher_27 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Ball loses flight before the base</td>
+				<td>{% if ranking.catcher_28 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Body size does not project as durable</td>
+				<td>{% if ranking.catcher_29 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Was not noticeable</td>
+				<td>{% if ranking.catcher_30 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			</table>
+		</div>
+	</div>
+	{% endif %}
+	
+	
+	
+	
+	
+	{% if ranking.show_hitting %}
+	<div class="row">	
+		<div class="col-xs-12 col-sm-6">
+			<table id="scout" class="table table-responsive">
+			<tr>
+				<th colspan="2" class="head">Hitting Pros</th>
+			</tr>
+			<tr>
+				<td class="head">Starts relaxed</td>
+				<td>{% if ranking.hitting_1 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Repeats his load</td>
+				<td>{% if ranking.hitting_2 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Gets into hitting position on time</td>
+				<td>{% if ranking.hitting_3 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Hands don't seperate too early</td>
+				<td>{% if ranking.hitting_4 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Keeps rhythm from load to swing</td>
+				<td>{% if ranking.hitting_5 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Has time to track the ball</td>
+				<td>{% if ranking.hitting_6 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Swing has short path to the ball</td>
+				<td>{% if ranking.hitting_7 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Weight transfers under control</td>
+				<td>{% if ranking.hitting_8 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Hits against a firm front side</td>
+				<td>{% if ranking.hitting_9 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Barrel stays in the zone naturally</td>
+				<td>{% if ranking.hitting_10 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Ability to hit for average at next level</td>
+				<td>{% if ranking.hitting_11 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Ability to hit for power at the next level</td>
+				<td>{% if ranking.hitting_12 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Drives gaps</td>
+				<td>{% if ranking.hitting_13 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Made somebody say 'wow'</td>
+				<td>{% if ranking.hitting_14 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			</table>
+		</div>
+
+		<div class="col-xs-12 col-sm-6">
+			<table id="scout" class="table table-responsive">
+			<tr>
+				<th colspan="2" class="head">Hitter Cons</th>
+			</tr>
+			<tr>
+			<td class="head">Tense in stance</td>
+				<td>{% if ranking.hitting_16 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+			<td class="head">Does not repeat his load</td>
+				<td>{% if ranking.hitting_17 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Late getting into hitting position</td>
+				<td>{% if ranking.hitting_18 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Too early into hitting position</td>
+				<td>{% if ranking.hitting_19 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Hands seperate too early and get lost</td>
+				<td>{% if ranking.hitting_20 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Loses rhythm from load to swing</td>
+				<td>{% if ranking.hitting_21 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Doesn't have time to track ball</td>
+				<td>{% if ranking.hitting_22 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Weight sticks on backside</td>
+				<td>{% if ranking.hitting_23 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Swing path is long to the ball</td>
+				<td>{% if ranking.hitting_24 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Front side is weak</td>
+				<td>{% if ranking.hitting_25 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Barrel is in and out of zone quickly</td>
+				<td>{% if ranking.hitting_26 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Does not have potential for power</td>
+				<td>{% if ranking.hitting_27 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Does not drive through the ball naturally</td>
+				<td>{% if ranking.hitting_28 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Was not noticeable</td>
+				<td>{% if ranking.hitting_29 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			</table>
+		</div>
+	</div>
+	{% endif %}
+	
+	
+	
+	{% if ranking.show_infield %}
+	<div class="row">	
+		<div class="col-xs-12 col-sm-6">
+			<table id="scout" class="table table-responsive">
+			<tr>
+				<th colspan="2" class="head">Infield Pros</th>
+			</tr>
+			<tr>
+				<td class="head">Efficient first step in correct direction</td>
+				<td>{% if ranking.infield_1 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Feet are under control at catch</td>
+				<td>{% if ranking.infield_2 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Hands are under control at catch</td>
+				<td>{% if ranking.infield_3 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Glove is relaxed and under the ball</td>
+				<td>{% if ranking.infield_4 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Catch is made out in front of body</td>
+				<td>{% if ranking.infield_5 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Has flow through the ball</td>
+				<td>{% if ranking.infield_6 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Clean transition to throwing hand</td>
+				<td>{% if ranking.infield_7 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Easy Arm Action</td>
+				<td>{% if ranking.infield_8 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Strong Arm</td>
+				<td>{% if ranking.infield_9 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Accurate Arm</td>
+				<td>{% if ranking.infield_10 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Has the ability to Catch, Step and Throw</td>
+				<td>{% if ranking.infield_11 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Made somebody say 'Wow!'</td>
+				<td>{% if ranking.infield_12 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			</table>
+		</div>
+
+		<div class="col-xs-12 col-sm-6">
+			<table id="scout" class="table table-responsive">
+			<tr>
+				<th colspan="2" class="head">Infield Cons</th>
+			</tr>
+			<tr>
+			<td class="head">Slow first step losing ground</td>
+				<td>{% if ranking.infield_16 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+			<td class="head">Feet are out of control at catch</td>
+				<td>{% if ranking.infield_17 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+			<td class="head">Hands are heavy at the catch</td>
+				<td>{% if ranking.infield_18 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+			<td class="head">Hands start above and jab to ball</td>
+				<td>{% if ranking.infield_19 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+			<td class="head">Catch is made under body</td>
+				<td>{% if ranking.infield_20 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Does not move through the ball</td>
+				<td>{% if ranking.infield_21 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Dificult transition to throw hand</td>
+				<td>{% if ranking.infield_22 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Long arm action</td>
+				<td>{% if ranking.infield_23 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Weak arm</td>
+				<td>{% if ranking.infield_24 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Inaccurate arm</td>
+				<td>{% if ranking.infield_25 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Can't catch and throw in 1 step</td>
+				<td>{% if ranking.infield_26 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Was not noticeable</td>
+				<td>{% if ranking.infield_27 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			</table>
+		</div>
+	</div>
+	{% endif %}
+	
+	
+	
+	
+	{% if ranking.show_outfield %}
+	<div class="row">	
+		<div class="col-xs-12 col-sm-6">
+			<table id="scout" class="table table-responsive">
+			<tr>
+				<th colspan="2" class="head">Outfield Pros</th>
+			</tr>
+			<tr>
+				<td class="head">Efficient reads off the bat</td>
+				<td>{% if ranking.outfield_1 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Takes proper angles to the ball</td>
+				<td>{% if ranking.outfield_2 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Feet are under control at the catch</td>
+				<td>{% if ranking.outfield_3 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Positions body well for catch</td>
+				<td>{% if ranking.outfield_4 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Proper footwork after the catch</td>
+				<td>{% if ranking.outfield_5 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Clean transfer to throwing hand</td>
+				<td>{% if ranking.outfield_6 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Clean arm action, creates backspin</td>
+				<td>{% if ranking.outfield_7 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Has a rhythm from catch to throw</td>
+				<td>{% if ranking.outfield_8 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Strong arm</td>
+				<td>{% if ranking.outfield_9 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Accurate arm</td>
+				<td>{% if ranking.outfield_10 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Made someone say 'wow'</td>
+				<td>{% if ranking.outfield_11 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			</table>
+		</div>
+
+		<div class="col-xs-12 col-sm-6">
+			<table id="scout" class="table table-responsive">
+			<tr>
+				<th colspan="2" class="head">Outfield Cons</th>
+			</tr>
+			<tr>
+			<td class="head">Late jump to the ball off bat</td>
+				<td>{% if ranking.outfield_16 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+			<td class="head">Angles to the ball are too short</td>
+				<td>{% if ranking.outfield_17 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Feet are out of control at the catch</td>
+				<td>{% if ranking.outfield_18 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">In a bad position to make catch</td>
+				<td>{% if ranking.outfield_19 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Proper footwork after the catch</td>
+				<td>{% if ranking.outfield_20 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Difficult transfer to throwing hand</td>
+				<td>{% if ranking.outfield_21 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Arm action creates loss of ball flight</td>
+				<td>{% if ranking.outfield_22 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Loses momentum from catch to throw</td>
+				<td>{% if ranking.outfield_23 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Weak arm</td>
+				<td>{% if ranking.outfield_24 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Inaccurate arm</td>
+				<td>{% if ranking.outfield_25 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			<tr>
+				<td class="head">Was not noticeable</td>
+				<td>{% if ranking.outfield_26 %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+			</tr>
+			</table>
+		</div>
+	</div>
+	{% endif %}
+	
+	
+	
+	
+	<div class="row">
+		<div class="col-xs-12">
+			<table id="scout" class="table table-responsive">	
 			<tr>
 				<td class="head" colspan="6">Physical Description: (Injuries, Glasses, Contacts, Growth Potential, Overall Strength)</td>
 			</tr>	
@@ -469,8 +976,11 @@
 			<tr>
 				<td colspan="6" class="left">{{ ranking.note4 }}</td>
 			</tr>
-			
 		</table>
+		</div>
+	</div>
+			
+		
 	
 		
 	{% endfor %}

@@ -21,10 +21,11 @@ ADMINS = (
 
 
 ############ TEMP EMAIL SETTINGS  ##############
-DEFAULT_FROM_EMAIL = 'pinnacleprospects@gmail.com'
-SERVER_EMAIL = 'pinnacleprospects@gmail.com'
+# DEFAULT_FROM_EMAIL = 'pinnacleprospects@gmail.com'
+# SERVER_EMAIL = 'pinnacleprospects@gmail.com'
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = 'smtp.mandrillapp.com'
 EMAIL_PORT = 587 # or 465 for digital ocean
 
 LOGIN_REDIRECT_URL = '/'
