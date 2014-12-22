@@ -51,7 +51,7 @@
 					{% ifequal video.file "" %}
 					{% else %}
 					<div class="center-block" align="center">
-						<video width="100%" height="auto" id="videosource" controls style="margin: auto; max-width: 800px; max-height: 400px">
+						<video width="100%" height="auto" id="videosource" controls style="margin: auto; max-width: 800px; max-height: 400px; min-height: 200px">
 						<source src="{{ video.video }}" id="mp4Source" type="video/mp4">
 							Your browser does not support the video tag.
 						</video>
@@ -75,7 +75,8 @@
 			
 			$('#videosource').css("display", "block");
 			$('#photosource').css("display", "none");
-
+			$("html, body").scrollTop($(".black-on-white").offset().top);
+			
 			$(mp4vid).attr('src', video);
 			player.load();
 			player.play();
@@ -84,6 +85,7 @@
 		function ChangePhoto(photo) { 					
 			var player = document.getElementById('videosource')
 			player.pause();
+			$("html, body").scrollTop($(".black-on-white").offset().top);
 			
 			$('#videosource').css("display", "none");
 			$('#photosource').css("display", "block");
@@ -93,43 +95,24 @@
 	
 </div>	
 		
-		
-		
-<div class="panel-group">
-
+<div class="row"><hr></div>
 	
+<div class="list-group">
 	
-	
+	<span class="list-group-item head">More Videos</span>	  
 	
 	{% for video in object_list %}
-		  <div class="panel panel-default">
-			<div class="panel-heading">
-			  <h4 class="panel-title">
-				  <span data-toggle="collapse" data-parent="#accordion" href="#collapse{{ video.id }}">
-					  {% if video.file %}
-					  	<a onclick="ChangeVid('{{video.video}}')"><span class="glyphicon glyphicon-film"></span>{{ video.name }}</a>
-					  {% else %}
-					  	{{ video.name }}
-					  {% endif %}
-				  </span>
-			  </h4>
-			</div>
-			<div id="collapse{{ video.id }}" class="panel-collapse collapse {% if forloop.first %}in{% endif%}">
-			  <div class="panel-body">
-				 <div class="row">
-					<div class="col-xs-12">
-						{% if video.description %}<p>{{video.description}}</p>{% endif %}
-					</div>
-				 </div>
-			  </div>
-			</div>
-		  </div>
-	{% endfor %}	
-	
 
+	  <span class="list-group-item {% if video.file %}clickable{% endif %}" {% if video.file %}onclick="ChangeVid('{{video.video}}')"{% endif %}>
+		{% if video.file %}<span class="glyphicon glyphicon-film"></span> {% endif %}
+		{{ video.name }} - {{ video.description }}
+	  </span>	  
+
+	{% endfor %}	
+
+	<div class="clearfix"></div>
 </div>
-		
-				
+
 </div>
 
 {% endblock %}

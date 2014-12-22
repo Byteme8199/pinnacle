@@ -2,28 +2,36 @@ from __future__ import absolute_import
 
 from .dev import *
 
-# EMAIL_HOST_USER = 'pinnacleprospects@gmail.com'
-EMAIL_HOST_USER = 'jason@notthatjason.com'
-# EMAIL_HOST_PASSWORD = '*0S@U*9yU!!e'
-EMAIL_KEY = 'C99KukH1dFzZ4JgIe0ITYw'
+
+#### EMAIL SETUP ####
+DEFAULT_FROM_EMAIL = 'pinnacleprospects@gmail.com'
+SERVER_EMAIL = 'pinnacleprospects@gmail.com'
+
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+
+EMAIL_HOST = 'smtp.mandrillapp.com'
+EMAIL_HOST_USER = 'pinnacleprospects@gmail.com'
+EMAIL_KEY = 'ds9iHQ7cpOL4711IUORieQ'
+
 
 DATABASES = {'default': dj_database_url.config(
     default='sqlite:////' + ROOT_DIR + '/newworkout2.db')}
 
 
+#DATABASES = {
+#        'default': {
+#            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#            'NAME': 'pindev',
+#            'USER': 'pindev',
+#            'PASSWORD': 'whycantwebefriends',
+#            'HOST': 'localhost',
+#        }
+#}
 
-##### OLD (pre 12/10) CELERY SETUP ######
 
-#CELERY_IMPORTS = ('project',)
-#CELERY_RESULT_BACKEND = "amqp"
 
-#BROKER_URL = "amqp://guest:guest@localhost//"
-#BROKER_URL = "django://project"
-#INSTALLED_APPS += ('kombu.transport.django',)
 
-#CELERY_TASK_RESULT_EXPIRES = 300
-#CELERY_RESULT_BACKEND='djcelery.backends.database:DatabaseBackend'
-#CELERY_BEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
 
 # CELERY REDIS CONFIG #
 BROKER_URL = "redis://localhost:6379/0"

@@ -33,38 +33,38 @@
 		
 			<table id="scout" class="table table-responsive">
 			<tr>
-				<th class="head" colspan="2">{{ ranking.account.user.first_name }} {{ ranking.account.user.last_name }}</th>
+				<th class="head" colspan="2">{{ ranking.account.user.first_name|default:"" }} {{ ranking.account.user.last_name|default:"" }}</th>
 			</tr>
 			<tr>
 				<td class="head">Scout: </td>
-				<td class="left">{{ ranking.scout }}</td>
+				<td class="left">{{ ranking.scout|default:""|default:"" }}</td>
 			</tr>
 			<tr>
 				<td class="head">School: </td>
-				<td class="left">{{ ranking.account.high_school }}</td>
+				<td class="left">{{ ranking.account.high_school|default:""|default:"" }}</td>
 			</tr>
 			<tr>
 				<td class="head">College: </td>
-				<td class="left">{{ ranking.account.college }}</td>
+				<td class="left">{{ ranking.account.college|default:""|default:"" }}</td>
 			</tr>
 			<tr>
 				<td class="head">Grad Date: </td>
-				<td class="left">{{ ranking.account.grad_year }}</td>
+				<td class="left">{{ ranking.account.grad_year|default:""|default:"" }}</td>
 			</tr>
 			<tr>
 				<td class="head">Class/Eligibility: </td>
-				<td class="left">{{ ranking.account.grad_class }}/{{ ranking.account.eligible }}</td>
+				<td class="left">{{ ranking.account.grad_class|default:""|default:"" }}/{{ ranking.account.eligible|default:""|default:"" }}</td>
 			</tr>
 			
 			<tr>
 				<td class="head">Club/Nat'l Team: </td>
-				<td class="left">{{ ranking.account.club }}</td>
+				<td class="left">{{ ranking.account.club|default:"" }}</td>
 			</tr>
 			<tr>
 				<td class="head">Phone: </td>
 				<td class="left">
 					{% for personal in ranking.account.personals %}
-						{{ personal.phone }}
+						{{ personal.phone|default:"" }}
 					{% endfor %}
 				</td>
 			</tr>
@@ -73,7 +73,7 @@
 				<td class="head">Address: </td>
 				<td class="left">
 					{% for personal in ranking.account.personals %}
-						{{ personal.street }}<br>{{ personal.city }}, {{ personal.state }} {{ personal.zipcode }}
+						{{ personal.street|default:"" }}<br>{{ personal.city|default:"" }}, {{ personal.state|default:"" }} {{ personal.zipcode|default:"" }}
 					{% endfor %}
 				</td>
 			</tr>
@@ -91,27 +91,27 @@
 			</tr>
 			<tr>
 				<td class="head">Positions: </td>
-				<td>{% for position in ranking.account.positions %}{% ifequal position.position_type "Primary" %}{% if forloop.first %}/{% endif %}{{ position.position }}{% endifequal %}{% endfor %}</td>
+				<td>{% for position in ranking.account.positions %}{% ifequal position.position_type "Primary" %}{% if forloop.first %}/{% endif %}{{ position.position|default:"" }}{% endifequal %}{% endfor %}</td>
 			</tr>
 			<tr>
 				<td class="head">DOB: </td>
-				<td>{{ ranking.account.dob }}</td>
+				<td>{{ ranking.account.dob|default:"" }}</td>
 			</tr>
 			<tr>
 				<td class="head">Height: </td>
-				<td>{% for height in ranking.account.heights %}{% if forloop.last %}{{ height.height_feet }}' {{ height.height_inches }}{% endif %}{% endfor %}</td>
+				<td>{% for height in ranking.account.heights %}{% if forloop.last %}{{ height.height_feet|default:"" }}' {{ height.height_inches|default:"" }}{% endif %}{% endfor %}</td>
 			</tr>
 			<tr>
 				<td class="head">Weight: </td>
-				<td>{% for weight in ranking.account.weights %}{% if forloop.last %}{{ weight.weight }}{% endif %}{% endfor %}</td>
+				<td>{% for weight in ranking.account.weights %}{% if forloop.last %}{{ weight.weight|default:"" }}{% endif %}{% endfor %}</td>
 			</tr>
 			<tr>
 				<td class="head">Bats: </td>
-				<td>{{ ranking.account.bats }}</td>
+				<td>{{ ranking.account.bats|default:"" }}</td>
 			</tr>
 			<tr>
 				<td class="head">Throws: </td>
-				<td>{{ ranking.account.throws }}</td>
+				<td>{{ ranking.account.throws|default:"" }}</td>
 			</tr>
 
 			</table>
@@ -125,36 +125,36 @@
 			</tr>
 			<tr>
 				<td class="head">Role: </td>
-				<td>{{ ranking.role }}</td>
+				<td>{{ ranking.role|default:"" }}</td>
 			</tr>
 			<tr>
 				<td class="head">OFP: </td>
-				<td>{{ranking.ofp }}</td>
+				<td>{{ranking.ofp|default:"" }}</td>
 			</tr>
 			<tr>
 				<td class="head">Makeup: </td>
-				<td>{{ ranking.makeup }}</td>
+				<td>{{ ranking.makeup|default:"" }}</td>
 			</tr>
 			<tr>
 				<td class="head">Date Completed: </td>
-				<td>{{ ranking.date_completed|date:'m/d/Y' }}</td>
+				<td>{{ ranking.date_completed|date:'m/d/Y'|default:"" }}</td>
 			</tr>
 			<tr>
 				<td class="head">Report Count: </td>
-				<td>{{ ranking.report_count }}</td>
+				<td>{{ ranking.report_count|default:"" }}</td>
 			</tr>
 			<tr>
 				<td class="head">Games Seen: </td>
-				<td>{{ ranking.games_seen }}</td>
+				<td>{{ ranking.games_seen|default:"" }}</td>
 			</tr>
 			<tr>
 				<td class="head">At Bats Seen: </td>
-				<td>{{ ranking.ab_seen }}</td>
+				<td>{{ ranking.ab_seen|default:"" }}</td>
 			</tr>
 			
 			<tr>
 				<td class="head">Dates Seen: </td>
-				<td colspan="3">{{ ranking.dates_seen }}</td>
+				<td colspan="3">{{ ranking.dates_seen|default:"" }}</td>
 			</tr>
 	</table>
 		</div>
@@ -173,56 +173,56 @@
 				</tr>
 				<tr>
 					<td class="head">Hitting Ability:</td>
-					<td>{{ ranking.ratings_hitting_ability_p }}</td>
-					<td>{{ ranking.ratings_hitting_ability_f }}</td>
+					<td>{{ ranking.ratings_hitting_ability_p|default:"" }}</td>
+					<td>{{ ranking.ratings_hitting_ability_f|default:"" }}</td>
 				</tr>
 			
 				<tr>
 					<td class="head">Raw Power:</td>
-					<td>{{ ranking.ratings_raw_power_p }}</td>
-					<td>{{ ranking.ratings_raw_power_f }}</td>
+					<td>{{ ranking.ratings_raw_power_p|default:"" }}</td>
+					<td>{{ ranking.ratings_raw_power_f|default:"" }}</td>
 				</tr>
 			
 				<tr>
 					<td class="head">Game Power:</td>
-					<td>{{ ranking.ratings_game_power_p }}</td>
-					<td>{{ ranking.ratings_game_power_f }}</td>
+					<td>{{ ranking.ratings_game_power_p|default:"" }}</td>
+					<td>{{ ranking.ratings_game_power_f|default:"" }}</td>
 				</tr>
 			
 				<tr>
 					<td class="head">Running Speed:</td>
-					<td>{{ ranking.ratings_running_speed_p }}</td>
-					<td>{{ ranking.ratings_running_speed_f }}</td>
+					<td>{{ ranking.ratings_running_speed_p|default:"" }}</td>
+					<td>{{ ranking.ratings_running_speed_f|default:"" }}</td>
 				</tr>
 			
 				<tr>
 					<td class="head">Base Running:</td>
-					<td>{{ ranking.ratings_base_running_p }}</td>
-					<td>{{ ranking.ratings_base_running_f }}</td>
+					<td>{{ ranking.ratings_base_running_p|default:"" }}</td>
+					<td>{{ ranking.ratings_base_running_f|default:"" }}</td>
 				</tr>
 			
 				<tr>
 					<td class="head">Arm Strength:</td>
-					<td>{{ ranking.ratings_arm_strength_p }}</td>
-					<td>{{ ranking.ratings_arm_strength_f }}</td>
+					<td>{{ ranking.ratings_arm_strength_p|default:"" }}</td>
+					<td>{{ ranking.ratings_arm_strength_f|default:"" }}</td>
 				</tr>
 			
 				<tr>
 					<td class="head">Arm Accuracy:</td>
-					<td>{{ ranking.ratings_arm_accuracy_p }}</td>
-					<td>{{ ranking.ratings_arm_accuracy_f }}</td>
+					<td>{{ ranking.ratings_arm_accuracy_p|default:"" }}</td>
+					<td>{{ ranking.ratings_arm_accuracy_f|default:"" }}</td>
 				</tr>
 			
 				<tr>
 					<td class="head">Fielding:</td>
-					<td>{{ ranking.ratings_fielding_p }}</td>
-					<td>{{ ranking.ratings_fielding_f }}</td>
+					<td>{{ ranking.ratings_fielding_p|default:"" }}</td>
+					<td>{{ ranking.ratings_fielding_f|default:"" }}</td>
 				</tr>
 			
 				<tr>
 					<td class="head">Range:</td>
-					<td>{{ ranking.ratings_range_p }}</td>
-					<td>{{ ranking.ratings_range_f }}</td>
+					<td>{{ ranking.ratings_range_p|default:"" }}</td>
+					<td>{{ ranking.ratings_range_f|default:"" }}</td>
 				</tr>
 		</table>
 		{% endif %}
@@ -241,83 +241,83 @@
 				</tr>
 				<tr>
 					<td class="head">FB Velocity:</td>
-					<td>{{ ranking.ratings_fb_velocity_p }}</td>
-					<td>{{ ranking.ratings_fb_velocity_f }}</td>
-					<td>{{ ranking.ratings_fb_velocity_h }}</td>
-					<td>{{ ranking.ratings_fb_velocity_l }}</td>
-					<td>{{ ranking.ratings_fb_velocity_pc }}</td>
-					<td>{{ ranking.ratings_fb_velocity_fc }}</td>
+					<td>{{ ranking.ratings_fb_velocity_p|default:"" }}</td>
+					<td>{{ ranking.ratings_fb_velocity_f|default:"" }}</td>
+					<td>{{ ranking.ratings_fb_velocity_h|default:"" }}</td>
+					<td>{{ ranking.ratings_fb_velocity_l|default:"" }}</td>
+					<td>{{ ranking.ratings_fb_velocity_pc|default:"" }}</td>
+					<td>{{ ranking.ratings_fb_velocity_fc|default:"" }}</td>
 				</tr>
 				
 				<tr>
 					<td class="head">FB Movement:</td>
-					<td>{{ ranking.ratings_fb_movement_p }}</td>
-					<td>{{ ranking.ratings_fb_movement_f }}</td>
-					<td colspan="4">{{ ranking.ratings_fb_movement_n }}</td>
+					<td>{{ ranking.ratings_fb_movement_p|default:"" }}</td>
+					<td>{{ ranking.ratings_fb_movement_f|default:"" }}</td>
+					<td colspan="4">{{ ranking.ratings_fb_movement_n|default:"" }}</td>
 				</tr>
 			
 				<tr>
 					<td class="head">Curveball:</td>
-					<td>{{ ranking.ratings_curve_p }}</td>
-					<td>{{ ranking.ratings_curve_f }}</td>
-					<td>{{ ranking.ratings_curve_h }}</td>
-					<td>{{ ranking.ratings_curve_l }}</td>
-					<td>{{ ranking.ratings_curve_pc }}</td>
-					<td>{{ ranking.ratings_curve_fc }}</td>
+					<td>{{ ranking.ratings_curve_p|default:"" }}</td>
+					<td>{{ ranking.ratings_curve_f|default:"" }}</td>
+					<td>{{ ranking.ratings_curve_h|default:"" }}</td>
+					<td>{{ ranking.ratings_curve_l|default:"" }}</td>
+					<td>{{ ranking.ratings_curve_pc|default:"" }}</td>
+					<td>{{ ranking.ratings_curve_fc|default:"" }}</td>
 				</tr>
 				
 				<tr>
 					<td class="head">Slider:</td>
-					<td>{{ ranking.ratings_slider_p }}</td>
-					<td>{{ ranking.ratings_slider_f }}</td>
-					<td>{{ ranking.ratings_slider_h }}</td>
-					<td>{{ ranking.ratings_slider_l }}</td>
-					<td>{{ ranking.ratings_slider_pc }}</td>
-					<td>{{ ranking.ratings_slider_fc }}</td>
+					<td>{{ ranking.ratings_slider_p|default:"" }}</td>
+					<td>{{ ranking.ratings_slider_f|default:"" }}</td>
+					<td>{{ ranking.ratings_slider_h|default:"" }}</td>
+					<td>{{ ranking.ratings_slider_l|default:"" }}</td>
+					<td>{{ ranking.ratings_slider_pc|default:"" }}</td>
+					<td>{{ ranking.ratings_slider_fc|default:"" }}</td>
 				</tr>
 				
 				<tr>
 					<td class="head">Changeup:</td>
-					<td>{{ ranking.ratings_change_p }}</td>
-					<td>{{ ranking.ratings_change_f }}</td>
-					<td>{{ ranking.ratings_change_h }}</td>
-					<td>{{ ranking.ratings_change_l }}</td>
-					<td>{{ ranking.ratings_change_pc }}</td>
-					<td>{{ ranking.ratings_change_fc }}</td>
+					<td>{{ ranking.ratings_change_p|default:"" }}</td>
+					<td>{{ ranking.ratings_change_f|default:"" }}</td>
+					<td>{{ ranking.ratings_change_h|default:"" }}</td>
+					<td>{{ ranking.ratings_change_l|default:"" }}</td>
+					<td>{{ ranking.ratings_change_pc|default:"" }}</td>
+					<td>{{ ranking.ratings_change_fc|default:"" }}</td>
 				</tr>
 				
 				<tr>
 					<td class="head">Other:</td>
-					<td>{{ ranking.ratings_other_p }}</td>
-					<td>{{ ranking.ratings_other_f }}</td>
-					<td>{{ ranking.ratings_other_h }}</td>
-					<td>{{ ranking.ratings_other_l }}</td>
-					<td>{{ ranking.ratings_other_pc }}</td>
-					<td>{{ ranking.ratings_other_fc }}</td>
+					<td>{{ ranking.ratings_other_p|default:"" }}</td>
+					<td>{{ ranking.ratings_other_f|default:"" }}</td>
+					<td>{{ ranking.ratings_other_h|default:"" }}</td>
+					<td>{{ ranking.ratings_other_l|default:"" }}</td>
+					<td>{{ ranking.ratings_other_pc|default:"" }}</td>
+					<td>{{ ranking.ratings_other_fc|default:"" }}</td>
 				</tr>
 			
 				<tr>
 					<td class="head">Control:</td>
-					<td>{{ ranking.ratings_control_p }}</td>
-					<td>{{ ranking.ratings_control_f }}</td>
+					<td>{{ ranking.ratings_control_p|default:"" }}</td>
+					<td>{{ ranking.ratings_control_f|default:"" }}</td>
 				</tr>
 			
 				<tr>
 					<td class="head">Pitchability:</td>
-					<td>{{ ranking.ratings_pitchability_p }}</td>
-					<td>{{ ranking.ratings_pitchability_f }}</td>
+					<td>{{ ranking.ratings_pitchability_p|default:"" }}</td>
+					<td>{{ ranking.ratings_pitchability_f|default:"" }}</td>
 				</tr>
 				
 				<tr>
 					<td class="head">Delivery:</td>
-					<td>{{ ranking.ratings_delivery_p }}</td>
-					<td>{{ ranking.ratings_delivery_f }}</td>
+					<td>{{ ranking.ratings_delivery_p|default:"" }}</td>
+					<td>{{ ranking.ratings_delivery_f|default:"" }}</td>
 				</tr>
 				
 				<tr>
 					<td class="head">Arm Action:</td>
-					<td>{{ ranking.ratings_arm_action_p }}</td>
-					<td>{{ ranking.ratings_arm_action_f }}</td>
+					<td>{{ ranking.ratings_arm_action_p|default:"" }}</td>
+					<td>{{ ranking.ratings_arm_action_f|default:"" }}</td>
 				</tr>
 		</table>
 			
@@ -334,20 +334,20 @@
 					</tr>
 					<tr>
 						<td class="head">Hit Type:</td>
-						<td>{{ ranking.hit_type }}</td>
+						<td>{{ ranking.hit_type|default:"" }}</td>
 					</tr>
 					<tr>
 						<td class="head">Hit Approach:</td>
-						<td>{{ ranking.hit_approach }}</td>
+						<td>{{ ranking.hit_approach|default:"" }}</td>
 					</tr>
 					<tr>
 						<td class="head">Time to 1B:</td>
-						<td>{{ ranking.time_to_1b }}</td>
+						<td>{{ ranking.time_to_1b|default:"" }}</td>
 					</tr>
 
 					<tr>
 						<td class="head">Time to Right:</td>
-						<td>{{ ranking.time_to_right }}</td>
+						<td>{{ ranking.time_to_right|default:"" }}</td>
 					</tr>
 				{% endif %}
 				{% if ranking.player_type == 'Pitcher' or ranking.player_type == 'Both' %}
@@ -356,21 +356,21 @@
 					</tr>
 					<tr>
 						<td class="head">Arm Slot:</td>
-						<td>{{ ranking.arm_slot }}</td>
+						<td>{{ ranking.arm_slot|default:"" }}</td>
 					</tr>
 
 					<tr>
 						<td colspan="2" class="head">Delivery:</td>
 					</tr>
 					<tr>	
-						<td colspan="2">{{ ranking.delivery }}</td>
+						<td colspan="2">{{ ranking.delivery|default:"" }}</td>
 					</tr>
 				
 					<tr>
 						<td colspan="2" class="head">Arm Action:</td>
 					</tr>
 					<tr>	
-						<td colspan="2">{{ ranking.arm_action }}</td>
+						<td colspan="2">{{ ranking.arm_action|default:"" }}</td>
 					</tr>
 
 				{% endif %}
@@ -390,47 +390,47 @@
 					</tr>
 				<tr>
 					<td class="head">Athleticism:</td>
-					<td>{{ ranking.makeup_athleticism }}</td>
+					<td>{{ ranking.makeup_athleticism|default:"" }}</td>
 				</tr>
 			
 				<tr>
 					<td class="head">Aptitude:</td>
-					<td>{{ ranking.makeup_aptitude }}</td>
+					<td>{{ ranking.makeup_aptitude|default:"" }}</td>
 				</tr>
 			
 				<tr>
 					<td class="head">Character:</td>
-					<td>{{ ranking.makeup_character }}</td>
+					<td>{{ ranking.makeup_character|default:"" }}</td>
 				</tr>
 			
 				<tr>
 					<td class="head">Dedication:</td>
-					<td>{{ ranking.makeup_dedication }}</td>
+					<td>{{ ranking.makeup_dedication|default:"" }}</td>
 				</tr>
 			
 				<tr>
 					<td class="head">Instinct:</td>
-					<td>{{ ranking.makeup_instinct }}</td>
+					<td>{{ ranking.makeup_instinct|default:"" }}</td>
 				</tr>
 			
 				<tr>
 					<td class="head">Aggressiveness:</td>
-					<td>{{ ranking.makeup_aggressiveness }}</td>
+					<td>{{ ranking.makeup_aggressiveness|default:"" }}</td>
 				</tr>
 			
 				<tr>
 					<td class="head">Confidence:</td>
-					<td>{{ ranking.makeup_confidence }}</td>
+					<td>{{ ranking.makeup_confidence|default:"" }}</td>
 				</tr>
 			
 				<tr>
 					<td class="head">Maturity:</td>
-					<td>{{ ranking.makeup_maturity }}</td>
+					<td>{{ ranking.makeup_maturity|default:"" }}</td>
 				</tr>
 			
 				<tr>
 					<td class="head">Competitiveness:</td>
-					<td>{{ ranking.makeup_competitiveness }}</td>
+					<td>{{ ranking.makeup_competitiveness|default:"" }}</td>
 				</tr>
 		</table>
 		</div>	
@@ -953,28 +953,28 @@
 				<td class="head" colspan="6">Physical Description: (Injuries, Glasses, Contacts, Growth Potential, Overall Strength)</td>
 			</tr>	
 			<tr>
-				<td colspan="6" class="left">{{ ranking.note }}</td>
+				<td colspan="6" class="left">{{ ranking.note|default:"" }}</td>
 			</tr>
 			
 			<tr>
 				<td class="head" colspan="6">Abilities:</td>
 			</tr>
 			<tr>
-				<td colspan="6" class="left">{{ ranking.note2 }}</td>
+				<td colspan="6" class="left">{{ ranking.note2|default:"" }}</td>
 			</tr>
 			
 			<tr>
 				<td class="head" colspan="6">Weaknesses:</td>
 			</tr>
 			<tr>
-				<td colspan="6" class="left">{{ ranking.note3 }}</td>
+				<td colspan="6" class="left">{{ ranking.note3|default:"" }}</td>
 			</tr>
 			
 			<tr>
 				<td class="head" colspan="6">Signability and Player Summation:</td>
 			</tr>
 			<tr>
-				<td colspan="6" class="left">{{ ranking.note4 }}</td>
+				<td colspan="6" class="left">{{ ranking.note4|default:"" }}</td>
 			</tr>
 		</table>
 		</div>

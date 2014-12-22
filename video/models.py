@@ -4,7 +4,7 @@ from account.models import Account
 from django.utils import timezone
 from django.core.mail import send_mail
 from subprocess import check_output
-from video.tasks import make_thumbnail
+from video.tasks import send_the_email
 
 class VideoType(models.Model):
 	name = models.CharField(max_length=100, blank=True, null=False)
@@ -97,14 +97,10 @@ class Video(models.Model):
 		account = self.account.user.first_name + ' ' + self.account.user.last_name
 		now = timezone.now()
 
-		title = "Video Update: " + account
-		message = account + " has uploaded a new video. <a href='http://pinnacleprospects.net/admin/video/video/" + str(self.id) + "'>Click Here to view the changes</a><br />The update occured at " + str(now)
-		from_email = 'ryan@hdvideoandwebdesign.com'
-		to_email = 'rgordon@golfweek.com'
-		send_mail(title, message, from_email, [to_email], fail_silently=False)
+		title = "[Pinnacle Update] " + account + " Video Module"
+		message = "Name: " + account + "\nUpdate: Video added or Updated\n@: " + str(now)
 
-                ## Thumbnail celery function ##
-                # make_thumbnail(self.pk)
+                send_the_email.delay(title, message)
 
 		super(Video,self).save(*args, **kwargs)
 
