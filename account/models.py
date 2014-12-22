@@ -51,7 +51,6 @@ class Account(models.Model):
 	def heights(self):
 		return Height.objects.filter(account=self.id)
 
-
 	def positions(self):
 		return Position.objects.filter(account=self.id)
 
@@ -66,9 +65,6 @@ class Account(models.Model):
 
 	def scores(self):
 		return Score.objects.filter(account=self.id)
-
-	def carousel_images(self):
-		return CarouselImage.objects.all()
 
 	def carousel_images(self):
 		return CarouselImage.objects.filter(account=self.id).order_by('-created_date')

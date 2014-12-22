@@ -10,7 +10,7 @@ class Migration(SchemaMigration):
     def forwards(self, orm):
         # Adding field 'CarouselImage.account'
         db.add_column(u'account_carouselimage', 'account',
-                      self.gf('django.db.models.fields.related.ForeignKey')(default=1, to=orm['account.Account']),
+                      self.gf('django.db.models.fields.related.ForeignKey')(default=2, to=orm['account.Account']),
                       keep_default=False)
 
 
