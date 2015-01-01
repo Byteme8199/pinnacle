@@ -143,7 +143,7 @@ class AddPersonalView(LoggedInMixin, FormView):
         # This method is called when valid form data has been POSTed.
         # It should return an HttpResponse.
 		account_id = Account.objects.get(pk=self.request.user.account.id)
-		form = Personal(account=account_id, created_date=timezone.now(), fname=self.request.user.first_name, lname=self.request.user.last_name, street=form.cleaned_data['street'], city=form.cleaned_data['city'], state=form.cleaned_data['state'], zipcode=form.cleaned_data['zipcode'], phone=form.cleaned_data['phone'], email=form.cleaned_data['email'], note="")
+		form = Personal(account=account_id, created_date=timezone.now(), fname=self.request.user.first_name, lname=self.request.user.last_name, street=form.cleaned_data['street'], city=form.cleaned_data['city'], state=form.cleaned_data['state'], zipcode=form.cleaned_data['zipcode'], phone=form.cleaned_data['phone'], phone_carrier=form.cleaned_data['phone_carrier'], email=form.cleaned_data['email'], note="")
 		form.save()
 		return super(AddPersonalView, self).form_valid(form)
 

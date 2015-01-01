@@ -40,7 +40,7 @@ def make_thumbnail_and_compress(self, type):
 
 
 		#Make Thumbnail
-		check_output(["ffmpeg", "-itsoffset", "-4", "-i", str(vid.file.path), "-y", "-vcodec", "mjpeg", "-vframes", "1", "-an", "-f", "rawvideo", "-s", "320x240", str(new_thumb)])
+		check_output(["ffmpeg", "-i", str(vid.file.path), "-ss", "00:00:00.100", "-f", "image2", "-vframes", "1", "-an", "-s", "320x240", str(new_thumb)])
 		self.has_compressed = True
 
 		self.save()

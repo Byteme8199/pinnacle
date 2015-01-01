@@ -21,6 +21,13 @@ def upload_path_handler_2(instance, filename):
 def upload_path_handler_carousel(instance, filename):
 	return "./carousel_images/%s" % (filename)
 
+def email(account, area):
+	now = timezone.now()
+	subject = "[Pinnacle Update] " + account + " " + area + " Update"
+	message = "Name: " + account + "\nUpdate: " +area + " Info Added/Updated \n@: " + str(now)
+	print subject
+	send_the_email.delay(subject, message)
+
 class Account(models.Model):
 	user = models.OneToOneField(User, related_name='account')
 	created_date = models.DateTimeField(default=timezone.now())
@@ -35,6 +42,7 @@ class Account(models.Model):
 	dob = models.CharField("Date of Birth", max_length=10, null=True, blank=True)
 	profile_image = models.FileField(upload_to=upload_path_handler, null=True, blank=True)
 	team_image = models.FileField(upload_to=upload_path_handler, null=True, blank=True)
+	
 	#target_school = models.ManyToManyField(TargetSchool, null=True, blank=True)
 
 	def photo(self):
@@ -89,14 +97,7 @@ class Account(models.Model):
 		ordering = ['-created_date']
 
 	def save(self, *args, **kwargs):
-		account = self.user.first_name + ' ' + self.user.last_name
-		now = timezone.now()
-
-		subject = "[Pinnacle Update] " + account + " Account Module"
-                message = "Name: " + account + "\nUpdate: Account Info Added/Updated \n@: " + str(now)
-
-		send_the_email.delay(subject, message)
-
+		email(self.user.first_name + ' ' + self.user.last_name, 'Account')
 		super(Account,self).save(*args, **kwargs)
 	
 	def get_absolute_url(self):
@@ -145,24 +146,36 @@ class Position(models.Model):
 	position_type = models.CharField(max_length=10, choices=POSITION_CHOICES, default=PRIMARY)
 	note = models.TextField(blank=True, null=False)
 
-
+	def save(self, *args, **kwargs):
+		email(self.account.user.first_name + ' ' + self.account.user.last_name, 'Position')
+		super(Position,self).save(*args, **kwargs)
+			
 	class Meta:
 		ordering = ['-created_date']
 
 class Personal(Contact):
 	account = models.ForeignKey(Account)
-	pass
+	
+	def save(self, *args, **kwargs):
+		email(self.account.user.first_name + ' ' + self.account.user.last_name, 'Personal')
+		super(Personal,self).save(*args, **kwargs)
 
 class Coach(Contact):
 	account = models.ForeignKey(Account)
-	#pass
+	
+	def save(self, *args, **kwargs):
+		email(self.account.user.first_name + ' ' + self.account.user.last_name, 'Coach')
+		super(Coach,self).save(*args, **kwargs)
 
 	class Meta:
 		verbose_name_plural = "Coaches"
 
 class Parent(Contact):
 	account = models.ForeignKey(Account)
-	pass
+	
+	def save(self, *args, **kwargs):
+		email(self.account.user.first_name + ' ' + self.account.user.last_name, 'Parent')
+		super(Parent,self).save(*args, **kwargs)
 
 class TargetSchoolsList(models.Model):
 	account = models.ForeignKey(Account)
@@ -183,6 +196,7 @@ class Height(models.Model):
 
 	def save(self, *args, **kwargs):
 		self.tot_inches = (self.height_feet * 12) + self.height_inches
+		email(self.account.user.first_name + ' ' + self.account.user.last_name, 'Height')
 		super(Height,self).save(*args, **kwargs)
 
 	class Meta:
@@ -196,6 +210,10 @@ class Weight(models.Model):
 
 	def __unicode__(self):
 		return unicode(self.weight)
+	
+	def save(self, *args, **kwargs):
+		email(self.account.user.first_name + ' ' + self.account.user.last_name, 'Weight')
+		super(Weight,self).save(*args, **kwargs)
 
 	class Meta:
 		ordering = ['created_date']
@@ -213,6 +231,10 @@ class Score(models.Model):
 
 	def __unicode__(self):
 		return unicode(self.score_data)
+	
+	def save(self, *args, **kwargs):
+		email(self.account.user.first_name + ' ' + self.account.user.last_name, 'Grade')
+		super(Score,self).save(*args, **kwargs)
 
 	class Meta:
 		ordering = ['-created_date']

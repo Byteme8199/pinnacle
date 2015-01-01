@@ -16,6 +16,14 @@ class Contact(models.Model):
 	instagram = models.CharField(max_length=255, blank=True, null=True)
 	created_date = models.DateTimeField(default=timezone.now())
 	note = models.TextField(blank=True, null=False)
+	
+	ATT = 'ATT'
+	SPRINT = 'Sprint'
+	TMOBILE = 'T-Mobile'
+	VERIZON = 'Verizon'
+	OTHER = 'Other'
+	CARRIERS = ((ATT, 'ATT'),(SPRINT, 'Sprint'),(TMOBILE, 'T-Mobile'),(VERIZON, 'Verizon'),(OTHER, 'Other'))
+	phone_carrier = models.CharField(max_length=100, choices=CARRIERS, default=ATT)
 
 	def __unicode__(self):
 		return unicode(self.fname + ' ' + self.lname)
