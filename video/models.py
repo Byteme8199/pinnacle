@@ -31,8 +31,10 @@ def make_thumbnail_and_compress(self, type):
 		filename = newsplit[0]
 
 		if type == 'reply':
+			new_vid = vid.file.path.replace(split[8], "temp-" + str(self.parent.id) + ".mp4")
 			new_thumb = vid.file.path.replace(split[8], str(self.parent.id) + "-" + str(self.id) + "-reply.jpg")
 		else:
+			new_vid = vid.file.path.replace(split[8], "temp-" + str(self.id) + ".mp4")
 			new_thumb = vid.file.path.replace(split[8], str(self.id) + ".jpg")
 
 		# internal server/external server
@@ -41,10 +43,16 @@ def make_thumbnail_and_compress(self, type):
 
 		#Make Thumbnail
 		check_output(["ffmpeg", "-i", str(vid.file.path), "-ss", "00:00:00.100", "-f", "image2", "-vframes", "1", "-an", "-s", "320x240", str(new_thumb)])
+		
+		#Fix the God Damn Mutha Fucking Ass Reaming MetaData
+		check_output(["ffmpeg", "-i", str(vid.file.path), "-metadata", "title=arbitrary", "-codec", "copy", str(new_vid)])
+		check_output(["mv", str(new_vid), str(vid.file.path)])
+		
 		self.has_compressed = True
-
 		self.save()
-
+		
+		fix_metadata.delay(vid.file.path)
+		
 	else:
 		sp = self.file.path.split('/')
 		if type =='reply':

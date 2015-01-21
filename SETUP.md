@@ -310,7 +310,7 @@ end script
 
 ## Step 6: Setup Nginx to proxy to your new example site
 
-Create a new file `sudo vi /etc/nginx/sites-available/pinnacle.conf` and add the following to the contents of the file
+Create a new file `sudo vi /etc/nginx/sites-available/pinnacle.conf` and add the following to the contents of the file.
 
 ```nginx
 server {
@@ -323,6 +323,13 @@ server {
 
     location  /static/ {
         root  /srv/sites/pinnacle/project/;
+        autoindex off;
+        # These 3 work to make video streaming
+        # work though max_ranges is probably the only
+        # necessary directive more testing is needed
+        send_timeout 100m;
+        max_ranges 0;
+        client_max_body_size 5000M;
     }
 
     location  /media/ {
@@ -355,6 +362,10 @@ $ sudo service nginx restart
 ```
 
 If you followed these directions your server ip or domain name, if you have already pointed that at the server should show you your site.
+
+
+Notes on nginx:
+*  [directives](http://nginx.org/en/docs/http/ngx_http_core_module.html)
 
 
 ## Maintenance
