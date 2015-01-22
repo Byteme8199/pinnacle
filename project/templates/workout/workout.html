@@ -138,19 +138,30 @@
 						{% ifchanged week.workout_week %}
 						<div class="row workoutheader">
 							<div class="col-xs-6 col-sm-4 borderright">
-								Name
+								<small>Name</small>  
+								
+								<span class="pull-right">
+									<a data-toggle="modal" href="{% url 'workout_week_view' pk=week.id %}" data-target="#modal"><span class="glyphicon glyphicon-edit"></span> </a>
+								</span>
+								
+								{% if week.rest_time %}
+								<span class="pull-right">
+									<a class="popover-btn" data-toggle="popover" title="Additional Info" data-content="{{ week.rest_time }}{% if week.tempo %} / {{ week.tempo }}{% endif %}"><span class="glyphicon glyphicon-info-sign"></span></a>										
+									</a>
+								</span>
+								{% endif %}
 							</div>
 							<div class="col-xs-2 col-sm-1 borderright">
-								Week
+								<small>Week</small>
 							</div>
 							<div class="col-xs-2 col-sm-1 borderright">
-								Sets
+								<small>Sets</small>
 							</div>
 							<div class="col-xs-2 col-sm-1">
-								Reps
+								<small>Reps</small>
 							</div>
 							<div class="hidden-xs col-sm-5 noborder">
-								Results
+								<small>Results</small>
 							</div>
 						</div>
                         {% endifchanged %}
@@ -159,17 +170,6 @@
   						<div class="row workoutbody">
 							<div class="col-xs-6 col-sm-4 borderright">
 								{{ week.group }}{{ week.group_order }}) <a href="{% url 'workout_videos_by_id' pk=week.name.id %}">{{ week.name }}</a>
-								
-								
-								<span class="pull-right"><a data-toggle="modal" href="{% url 'workout_week_view' pk=week.id %}" data-target="#modal"><span class="glyphicon glyphicon-edit"></span> </a></span> &nbsp;
-								
-								{% if week.rest_time %}
-								<span class="pull-right">
-									<a class="popover-btn" data-toggle="popover" title="Additional Info" data-content="{{ week.rest_time }}{% if week.tempo %} / {{ week.tempo }}{% endif %}"><span class="glyphicon glyphicon-info-sign"></span></a>										
-									</a>
-								</span>
-								{% endif %}
-							
   							</div>
                             <div class="col-xs-2 col-sm-1 borderright">
   								{{ week.workout_week }}
@@ -181,13 +181,13 @@
 								{{ week.reps }}
   							</div>
   							<div class="col-xs-12 col-sm-5">
-								<div class="row workoutheader visible-xs">
-									<div class="col-xs-12">
+								<div class="row workoutheader-sub visible-xs">
+									<div class="col-xs-12 hidden-xs">
 										Results
 									</div>
 								</div>
 								<table class="smalltable-bordered">
-									<tr class="row workoutheader">
+									<tr class="row workoutheader-sub">
 										<td class="col-xs-2">1</td>
 										<td class="col-xs-2">2</td>
 										<td class="col-xs-2">3</td>

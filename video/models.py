@@ -51,7 +51,7 @@ def make_thumbnail_and_compress(self, type):
 		self.has_compressed = True
 		self.save()
 		
-		fix_metadata.delay(vid.file.path)
+		#fix_metadata.delay(vid.file.path)
 		
 	else:
 		sp = self.file.path.split('/')

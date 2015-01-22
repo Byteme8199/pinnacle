@@ -1,0 +1,216 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+	<script>
+		$(document).ready(function () {
+			$( "#video-nav" ).addClass("active")
+		});
+	</script>
+
+
+<div class="row black-on-white">
+
+	{% if request.GET.alert %}
+	<div class="col-md-12">
+		<div class="alert alert-danger" role="alert">
+			{{ request.GET.alert }}
+			<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		</div>
+	</div>
+	{% endif %}
+	
+	
+	{% if request.GET.success %}
+	<div class="col-md-12">
+		<div class="alert alert-success" role="alert">
+			{{ request.GET.success }}
+			<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		</div>
+	</div>
+	{% endif %}
+	
+	
+	<div class="row">
+		
+	<div class="col-md-12">
+		
+		<h3>Videos <span class=" pull-right"><a data-toggle="modal" href="/videos/add/" data-target="#modal"><span class="glyphicon glyphicon-plus"></span></a></span></h3>
+		
+		<div class="col-sm-12">
+			{% for video in object_list %}
+				{% if forloop.first %}
+			<p><strong class="subhead" id="titlesource">{{ video.title }}</strong></p>
+					<div class="center-block" align="center">						
+						<video width="100%" height="auto" id="videosource" controls preload="auto" style="margin: auto; max-width: 800px; max-height: 400px">
+						<source src="{{ video.video }}" id="mp4Source" type="video/mp4">
+							Your browser does not support the video tag.
+						</video>
+						<img src="" id="photosource" class="img-responsive" style="display: none">
+						<p id="notesource">{{ video.note }}</p>
+						<br>
+					</div>
+				{% endif %}
+			{% endfor %}
+		</div>
+	</div>
+		
+
+		
+	<script>
+		function ChangeVid(video, note, title) { 					
+			var player = document.getElementById('videosource')
+			var mp4vid = document.getElementById('mp4Source');
+			var photo = document.getElementById('photosource');
+			
+			player.pause();
+			
+			$('#videosource').css("display", "block");
+			$('#photosource').css("display", "none");
+			$('#notesource').html(note);
+			$('#titlesource').html(title);
+			$("html, body").scrollTop($(".black-on-white").offset().top);
+
+			$(mp4vid).attr('src', video);
+			player.load();
+			player.play();
+		}
+		
+		function ChangePhoto(photo, note, title) { 					
+			var player = document.getElementById('videosource')
+			player.pause();
+			
+			$('#videosource').css("display", "none");
+			$('#photosource').css("display", "block");
+			$('#photosource').attr('src', photo);
+			$('#notesource').html(note);
+			$('#titlesource').html(title);
+			$("html, body").scrollTop($(".black-on-white").offset().top);
+			
+		}
+	</script>
+	
+</div>	
+		
+	
+	<div class="row"><hr></div>	
+	
+	
+<div class="row">
+	
+	{% for video in object_list %}
+
+		
+		  <div class="col-xs-12 col-sm-4 col-md-3">
+			<div class="thumbholder">
+			  <img src="{{ video.thumbnail }}" alt="{{ video.note }}" title="{{video.note}}" onclick="ChangeVid('{{video.video}}', '{{video.note}}', '{{video.title}}')" class="img-responsive img-rounded">
+			  <div class="caption">
+				  <p><span onclick="ChangeVid('{{video.video}}', '{{video.note}}', '{{video.title}}')"><strong>{{video.title}}</strong></span>
+				{% if video.note %}<p>{{video.note}}</p>{% endif %}
+				
+				  {% for reply in video.replies %}
+					  <span onclick="ChangeVid('{{reply.video}}', '{{ reply.note|safe }}', '{{reply.title}}')" class="glyphicon glyphicon glyphicon-film pull-right" aria-hidden="true"></span>
+				  {% endfor %}
+				  {% for reply in video.photos %}
+					  <span onclick="ChangePhoto('{{reply.photo}}', '{{ reply.note|safe }}', '{{reply.title}}')" class="glyphicon glyphicon glyphicon-picture pull-right" aria-hidden="true"></span>
+				  {% endfor %}
+				  </p>
+
+			  </div>
+			</div>
+		  </div>
+		 
+
+	{% endfor %}
+
+</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	{% comment %}		
+<div class="panel-group" id="accordion">
+	
+
+	{% for video in object_list %}
+
+		  <div class="panel panel-default">
+			<div class="panel-heading">
+			  <h4 class="panel-title">
+				<span data-toggle="collapse" data-parent="#accordion" href="#collapse{{ video.id }}">
+				  {{ video.title }}<br><small>{{ video.created_date}}</small>  
+					<span class="pull-right"><span class="glyphicon glyphicon-picture"></span> {{ video.photos.all.count}}</span>
+					<span class="pull-right" style="margin-right: 10px"><span class="glyphicon glyphicon-share-alt"></span> {{ video.replies.all.count}}</span>
+				</span>
+			  </h4>
+			</div>
+			<div id="collapse{{ video.id }}" class="panel-collapse collapse {% if forloop.first %}in{% endif%}">
+			  <div class="panel-body">
+				
+				 <div class="row">
+				 
+					 <div class="col-xs-12 col-sm-6">
+						 <div class="row">
+							<div class="col-xs-4">
+								<img src="{{ video.thumbnail }}" alt="{{ video.note }}" title="{{video.note}}" onclick="ChangeVid('{{video.video}}')" class="img-thumbnail img-responsive">
+							</div>
+							<div class="col-xs-8">
+								<h4 onclick="ChangeVid('{{video.video}}')" ><span class="glyphicon glyphicon-film"></span> {{video.title}}</h4>
+								{% if video.note %}<p>{{video.note}}</p>{% endif %}
+							</div>
+						 </div>
+					 </div>
+					 
+					 <div class="col-xs-12 col-sm-6">
+
+						{% for reply in video.replies %}
+						<div class="row">
+							<div class="col-xs-4">
+								<img src="{{ reply.thumbnail }}" alt="{{ reply.note }}" title="{{reply.note}}" onclick="ChangeVid('{{reply.video}}')" class="img-thumbnail img-responsive">
+							</div>
+							<div class="col-xs-8">
+								<h4 onclick="ChangeVid('{{reply.video}}')" ><span class="glyphicon glyphicon-share-alt"></span> Video Reply</h4>
+								{% if reply.note %}<p>{{reply.note}}</p>{% endif %}
+							</div>
+						 </div>
+						{% endfor %}
+						 
+						 {% for reply in video.photos %}
+						<div class="row">
+							<div class="col-xs-4">
+								<img src="{{ reply.photo }}" alt="{{ reply.note }}" title="{{reply.note}}" class="img-thumbnail img-responsive" onclick="ChangePhoto('{{reply.photo}}')">
+							</div>
+							<div class="col-xs-8">
+								<h4><span class="glyphicon glyphicon-picture"></span> Photo Reply</h4>
+								{% if reply.note %}<p>{{reply.note}}</p>{% endif %}
+							</div>
+						 </div>
+						{% endfor %}
+						 
+					 </div>
+				  
+				 </div> 
+				 
+
+				  
+
+			  </div>
+			</div>
+		  </div>
+
+	{% endfor %}
+
+	
+</div>
+	{% endcomment %}
+	
+	
+				
+</div>
+
+{% endblock %}
