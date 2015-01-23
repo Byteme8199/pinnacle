@@ -4,7 +4,7 @@
 
 
 	<style>
-		.video-list { list-style: none; padding: 0px; max-height: 400px; overflow-y: auto }
+		.video-list { list-style: none; padding: 0px; }
 		.sub-list { list-style: none; padding: 0px; }
 		.video-list>li { padding: 5px 15px; font-size: 18px; cursor: pointer}
 		.video-list>li:nth-child(odd) { background-color: #222 }
@@ -56,7 +56,7 @@
 			{% if forloop.first %}
 			<p><strong class="subhead" id="titlesource">{{ video.title }}</strong></p>
 				<div class="center-block" align="center">						
-					<video width="100%" height="auto" id="videosource" controls preload="auto" style="margin: auto; max-width: 800px; max-height: 400px">
+					<video width="100%" height="auto" id="videosource" controls style="margin: auto; max-width: 800px;">
 					<source src="{{ video.video }}" id="mp4Source" type="video/mp4">
 						Your browser does not support the video tag.
 					</video>
@@ -66,6 +66,8 @@
 				</div>
 			{% endif %}
 		{% endfor %}
+	
+		
 	</div>
 	
 	<div class="col-xs-12 col-sm-4">
@@ -76,7 +78,7 @@
 			
 			<div class="row">
 				<div class="col-xs-3">
-					<img src="{{ video.thumbnail }}" alt="{{ video.note }}" title="{{video.note}}" class="img-rounded img-responsive">
+					<img onclick="ChangeVid('{{video.video}}', '{{video.note}}', '{{video.title}}')" src="{{ video.thumbnail }}" alt="{{ video.note }}" title="{{video.note}}" class="img-rounded img-responsive">
 				</div>
 				<div class="col-xs-9">
 					<div class="video-title" onclick="ChangeVid('{{video.video}}', '{{video.note}}', '{{video.title}}')">
@@ -113,6 +115,17 @@
 
 		
 	<script>
+		
+		function videoHeight() {
+				videoheight = $(window).height() - 275;
+				console.log(videoheight);
+				$('#videosource').css('max-height', videoheight)
+			}
+			
+		$(window).on('load', function (e) {
+			videoHeight();
+		});
+		
 		function ChangeVid(video, note, title) { 					
 			var player = document.getElementById('videosource')
 			var mp4vid = document.getElementById('mp4Source');
@@ -128,7 +141,21 @@
 
 			$(mp4vid).attr('src', video);
 			player.load();
-			player.play();
+			var count = 0
+			var vid_int = window.setInterval(function(){
+				if (player.networkState === 1 ){
+					player.play();
+					clearInterval(vid_int);
+					console.log('Finally loaded');
+				} else {
+					console.log('Not yet loaded enough: ' + count);
+					count++;
+					if(count > 20) {
+						console.log('This has taken far too long to pre-fetch, we should move on.');
+					}
+				}
+			}, 400);
+			videoHeight();
 		}
 		
 		function ChangePhoto(photo, note, title) { 					
@@ -140,8 +167,7 @@
 			$('#photosource').attr('src', photo);
 			$('#notesource').html(note);
 			$('#titlesource').html(title);
-			$("html, body").scrollTop($(".black-on-white").offset().top);
-			
+			$("html, body").scrollTop($(".black-on-white").offset().top);		
 		}
 	</script>
 	
