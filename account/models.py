@@ -42,6 +42,7 @@ class Account(models.Model):
 	dob = models.CharField("Date of Birth", max_length=10, null=True, blank=True)
 	profile_image = models.FileField(upload_to=upload_path_handler, null=True, blank=True)
 	team_image = models.FileField(upload_to=upload_path_handler, null=True, blank=True)
+	ghost_id = models.ForeignKey('self', null=True, blank=True)
 	
 	#target_school = models.ManyToManyField(TargetSchool, null=True, blank=True)
 

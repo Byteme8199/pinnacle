@@ -23,6 +23,19 @@ class LoggedInMixin(object):
     @method_decorator(login_required)
 
     def dispatch(self, *args, **kwargs):
+		####  Request the Account ID of the User Account thats logged in
+		#self.request.user.account.id = self.request.user.account.id
+		
+		if self.request.user.is_staff:
+			if self.request.user.account.ghost_id == 'None':
+				self.request.session['active_user'] = self.request.user.account.id
+			else:
+				self.request.session['active_user'] = self.request.user.account.ghost_id.id
+		else:
+			self.request.session['active_user'] = self.request.user.account.id
+
+		self.request.session['active_page'] = self.request.path
+		
 		return super(LoggedInMixin, self).dispatch(*args, **kwargs)
 
 class WorkoutVideosView(LoggedInMixin, ListView):
@@ -53,7 +66,7 @@ class WorkoutWorkoutsView(LoggedInMixin, ListView):
 		for year in years:
 			yearstart = str(year) + "-01-01"
 			yearend = str(year) + "-12-31"
-			objs = WorkoutSheet.objects.filter(start_date__year=year, exercise_category=cat_type, account=request.user.account.id)
+			objs = WorkoutSheet.objects.filter(start_date__year=year, exercise_category=cat_type, account=self.request.session['active_user'])
 			if len(objs) > 0:
 				workouts[year] = objs
 		context['workouts'] = workouts
@@ -72,7 +85,7 @@ class WorkoutPlyometricView(LoggedInMixin, ListView):
 		for year in years:
 			yearstart = str(year) + "-01-01"
 			yearend = str(year) + "-12-31"
-			objs = WorkoutSheet.objects.filter(start_date__year=year, exercise_category=cat_type, account=request.user.account.id)
+			objs = WorkoutSheet.objects.filter(start_date__year=year, exercise_category=cat_type, account=self.request.session['active_user'])
 			if len(objs) > 0:
 				workouts[year] = objs
 		context['workouts'] = workouts
@@ -91,7 +104,7 @@ class WorkoutWarmupView(LoggedInMixin, ListView):
 		for year in years:
 			yearstart = str(year) + "-01-01"
 			yearend = str(year) + "-12-31"
-			objs = WorkoutSheet.objects.filter(start_date__year=year, exercise_category=cat_type, account=request.user.account.id)
+			objs = WorkoutSheet.objects.filter(start_date__year=year, exercise_category=cat_type, account=self.request.session['active_user'])
 			if len(objs) > 0:
 				workouts[year] = objs
 		context['workouts'] = workouts
@@ -110,7 +123,7 @@ class WorkoutCoreView(LoggedInMixin, ListView):
 		for year in years:
 			yearstart = str(year) + "-01-01"
 			yearend = str(year) + "-12-31"
-			objs = WorkoutSheet.objects.filter(start_date__year=year, exercise_category=cat_type, account=request.user.account.id)
+			objs = WorkoutSheet.objects.filter(start_date__year=year, exercise_category=cat_type, account=self.request.session['active_user'])
 			if len(objs) > 0:
 				workouts[year] = objs
 		context['workouts'] = workouts
@@ -126,7 +139,7 @@ class WorkoutBaseView(LoggedInMixin, ListView):
 		cats = ['CORE', 'GEN', 'WARM', 'PLYO']
 		categories = {}
 		for cat in cats:
-			objs = WorkoutSheet.objects.filter(exercise_category=cat, account=request.user.account.id)
+			objs = WorkoutSheet.objects.filter(exercise_category=cat, account=self.request.session['active_user'])
 			categories[cat] = len(objs)
 		context['cats'] = categories
 		return render_to_response(self.template_name, context)
@@ -141,8 +154,10 @@ class WorkoutWeekView(LoggedInMixin, UpdateView):
 	model = WorkoutWeek
 	form_class = WorkoutWeekForm
 	template_name = 'workout/workout_week.html'
-	success_url = '/workout/'
 	
+	def get_success_url(self):				
+		return '/workout/workouts/' + str(self.object.workout.id)
+
 	def form_valid(self, form):
 		form.save()
 		return super(WorkoutWeekView, self).form_valid(form)

@@ -620,25 +620,7 @@ background-color: #444 !important;
 				  </ul>
 			  </li>
 			  <li class="uibutton"><a href="{% url 'scout' %}">SCOUT</a></li>
-			  {% if user.is_staff %}
-				<li class="dropdown uibutton">
-					<a href="/admin" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">ADMIN<span class="caret"></span></a>
-				  <ul class="dropdown-menu" role="menu">
-					  <li><a href="/admin">Admin Area</a></li>
-					  <li class="divider"></li>
-					  <li><a href="#">View As:</a></li>
-					  {% for user in users %}
-						<li>
-							<div class="row" id="admin-links">
-								<div class="col-xs-6"><a href="{% url 'guest_account' pk=user.id %}">{{ user.user.first_name|slice:"1" }}. {{ user.user.last_name }}</a></div>
-								<div class="col-xs-3"><a href="{% url 'guest_video' pk=user.id %}">V</a> </div>
-								<div class="col-xs-3"><a href="{% url 'guest_scout' pk=user.id %}">S</a></div>
-							</div>
-					    </li>
-					  {% endfor %}
-				  </ul>
-			  	</li>
-			  {% endif %}
+			  {% if user.is_staff %}<li class="uibutton"><a href="/admin">ADMIN</a></li>{% endif %}
 			  <li class="uibutton pull-right"><a href="{% url 'django.contrib.auth.views.logout' %}">LOGOUT</a></li>
 		   </ul>
 		

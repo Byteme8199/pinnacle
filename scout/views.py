@@ -12,7 +12,17 @@ class LoggedInMixin(object):
     @method_decorator(login_required)
 
     def dispatch(self, *args, **kwargs):
-		#print self.request.session['account']
+		####  Request the Account ID of the User Account thats logged in
+		#self.request.user.account.id = self.request.user.account.id
+		
+		if self.request.user.is_staff:
+			if self.request.user.account.ghost_id == 'None':
+				self.request.session['active_user'] = self.request.user.account.id
+			else:
+				self.request.session['active_user'] = self.request.user.account.ghost_id.id
+		else:
+			self.request.session['active_user'] = self.request.user.account.id
+		
 		return super(LoggedInMixin, self).dispatch(*args, **kwargs)
 
 class ScoutView(LoggedInMixin, ListView):
@@ -21,11 +31,11 @@ class ScoutView(LoggedInMixin, ListView):
 	template_name = 'scout/index.html'
 
 	def get_queryset(self):
-		return ScoutSheet.objects.filter(account=self.request.user.account.id)
+		return ScoutSheet.objects.filter(account=self.request.session['active_user'])
 	
 	def get_context_data(self, **kwargs):
 		context = super(ScoutView, self).get_context_data(**kwargs)
-		context['rankings'] = ScoutSheet.objects.filter(account=self.request.user.account.id)
+		context['rankings'] = ScoutSheet.objects.filter(account=self.request.session['active_user'])
 		return context
 	
 	
@@ -34,17 +44,10 @@ class GuestScoutView(LoggedInMixin, ListView):
 	template_name = 'scout/index.html'
 
 	def get_queryset(self):
-		if self.request.user.is_staff:
-			thisid = self.request.path.split('/')
-			return ScoutSheet.objects.filter(account=thisid[2])
-		else:
-			return ScoutSheet.objects.filter(account=self.request.user.account.id)
+		return ScoutSheet.objects.filter(account=self.request.session['active_user'])
 		
 	def get_context_data(self, **kwargs):
 		thisid = self.request.path.split('/')
 		context = super(GuestScoutView, self).get_context_data(**kwargs)
-		if self.request.user.is_staff:
-			context['rankings'] = ScoutSheet.objects.filter(account=thisid[2])
-		else:
-			context['rankings'] = ScoutSheet.objects.filter(account=self.request.user.account.id)
+		context['rankings'] = ScoutSheet.objects.filter(account=self.request.session['active_user'])
 		return context

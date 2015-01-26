@@ -1,9 +1,9 @@
 from django.conf.urls import patterns, include, url
 from django.conf.urls import *
 from django.contrib import admin
-from account.views import AccountView, GuestAccountView, AccountPDF, AddWeightView, AddHeightView, AddPositionView, AddScoreView, AddParentView, AddPersonalView, EditPersonalView, AddCoachView, AddTargetListView, AddPhotoView, AddSchoolView, AddTeamPhotoView
-from scout.views import ScoutView, GuestScoutView
-from video.views import VideoView, GuestVideoView, AddVideoView, PhotoView
+from account.views import AccountView, AccountPDF, AddWeightView, AddHeightView, AddPositionView, AddScoreView, AddParentView, AddPersonalView, EditPersonalView, AddCoachView, AddTargetListView, AddPhotoView, AddSchoolView, AddTeamPhotoView, GhostView
+from scout.views import ScoutView
+from video.views import VideoView, AddVideoView, PhotoView
 from workoutsheet.views import WorkoutView, WorkoutWeekView, WorkoutBaseView, WorkoutVideosView, WorkoutWorkoutsView, WorkoutWarmupView, WorkoutCoreView, WorkoutPlyometricView, WorkoutVideosByIDView, WorkoutPDF
 
 admin.autodiscover()
@@ -22,13 +22,11 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^login/$', 'django.contrib.auth.views.login'),
     url(r'^logout/$', 'django.contrib.auth.views.logout'),
-	url(r'^$', AccountView.as_view(), name='base'),			   
+	url(r'^$', AccountView.as_view(), name='base'),		
 	url(r'^videos/$', VideoView.as_view(), name='video'),
-	url(r'^videos/(?P<pk>\d+)/$', GuestVideoView.as_view(), name='guest_video'),
 	url(r'^videos/add/$', AddVideoView.as_view(), name='video_add'),
 	url(r'^photo/$', PhotoView.as_view(), name='video_photo_reply_view'),				   
 	url(r'^account/$', AccountView.as_view(), name='account'),
-	url(r'^account/(?P<pk>\d+)/$', GuestAccountView.as_view(), name='guest_account'),
 	url(r'^account/pdf/$', AccountPDF.as_view(), name='account_pdf'),
 	url(r'^account/add/photo/(?P<pk>\d+)/$', AddPhotoView.as_view(), name='account_photo_add'),
 	url(r'^account/add/team_photo/(?P<pk>\d+)/$', AddTeamPhotoView.as_view(), name='account_team_photo_add'),
@@ -40,10 +38,10 @@ urlpatterns = patterns('',
 	url(r'^account/add/parent/$', AddParentView.as_view(), name='account_parent_add'),
 	url(r'^account/add/coach/$', AddCoachView.as_view(), name='account_coach_add'),
 	url(r'^account/edit/personal/(?P<pk>\d+)/$', EditPersonalView.as_view(), name='account_personal_edit'),
+	url(r'^account/edit/ghost/(?P<pk>\d+)/$', GhostView.as_view(), name='account_ghost_edit'),
 	url(r'^account/add/personal/$', AddPersonalView.as_view(), name='account_personal_add'),
 	url(r'^account/add/schools/$', AddTargetListView.as_view(), name='account_schools_add'),
 	url(r'^scout/$', ScoutView.as_view(), name='scout'),
-	url(r'^scout/(?P<pk>\d+)/$', GuestScoutView.as_view(), name='guest_scout'),
 	url(r'^workout/$', WorkoutBaseView.as_view(), name='workout'),
 	url(r'^workout/pdf/(?P<workout_id>\d+)/$', WorkoutPDF.as_view(), name='workout_pdf'),
 	url(r'^workout/videos/$', WorkoutVideosView.as_view(), name='workout_videos'),

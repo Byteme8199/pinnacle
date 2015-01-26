@@ -87,7 +87,17 @@
 			
 			
 				<div class="row">
-					<div class="col-md-12"><h3>{{ account.user.first_name }} {{ account.user.last_name }}</h3></div>
+					<div class="col-md-12">
+						<h3>{{ account.user.first_name }} {{ account.user.last_name }}  
+							{% if user.is_staff %}
+								<span class=" pull-right">
+									<a data-toggle="modal" href="{% url 'account_ghost_edit' pk=user.id %}" data-target="#modal">
+										<span class="glyphicon glyphicon-user"></span>
+									</a>
+								</span>
+							{% endif %}
+						</h3>
+					</div>
 				</div>
 			
 				<div class="row">
