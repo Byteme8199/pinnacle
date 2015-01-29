@@ -48,14 +48,16 @@
 			
 			{% for video in object_list %}
 				{% if forloop.first %}
+
 					<div class="center-block" align="center">
-						<video width="100%" height="auto" id="videosource" controls style="margin: auto; max-width: 800px; max-height: 400px;">
-						<source src="{{ video.video }}" id="mp4Source" type="video/mp4">
+						<video width="100%" height="auto" id="videosource" controls style="margin: auto; max-width: 800px; max-height: 400px; min-height: 200px">
+						<source src="{% ifequal video.file "" %}{% else %}{{ video.video }}{% endifequal %}" id="mp4Source" type="video/mp4">
 							Your browser does not support the video tag.
 						</video>
 						<img src="" id="photosource" class="img-responsive" style="display: none">
 						<br>
 					</div>
+					
 				{% endif %}
 			{% endfor %}
 		</div>
