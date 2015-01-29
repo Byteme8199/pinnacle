@@ -21,12 +21,16 @@ def upload_path_handler_2(instance, filename):
 def upload_path_handler_carousel(instance, filename):
 	return "./carousel_images/%s" % (filename)
 
-def email(account, area):
+def email(account, area, msg=None):
 	now = timezone.now()
-	subject = "[Pinnacle Update] " + account + " " + area + " Update"
-	message = "Name: " + account + "\nUpdate: " +area + " Info Added/Updated \n@: " + str(now)
-	print subject
+	subject = "[Pinnacle Update] for " + account + " in " + area
+	if msg is None:
+		message = "Name: " + account + "\nUpdate: " + area + " Info Added/Updated \n@: " + str(now)
+	else:
+		message = msg
 	send_the_email.delay(subject, message)
+
+
 
 class Account(models.Model):
 	user = models.OneToOneField(User, related_name='account')
@@ -98,7 +102,8 @@ class Account(models.Model):
 		ordering = ['-created_date']
 
 	def save(self, *args, **kwargs):
-		email(self.user.first_name + ' ' + self.user.last_name, 'Account')
+		msg = "General Account Info Updated"
+		email(self.user.first_name + ' ' + self.user.last_name, 'Account', msg)
 		super(Account,self).save(*args, **kwargs)
 	
 	def get_absolute_url(self):
@@ -148,6 +153,7 @@ class Position(models.Model):
 	note = models.TextField(blank=True, null=False)
 
 	def save(self, *args, **kwargs):
+		msg = "Position updated to " + self.position + " as " + self.position_type
 		email(self.account.user.first_name + ' ' + self.account.user.last_name, 'Position')
 		super(Position,self).save(*args, **kwargs)
 			
@@ -165,7 +171,8 @@ class Coach(Contact):
 	account = models.ForeignKey(Account)
 	
 	def save(self, *args, **kwargs):
-		email(self.account.user.first_name + ' ' + self.account.user.last_name, 'Coach')
+		msg = "New Coach Added / Updated"
+		email(self.account.user.first_name + ' ' + self.account.user.last_name, 'Coach', msg)
 		super(Coach,self).save(*args, **kwargs)
 
 	class Meta:
@@ -185,6 +192,11 @@ class TargetSchoolsList(models.Model):
 	chosen_school = models.ForeignKey(TargetSchool, related_name='target_schools')
 	note = models.TextField(blank=True, null=False)
 
+	def save(self, *args, **kwargs):
+		msg = self.chosen_school + " Added to Target Schools"
+		email(self.account.user.first_name + ' ' + self.account.user.last_name, 'Target Schools', msg)	
+		super(TargetSchoolsList,self).save(*args, **kwargs)
+
 class Height(models.Model):
 	account = models.ForeignKey(Account)
 	created_date = models.DateTimeField(default=timezone.now())
@@ -197,7 +209,8 @@ class Height(models.Model):
 
 	def save(self, *args, **kwargs):
 		self.tot_inches = (self.height_feet * 12) + self.height_inches
-		email(self.account.user.first_name + ' ' + self.account.user.last_name, 'Height')
+		msg = self.height_feet + "' " + self.height_inches + "\" Height Added"
+		email(self.account.user.first_name + ' ' + self.account.user.last_name, 'Height', msg)
 		super(Height,self).save(*args, **kwargs)
 
 	class Meta:
@@ -213,7 +226,8 @@ class Weight(models.Model):
 		return unicode(self.weight)
 	
 	def save(self, *args, **kwargs):
-		email(self.account.user.first_name + ' ' + self.account.user.last_name, 'Weight')
+		msg = str(self.weight) + " lbs Added to Weights"
+		email(self.account.user.first_name + ' ' + self.account.user.last_name, 'Weight', msg)
 		super(Weight,self).save(*args, **kwargs)
 
 	class Meta:
@@ -234,7 +248,8 @@ class Score(models.Model):
 		return unicode(self.score_data)
 	
 	def save(self, *args, **kwargs):
-		email(self.account.user.first_name + ' ' + self.account.user.last_name, 'Grade')
+		msg = self.score_data + " " + self.score_type + " Score Added"
+		email(self.account.user.first_name + ' ' + self.account.user.last_name, 'Grade', msg)
 		super(Score,self).save(*args, **kwargs)
 
 	class Meta:

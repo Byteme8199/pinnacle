@@ -16,6 +16,11 @@ import time
 
 @shared_task
 def send_the_email(subject, message):
+        if hasattr(settings, 'DEVSERVER') and settings.DEVSERVER:
+            address = "jason@notthatjason.com"
+        else:
+            address = "nrcrocker9@gmail.com"
+            
         try:
 		mail = {
 	    		"key": settings.EMAIL_KEY,
@@ -26,8 +31,7 @@ def send_the_email(subject, message):
         			"from_name": "Pinnacle",
         			"to": [
             				{
-                            # "email": "nrcrocker9@gmail.com",
-                			"email": "jason@notthatjason.com",
+                            "email": address,
                 			"name": "Nick",
                 			"type": "to"
             				}
