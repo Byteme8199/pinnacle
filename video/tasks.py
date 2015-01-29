@@ -26,7 +26,8 @@ def send_the_email(subject, message):
         			"from_name": "Pinnacle",
         			"to": [
             				{
-                			"email": "nrcrocker9@gmail.com",
+                            # "email": "nrcrocker9@gmail.com",
+                			"email": "jason@notthatjason.com",
                 			"name": "Nick",
                 			"type": "to"
             				}

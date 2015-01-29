@@ -20,7 +20,8 @@
 		#scout td { padding: 5px; text-align: center; }
 		
 		#scout td, #scout th { border: 1px solid #dedede }
-		#scout .head { font-weight: bold; background-color: #303030; text-align: left; }
+		#scout .mainhead { font-weight: bold; background-color: #888; text-align: left; }
+		#scout .head { font-weight: bold; background-color: #222; text-align: left; }
 		#scout th { padding: 5px; text-align: center !important; font-size: 1.2em; }
 		#scout .left { text-align: left; }
 		
@@ -33,7 +34,7 @@
 		
 			<table id="scout" class="table table-responsive">
 			<tr>
-				<th class="head" colspan="2">{{ ranking.account.user.first_name|default:"" }} {{ ranking.account.user.last_name|default:"" }}</th>
+				<th class="mainhead" colspan="2">{{ ranking.account.user.first_name|default:"" }} {{ ranking.account.user.last_name|default:"" }}</th>
 			</tr>
 			<tr>
 				<td class="head">Scout: </td>
@@ -87,7 +88,7 @@
 		
 			<table id="scout" class="table table-responsive">
 			<tr>
-				<th colspan="2" class="head">Personal</th>
+				<th colspan="2" class="mainhead">Personal</th>
 			</tr>
 			<tr>
 				<td class="head">Positions: </td>
@@ -121,7 +122,7 @@
 		<div class="col-sm-12 col-sm-4">
 		<table id="scout" class="table table-responsive">
 			<tr>
-				<th colspan="2" class="head">Scouting</th>
+				<th colspan="2" class="mainhead">Scouting</th>
 			</tr>
 			<tr>
 				<td class="head">Role: </td>
@@ -167,9 +168,9 @@
 			{% if ranking.player_type == 'Position' or ranking.player_type == 'Both' %}
 			<table id="scout" class="table table-responsive">
 				<tr>
-					<th class="head">Ratings</th>
-					<th class="head">P</th>
-					<th class="head">F</th>
+					<th class="mainhead">Ratings</th>
+					<th class="mainhead">P</th>
+					<th class="mainhead">F</th>
 				</tr>
 				<tr>
 					<td class="head">Hitting Ability:</td>
@@ -231,13 +232,13 @@
 			
 			<table id="scout" class="table table-responsive">
 				<tr>
-					<th class="head">Ratings</th>
-					<th class="head">P</th>
-					<th class="head">F</th>
-					<th class="head">H</th>
-					<th class="head">L</th>
-					<th class="head">P Cmd</th>
-					<th class="head">F Cmd</th>
+					<th class="mainhead">Ratings</th>
+					<th class="mainhead">P</th>
+					<th class="mainhead">F</th>
+					<th class="mainhead">H</th>
+					<th class="mainhead">L</th>
+					<th class="mainhead">P Cmd</th>
+					<th class="mainhead">F Cmd</th>
 				</tr>
 				<tr>
 					<td class="head">FB Velocity:</td>
@@ -330,7 +331,7 @@
 			<table id="scout" class="table table-responsive">
 				{% if ranking.player_type == 'Position' or ranking.player_type == 'Both' %}
 					<tr>
-						<th class="head" colspan="2">Running and Hitting</th>
+						<th class="mainhead" colspan="2">Running and Hitting</th>
 					</tr>
 					<tr>
 						<td class="head">Hit Type:</td>
@@ -352,7 +353,7 @@
 				{% endif %}
 				{% if ranking.player_type == 'Pitcher' or ranking.player_type == 'Both' %}
 					<tr>
-						<th class="head" colspan="2">Pitching</th>
+						<th class="mainhead" colspan="2">Pitching</th>
 					</tr>
 					<tr>
 						<td class="head">Arm Slot:</td>
@@ -386,7 +387,7 @@
 		<div class="col-xs-12 col-sm-4">
 			<table id="scout" class="table table-responsive">
 					<tr>
-						<th class="head" colspan="2">Makeup</th>
+						<th class="mainhead" colspan="2">Makeup</th>
 					</tr>
 				<tr>
 					<td class="head">Athleticism:</td>
@@ -443,7 +444,7 @@
 		<div class="col-xs-12 col-sm-6">
 			<table id="scout" class="table table-responsive">
 			<tr>
-				<th colspan="2" class="head">Catcher Pros</th>
+				<th colspan="2" class="mainhead">Catcher Pros</th>
 			</tr>
 			<tr>
 				<td class="head">Shows a primary and secondary position</td>
@@ -511,7 +512,7 @@
 		<div class="col-xs-12 col-sm-6">
 			<table id="scout" class="table table-responsive">
 			<tr>
-				<th colspan="2" class="head">Catcher Cons</th>
+				<th colspan="2" class="mainhead">Catcher Cons</th>
 			</tr>
 			<tr>
 			<td class="head">No difference in primary and secondary</td>
@@ -587,7 +588,7 @@
 		<div class="col-xs-12 col-sm-6">
 			<table id="scout" class="table table-responsive">
 			<tr>
-				<th colspan="2" class="head">Hitting Pros</th>
+				<th colspan="2" class="mainhead">Hitting Pros</th>
 			</tr>
 			<tr>
 				<td class="head">Starts relaxed</td>
@@ -651,7 +652,7 @@
 		<div class="col-xs-12 col-sm-6">
 			<table id="scout" class="table table-responsive">
 			<tr>
-				<th colspan="2" class="head">Hitter Cons</th>
+				<th colspan="2" class="mainhead">Hitter Cons</th>
 			</tr>
 			<tr>
 			<td class="head">Tense in stance</td>
@@ -721,7 +722,7 @@
 		<div class="col-xs-12 col-sm-6">
 			<table id="scout" class="table table-responsive">
 			<tr>
-				<th colspan="2" class="head">Infield Pros</th>
+				<th colspan="2" class="mainhead">Infield Pros</th>
 			</tr>
 			<tr>
 				<td class="head">Efficient first step in correct direction</td>
@@ -777,7 +778,7 @@
 		<div class="col-xs-12 col-sm-6">
 			<table id="scout" class="table table-responsive">
 			<tr>
-				<th colspan="2" class="head">Infield Cons</th>
+				<th colspan="2" class="mainhead">Infield Cons</th>
 			</tr>
 			<tr>
 			<td class="head">Slow first step losing ground</td>
@@ -840,7 +841,7 @@
 		<div class="col-xs-12 col-sm-6">
 			<table id="scout" class="table table-responsive">
 			<tr>
-				<th colspan="2" class="head">Outfield Pros</th>
+				<th colspan="2" class="mainhead">Outfield Pros</th>
 			</tr>
 			<tr>
 				<td class="head">Efficient reads off the bat</td>
@@ -892,7 +893,7 @@
 		<div class="col-xs-12 col-sm-6">
 			<table id="scout" class="table table-responsive">
 			<tr>
-				<th colspan="2" class="head">Outfield Cons</th>
+				<th colspan="2" class="mainhead">Outfield Cons</th>
 			</tr>
 			<tr>
 			<td class="head">Late jump to the ball off bat</td>
@@ -950,7 +951,7 @@
 		<div class="col-xs-12">
 			<table id="scout" class="table table-responsive">	
 			<tr>
-				<td class="head" colspan="6">Physical Description: (Injuries, Glasses, Contacts, Growth Potential, Overall Strength)</td>
+				<td class="mainhead" colspan="6">Physical Description: (Injuries, Glasses, Contacts, Growth Potential, Overall Strength)</td>
 			</tr>	
 			<tr>
 				<td colspan="6" class="left">{{ ranking.note|default:"" }}</td>

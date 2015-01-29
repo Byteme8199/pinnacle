@@ -78,8 +78,8 @@ class Video(models.Model):
 	file = models.FileField(upload_to=upload_path_handler)
 
 	def video(self):
-		path = Video.objects.filter(pk=self.id)
-		return path[0].file.path.replace("/srv/sites/pindev/project", "")
+		path = Video.objects.get(pk=self.id)
+		return path.file.path.replace("/srv/sites/pindev/project", "")
 
 	def thumbnail(self):
 		return make_thumbnail_and_compress(self, 'user')
@@ -105,10 +105,14 @@ class Video(models.Model):
 		account = self.account.user.first_name + ' ' + self.account.user.last_name
 		now = timezone.now()
 
-		title = "[Pinnacle Update] " + account + " Video Module"
-		message = "Name: " + account + "\nUpdate: Video added or Updated\n@: " + str(now)
+		title = "[Pinnacle Update] " + account + " Video Added / Updated"
 
-                send_the_email.delay(title, message)
+		message =  "Name: " + account + "\n\n"
+		message += "Update: <a href='http://pinnacle.hdvideoandwebdesign.com" + self.file.path.replace("/srv/sites/pindev/project", "") + "'>"
+		message += self.title + "</a> video added or Updated\n\n"
+		message += "@: " + str(now)
+
+		send_the_email.delay(title, message)
 
 		super(Video,self).save(*args, **kwargs)
 
@@ -121,8 +125,8 @@ class VideoReply(models.Model):
 	has_compressed = models.BooleanField(default=False,editable=False)
 
 	def video(self):
-		path = VideoReply.objects.filter(pk=self.id)
-		return path[0].file.path.replace("/srv/sites/pindev/project", "")
+		path = VideoReply.objects.get(pk=self.id)
+		return path.file.path.replace("/srv/sites/pindev/project", "")
 
 	def replies(self):
 		return VideoReply.objects.filter(account=self.parent.account)
